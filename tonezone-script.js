@@ -144,38 +144,55 @@ function formatTime(seconds) {
 }
 
 function setupVisualizer() {
-    analyser.fftSize = 256;
-    const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
+    const canvas = document.getElementById('cosmic-visualizer');
+    const ctx = canvas.getContext('2d');
+    const WIDTH = canvas.width;
+    const HEIGHT = canvas.height;
 
-    const ctx = visualizer.getContext('2d');
-    const WIDTH = visualizer.width;
-    const HEIGHT = visualizer.height;
+    function mandelbrot(c) {
+        let z = { x: 0, y: 0 }, n = 0, p, d;
+        do {
+            p = {
+                x: Math.pow(z.x, 2) - Math.pow(z.y, 2),
+                y: 2 * z.x * z.y
+            };
+            z = {
+                x: p.x + c.x,
+                y: p.y + c.y
+            };
+            d = Math.sqrt(Math.pow(z.x, 2) + Math.pow(z.y, 2));
+            n++;
+        } while (d <= 2 && n < 100);
+        return [n, d <= 2];
+    }
 
-    function drawVisualizer() {
-        requestAnimationFrame(drawVisualizer);
-
-        analyser.getByteFrequencyData(dataArray);
-
-        ctx.fillStyle = 'rgba(13, 0, 21, 0.2)';
+    function drawFractal(audioData) {
+        ctx.fillStyle = 'rgba(5, 5, 16, 0.1)';
         ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
-        const barWidth = (WIDTH / bufferLength) * 2.5;
-        let barHeight;
-        let x = 0;
-
-        for (let i = 0; i < bufferLength; i++) {
-            barHeight = dataArray[i] / 2;
-
-            const hue = i / bufferLength * 360;
-            ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
-            ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
-
-            x += barWidth + 1;
+        for (let i = 0; i < WIDTH; i++) {
+            for (let j = 0; j < HEIGHT; j++) {
+                let c = {
+                    x: (i - WIDTH / 2) * 4 / WIDTH,
+                    y: (j - HEIGHT / 2) * 4 / HEIGHT
+                };
+                let [m, isMandelbrotSet] = mandelbrot(c);
+                if (!isMandelbrotSet) {
+                    let hue = ((m * 10) + audioData[i % audioData.length]) % 360;
+                    ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
+                    ctx.fillRect(i, j, 1, 1);
+                }
+            }
         }
     }
 
-    drawVisualizer();
+    function animate() {
+        requestAnimationFrame(animate);
+        analyser.getByteFrequencyData(dataArray);
+        drawFractal(dataArray);
+    }
+
+    animate();
 }
 
 function resizeCanvas() {
