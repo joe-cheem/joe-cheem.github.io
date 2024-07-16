@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     navbar = document.getElementById('navbar');
 
     initializePlayer();
+    createImmersiveBackground();
 });
 
 function initializePlayer() {
@@ -36,10 +37,114 @@ function initializePlayer() {
         .catch(error => console.error('Error loading music.json:', error));
 }
 
-// ... (keep the existing functions like populateSongList, setupEventListeners, initAudioContext, playSong, updateActiveSong, togglePlayPause, playPreviousSong, playNextSong, updateProgress, seek, adjustVolume, formatTime)
+function populateSongList() {
+    songList.innerHTML = '';
+    songs.forEach((song, index) => {
+        const li = document.createElement('li');
+        li.textContent = song.title;
+        li.addEventListener('click', () => playSong(index));
+        songList.appendChild(li);
+    });
+}
+
+function setupEventListeners() {
+    playPauseBtn.addEventListener('click', togglePlayPause);
+    prevBtn.addEventListener('click', playPreviousSong);
+    nextBtn.addEventListener('click', playNextSong);
+    audioPlayer.addEventListener('timeupdate', updateProgress);
+    volumeSlider.addEventListener('input', adjustVolume);
+    progressContainer.addEventListener('click', seek);
+    audioPlayer.addEventListener('ended', playNextSong);
+    window.addEventListener('resize', resizeCanvas);
+}
+
+function initAudioContext() {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        source = audioContext.createMediaElementSource(audioPlayer);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+    }
+}
+
+function playSong(index) {
+    currentSongIndex = index;
+    audioPlayer.src = songs[index].file;
+    audioPlayer.play().then(() => {
+        playPauseBtn.textContent = '❚❚';
+        updateActiveSong();
+        if (!audioContext) {
+            initAudioContext();
+            setupVisualizer();
+        }
+    }).catch(e => console.error('Error playing audio:', e));
+}
+
+function updateActiveSong() {
+    songList.querySelectorAll('li').forEach((li, index) => {
+        if (index === currentSongIndex) {
+            li.classList.add('active');
+        } else {
+            li.classList.remove('active');
+        }
+    });
+}
+
+function togglePlayPause() {
+    if (audioPlayer.paused) {
+        audioPlayer.play().then(() => {
+            playPauseBtn.textContent = '❚❚';
+            if (!audioContext) {
+                initAudioContext();
+                setupVisualizer();
+            }
+        }).catch(e => console.error('Error resuming playback:', e));
+    } else {
+        audioPlayer.pause();
+        playPauseBtn.textContent = '▶';
+    }
+}
+
+function playPreviousSong() {
+    currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+    playSong(currentSongIndex);
+}
+
+function playNextSong() {
+    currentSongIndex = (currentSongIndex + 1) % songs.length;
+    playSong(currentSongIndex);
+}
+
+function updateProgress() {
+    const duration = audioPlayer.duration;
+    const currentTime = audioPlayer.currentTime;
+    if (duration > 0) {
+        const progressPercent = (currentTime / duration) * 100;
+        progress.style.width = `${progressPercent}%`;
+        timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
+    }
+}
+
+function seek(e) {
+    const progressWidth = this.clientWidth;
+    const clickX = e.offsetX;
+    const duration = audioPlayer.duration;
+    audioPlayer.currentTime = (clickX / progressWidth) * duration;
+}
+
+function adjustVolume() {
+    audioPlayer.volume = volumeSlider.value;
+}
+
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
 
 function setupVisualizer() {
-    analyser.fftSize = 1024;
+    analyser.fftSize = 256;
     const bufferLength = analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
 
@@ -47,48 +152,26 @@ function setupVisualizer() {
     const WIDTH = visualizer.width;
     const HEIGHT = visualizer.height;
 
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = 'rgba(138, 43, 226, 0.8)'; // Purple color
-
     function drawVisualizer() {
         requestAnimationFrame(drawVisualizer);
 
         analyser.getByteFrequencyData(dataArray);
 
-        ctx.fillStyle = 'rgba(13, 0, 21, 0.2)'; // Dark purple background
+        ctx.fillStyle = 'rgba(13, 0, 21, 0.2)';
         ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
-        ctx.beginPath();
-        ctx.moveTo(0, HEIGHT);
-
-        const sliceWidth = WIDTH / bufferLength;
+        const barWidth = (WIDTH / bufferLength) * 2.5;
+        let barHeight;
         let x = 0;
 
         for (let i = 0; i < bufferLength; i++) {
-            const v = dataArray[i] / 128.0;
-            const y = v * HEIGHT / 2;
+            barHeight = dataArray[i] / 2;
 
-            if (i === 0) {
-                ctx.moveTo(x, y);
-            } else {
-                ctx.lineTo(x, y);
-            }
+            const hue = i / bufferLength * 360;
+            ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
+            ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
 
-            x += sliceWidth;
-        }
-
-        ctx.lineTo(WIDTH, HEIGHT / 2);
-        ctx.stroke();
-
-        // Add particles
-        for (let i = 0; i < bufferLength; i += 10) {
-            if (dataArray[i] > 200) {
-                const size = Math.random() * 5 + 2;
-                const x = Math.random() * WIDTH;
-                const y = Math.random() * HEIGHT;
-                ctx.fillStyle = `rgba(255, 215, 0, ${Math.random() * 0.5 + 0.5})`; // Gold color
-                ctx.fillRect(x, y, size, size);
-            }
+            x += barWidth + 1;
         }
     }
 
@@ -104,12 +187,8 @@ function resizeCanvas() {
     ctx.scale(dpr, dpr);
 }
 
-// Add a function to create an immersive background
 function createImmersiveBackground() {
-    const container = document.createElement('div');
-    container.id = 'immersive-background';
-    document.body.prepend(container);
-
+    const container = document.getElementById('immersive-background');
     for (let i = 0; i < 50; i++) {
         const star = document.createElement('div');
         star.className = 'star';
@@ -120,34 +199,9 @@ function createImmersiveBackground() {
     }
 }
 
-// Call this function when the page loads
-document.addEventListener('DOMContentLoaded', createImmersiveBackground);
-
-// Enable audio playback on mobile
-document.body.addEventListener('touchstart', function() {
-    if (audioContext && audioContext.state === 'suspended') {
-        audioContext.resume();
-    }
-}, false);
-
-// Ensure the audio context is resumed on user interaction
-document.addEventListener('click', function() {
-    if (audioContext && audioContext.state === 'suspended') {
-        audioContext.resume();
-    }
-});
-
-// Handle page visibility changes
-document.addEventListener('visibilitychange', function() {
-    if (document.hidden) {
-        audioPlayer.pause();
-        playPauseBtn.textContent = '▶';
-    }
-});
-
-// Navigation bar behavior
+// Navbar behavior
 let lastScrollTop = 0;
-const scrollThreshold = 100; // Adjust this value to change when the navbar starts hiding
+const scrollThreshold = 100;
 
 window.addEventListener('scroll', () => {
     let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -160,12 +214,10 @@ window.addEventListener('scroll', () => {
     lastScrollTop = scrollTop;
 });
 
-// Show navbar on hover
 navbar.addEventListener('mouseenter', () => {
     navbar.classList.remove('hidden');
 });
 
-// Hide navbar when clicking a link if below threshold
 navbar.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
