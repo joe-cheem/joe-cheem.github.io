@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Game Dev & Music Portfolio</title>
+    <style>
+        :root {
+            --primary-color: #8A2BE2;
+            --secondary-color: #E6E6FA;
+            --text-color: #333;
+            --background-color: #F8F8FF;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease;
+        }
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+        nav {
+            background-color: var(--secondary-color);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: var(--text-color);
+            transform: translateY(-3px);
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+        }
+        .project {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .project:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .animate-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s ease forwards;
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Your Name</h1>
+        <p>Game Developer & Musician</p>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#games">Games</a></li>
+            <li><a href="#music">Music</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <section id="about" class="animate-in">
+            <h2>About Me</h2>
+            <p>Write a brief introduction about yourself, your skills, and your passion for game development and music.</p>
+        </section>
+        <section id="games" class="animate-in">
+            <h2>Game Projects</h2>
+            <div class="grid">
+                <div class="project">
+                    <h3>Game Title 1</h3>
+                    <p>Description of your game, including genre, platform, and your role in its development.</p>
+                    <img src="/api/placeholder/300/200" alt="Game 1 Screenshot">
+                </div>
+                <div class="project">
+                    <h3>Game Title 2</h3>
+                    <p>Description of your second game project.</p>
+                    <img src="/api/placeholder/300/200" alt="Game 2 Screenshot">
+                </div>
+            </div>
+        </section>
+        <section id="music" class="animate-in">
+            <h2>Music Projects</h2>
+            <div class="grid">
+                <div class="project">
+                    <h3>Music Project 1</h3>
+                    <p>Description of your music project, including genre and your role (e.g., composer, performer).</p>
+                    <!-- Add an audio player or link to your music -->
+                </div>
+                <div class="project">
+                    <h3>Music Project 2</h3>
+                    <p>Description of your second music project.</p>
+                    <!-- Add an audio player or link to your music -->
+                </div>
+            </div>
+        </section>
+        <section id="contact" class="animate-in">
+            <h2>Contact</h2>
+            <p>You can reach me at: your.email@example.com</p>
+            <!-- Add links to your social media profiles or other contact methods -->
+        </section>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationDelay = '0.2s';
+                        entry.target.style.animationDuration = '0.8s';
+                        entry.target.classList.add('animate-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.animate-in').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
