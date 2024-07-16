@@ -1,5 +1,5 @@
 let audioPlayer, playPauseBtn, prevBtn, nextBtn, progressContainer, progress, timeDisplay, volumeSlider, songList, visualizer, navbar;
-let audioContext, analyser, source;
+let audioContext, analyser, source, dataArray;
 let songs = [];
 let currentSongIndex = 0;
 
@@ -33,8 +33,54 @@ function initializePlayer() {
             setupEventListeners();
             audioPlayer.src = songs[currentSongIndex].file;
             updateActiveSong();
+            initAudioContext();
         })
         .catch(error => console.error('Error loading music.json:', error));
+}
+
+function initAudioContext() {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = audioContext.createAnalyser();
+    source = audioContext.createMediaElementSource(audioPlayer);
+    source.connect(analyser);
+    analyser.connect(audioContext.destination);
+
+    analyser.fftSize = 256;
+    const bufferLength = analyser.frequencyBinCount;
+    dataArray = new Uint8Array(bufferLength);
+
+    setupVisualizer();
+}
+
+function setupVisualizer() {
+    const canvas = visualizer;
+    const ctx = canvas.getContext('2d');
+    const WIDTH = canvas.width;
+    const HEIGHT = canvas.height;
+
+    function drawVisualizer() {
+        requestAnimationFrame(drawVisualizer);
+
+        analyser.getByteFrequencyData(dataArray);
+
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+        ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+        const barWidth = (WIDTH / dataArray.length) * 2.5;
+        let barHeight;
+        let x = 0;
+
+        for (let i = 0; i < dataArray.length; i++) {
+            barHeight = dataArray[i] / 2;
+
+            ctx.fillStyle = `hsl(${i * 2}, 100%, 50%)`;
+            ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
+
+            x += barWidth + 1;
+        }
+    }
+
+    drawVisualizer();
 }
 
 function populateSongList() {
@@ -76,7 +122,6 @@ function playSong(index) {
         updateActiveSong();
         if (!audioContext) {
             initAudioContext();
-            setupVisualizer();
         }
     }).catch(e => console.error('Error playing audio:', e));
 }
