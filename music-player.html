@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Player</title>
+    <title>Immersive Music Player</title>
+    <link rel="stylesheet" href="index-style.css">
     <link rel="stylesheet" href="music-player-styles.css">
 </head>
 <body>
+    <div id="immersive-background"></div>
+    
     <nav id="navbar">
         <ul>
             <li><a href="index.html#about">About</a></li>
@@ -15,28 +18,37 @@
             <li><a href="music-player.html">Music</a></li>
         </ul>
     </nav>
-    <div class="music-player">
-        <h2>My Tracks</h2>
-        <audio id="audioPlayer"></audio>
-        <canvas id="visualizer"></canvas>
-        <div class="progress-container" id="progressContainer">
-            <div class="progress-bar" id="progress"></div>
+
+    <div class="container">
+        <div class="music-player">
+            <h2>Immersive Music Player</h2>
+            
+            <canvas id="visualizer"></canvas>
+            
+            <div id="progressContainer" class="progress-container">
+                <div id="progress" class="progress-bar"></div>
+            </div>
+            
+            <div id="timeDisplay" class="time-display">0:00 / 0:00</div>
+            
+            <div class="player-controls">
+                <button id="prevBtn" class="control-btn">⏮</button>
+                <button id="playPauseBtn" class="control-btn play-pause-btn">▶</button>
+                <button id="nextBtn" class="control-btn">⏭</button>
+            </div>
+            
+            <div class="volume-control">
+                <span>🔈</span>
+                <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.1" value="1">
+                <span>🔊</span>
+            </div>
+            
+            <ul id="songList" class="song-list"></ul>
         </div>
-        <div class="time-display" id="timeDisplay">0:00 / 0:00</div>
-        <div class="player-controls">
-            <button id="prevBtn" class="control-btn">⏮</button>
-            <button id="playPauseBtn" class="control-btn play-pause-btn">▶</button>
-            <button id="nextBtn" class="control-btn">⏭</button>
-        </div>
-        <div class="volume-control">
-            <span>🔈</span>
-            <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.1" value="1">
-            <span>🔊</span>
-        </div>
-        <ul class="song-list" id="songList">
-            <!-- Song list items will be dynamically added here -->
-        </ul>
     </div>
+
+    <audio id="audioPlayer"></audio>
+
     <script src="music-player-script.js"></script>
 </body>
 </html>
