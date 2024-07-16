@@ -4,32 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Player</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="music-player-styles.css">
 </head>
 <body>
-    <div id="navbar" class="navbar">
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-    </div>
-
-    <div class="player-container">
-        <audio id="audioPlayer" controls></audio>
-        <div class="controls">
-            <button id="prevBtn">⏮</button>
-            <button id="playPauseBtn">▶</button>
-            <button id="nextBtn">⏭</button>
-        </div>
+    <nav id="navbar">
+        <ul>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#games">Games</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+            <li><a href="music-player.html">Music</a></li>
+        </ul>
+    </nav>
+    <div class="music-player">
+        <h2>My Tracks</h2>
+        <audio id="audioPlayer"></audio>
+        <canvas id="visualizer"></canvas>
         <div class="progress-container" id="progressContainer">
-            <div class="progress" id="progress"></div>
+            <div class="progress-bar" id="progress"></div>
         </div>
         <div class="time-display" id="timeDisplay">0:00 / 0:00</div>
-        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
-        <select id="songDropdown" class="song-dropdown"></select>
-        <ul id="songList" class="song-list"></ul>
+        <div class="player-controls">
+            <button id="prevBtn" class="control-btn">⏮</button>
+            <button id="playPauseBtn" class="control-btn play-pause-btn">▶</button>
+            <button id="nextBtn" class="control-btn">⏭</button>
+        </div>
+        <div class="volume-control">
+            <span>🔈</span>
+            <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.1" value="1">
+            <span>🔊</span>
+        </div>
+        <ul class="song-list" id="songList">
+            <!-- Song list items will be dynamically added here -->
+        </ul>
     </div>
-    <canvas id="visualizer" class="visualizer"></canvas>
-
-    <script src="script.js"></script>
+    <script src="music-player-script.js"></script>
 </body>
 </html>
