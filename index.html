@@ -65,13 +65,22 @@
             padding: 1rem;
             position: sticky;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
-            transition: top 0.3s;
+            transition: transform 0.3s ease-in-out;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+        nav.hidden {
+            transform: translateY(-90%);
+        }
+        nav:hover {
+            transform: translateY(0);
         }
         nav ul {
             list-style-type: none;
             padding: 0;
+            margin: 0;
             display: flex;
             justify-content: center;
         }
@@ -83,11 +92,9 @@
             text-decoration: none;
             font-weight: bold;
             transition: all 0.3s ease;
-            cursor: pointer;
         }
         nav ul li a:hover {
             color: var(--accent-color);
-            transform: translateY(-3px);
         }
         .container {
             width: 80%;
@@ -167,9 +174,9 @@
     <nav id="navbar">
         <ul>
             <li><a href="#about">About</a></li>
-            <li><a href="music-player.html" target="_blank">Music</a></li>
             <li><a href="#games">Games</a></li>
             <li><a href="#contact">Contact</a></li>
+            <li><a href="music-player.html">Music</a></li>
         </ul>
     </nav>
     <div class="container">
@@ -196,18 +203,56 @@
     </div>
 
     <script>
-        // Smooth scrolling functionality
-        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                document.getElementById(targetId).scrollIntoView({
-                    behavior: 'smooth'
-                });
+        const navbar = document.getElementById('navbar');
+        let lastScrollTop = 0;
+        const scrollThreshold = 100; // Adjust this value to change when the navbar starts hiding
+
+        window.addEventListener('scroll', () => {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > scrollThreshold) {
+                navbar.classList.add('hidden');
+            } else {
+                navbar.classList.remove('hidden');
+            }
+            lastScrollTop = scrollTop;
+        });
+
+        // Show navbar on hover
+        navbar.addEventListener('mouseenter', () => {
+            navbar.classList.remove('hidden');
+        });
+
+        // Hide navbar when clicking a link if below threshold
+        navbar.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                if (scrollTop > scrollThreshold) {
+                    navbar.classList.add('hidden');
+                }
             });
         });
 
-        // Games section functionality
+        function scrollToElement(elementId) {
+            const element = document.getElementById(elementId);
+            const navbarHeight = document.getElementById('navbar').offsetHeight;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
+        }
+
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                scrollToElement(targetId);
+            });
+        });
+
         const gameVideos = document.getElementById('gameVideos');
         const games = [
             { title: "Game 1", videoId: "dQw4w9WgXcQ", description: "Description of Game 1" },
@@ -229,7 +274,6 @@
             gameVideos.appendChild(videoContainer);
         });
 
-        // Fade-in animation
         function handleIntersection(entries, observer) {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -249,20 +293,6 @@
 
         document.querySelectorAll('.section, .video-container').forEach(el => {
             observer.observe(el);
-        });
-
-        // Hide nav on scroll
-        let lastScrollTop = 0;
-        const navbar = document.getElementById('navbar');
-
-        window.addEventListener('scroll', () => {
-            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            if (scrollTop > lastScrollTop) {
-                navbar.style.top = '-70px'; // Adjust the value based on your nav height
-            } else {
-                navbar.style.top = '0';
-            }
-            lastScrollTop = scrollTop;
         });
     </script>
 </body>

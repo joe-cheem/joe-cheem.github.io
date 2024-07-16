@@ -22,14 +22,24 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            padding-top: 0; /* Adjust based on your navbar height */
         }
         nav {
             background-color: var(--secondary-color);
             padding: 1rem;
             position: sticky;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
+            transition: transform 0.3s ease-in-out;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+        nav.hidden {
+            transform: translateY(-90%);
+        }
+        nav:hover {
+            transform: translateY(0);
         }
         nav ul {
             list-style-type: none;
@@ -126,8 +136,7 @@
         .volume-slider {
             -webkit-appearance: none;
             width: 100px;
-            height: 5px;
-            border-radius: 5px;
+            height: 5px;border-radius: 5px;
             background: var(--primary-color);
             outline: none;
             margin: 0 10px;
@@ -196,7 +205,7 @@
     </style>
 </head>
 <body>
-    <nav>
+    <nav id="navbar">
         <ul>
             <li><a href="index.html#about">About</a></li>
             <li><a href="index.html#games">Games</a></li>
@@ -228,6 +237,36 @@
     </div>
 
     <script>
+        const navbar = document.getElementById('navbar');
+        let lastScrollTop = 0;
+        const scrollThreshold = 100; // Adjust this value to change when the navbar starts hiding
+
+        window.addEventListener('scroll', () => {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > scrollThreshold) {
+                navbar.classList.add('hidden');
+            } else {
+                navbar.classList.remove('hidden');
+            }
+            lastScrollTop = scrollTop;
+        });
+
+        // Show navbar on hover
+        navbar.addEventListener('mouseenter', () => {
+            navbar.classList.remove('hidden');
+        });
+
+        // Hide navbar when clicking a link if below threshold
+        navbar.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                if (scrollTop > scrollThreshold) {
+                    navbar.classList.add('hidden');
+                }
+            });
+        });
+
         const audioPlayer = document.getElementById('audioPlayer');
         const playPauseBtn = document.getElementById('playPauseBtn');
         const prevBtn = document.getElementById('prevBtn');
