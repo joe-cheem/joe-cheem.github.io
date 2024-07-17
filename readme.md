@@ -5,7 +5,7 @@ This project is a personal portfolio website for Joachim Rayski, a game develope
 
 ## Features
 - Responsive design for desktop and mobile devices, with improved mobile layout
-- Interactive navigation with smooth scrolling and hide/show functionality
+- Interactive navigation with smooth scrolling and hide/show functionality, maintaining horizontal layout on mobile
 - Game showcase section with embedded YouTube videos and descriptions
 - Custom ToneZone music player with circular visualizer and touch controls
 - Animated section transitions and hover effects
@@ -47,13 +47,14 @@ The custom ToneZone music player features:
 - Hides partially when scrolling down, leaving a small part visible
 - Fully visible when scrolling up or hovering
 - Consistent appearance across different pages
-- Responsive layout for mobile devices
+- Maintains horizontal layout on mobile devices with adjusted spacing
 
 ## Responsive Design
 - Adapts to various screen sizes (desktop, tablet, mobile)
 - Adjusts layout, font sizes, and spacing for optimal viewing on different devices
 - Uses media queries to apply specific styles for different screen widths
 - Improved container width and padding for better mobile experience
+- Navbar remains horizontal with adjusted spacing on smaller screens
 
 ## Animations and Visual Effects
 - Fade-in animations for page sections
