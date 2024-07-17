@@ -33,23 +33,125 @@ function initializePlayer() {
             setupEventListeners();
             audioPlayer.src = songs[currentSongIndex].file;
             updateActiveSong();
-            initAudioContext();
         })
         .catch(error => console.error('Error loading music.json:', error));
 }
 
 function initAudioContext() {
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    analyser = audioContext.createAnalyser();
-    source = audioContext.createMediaElementSource(audioPlayer);
-    source.connect(analyser);
-    analyser.connect(audioContext.destination);
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        source = audioContext.createMediaElementSource(audioPlayer);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
 
-    analyser.fftSize = 256;
-    const bufferLength = analyser.frequencyBinCount;
-    dataArray = new Uint8Array(bufferLength);
+        analyser.fftSize = 256;
+        const bufferLength = analyser.frequencyBinCount;
+        dataArray = new Uint8Array(bufferLength);
 
-    setupVisualizer();
+        setupVisualizer();
+    }
+}
+
+function setupEventListeners() {
+    playPauseBtn.addEventListener('click', togglePlayPause);
+    prevBtn.addEventListener('click', playPreviousSong);
+    nextBtn.addEventListener('click', playNextSong);
+    audioPlayer.addEventListener('timeupdate', updateProgress);
+    volumeSlider.addEventListener('input', adjustVolume);
+    progressContainer.addEventListener('click', seek);
+    progressContainer.addEventListener('touchstart', seek);
+    audioPlayer.addEventListener('ended', playNextSong);
+    window.addEventListener('resize', resizeCanvas);
+
+    // Mobile-friendly event listeners
+    playPauseBtn.addEventListener('touchstart', togglePlayPause);
+    prevBtn.addEventListener('touchstart', playPreviousSong);
+    nextBtn.addEventListener('touchstart', playNextSong);
+}
+
+function populateSongList() {
+    songList.innerHTML = '';
+    songs.forEach((song, index) => {
+        const li = document.createElement('li');
+        li.textContent = song.title;
+        li.addEventListener('click', () => playSong(index));
+        li.addEventListener('touchstart', () => playSong(index));
+        songList.appendChild(li);
+    });
+}
+
+function playSong(index) {
+    currentSongIndex = index;
+    audioPlayer.src = songs[index].file;
+    audioPlayer.play().then(() => {
+        playPauseBtn.textContent = '❚❚';
+        updateActiveSong();
+        if (!audioContext) {
+            initAudioContext();
+        }
+    }).catch(e => console.error('Error playing audio:', e));
+}
+
+function updateActiveSong() {
+    songList.querySelectorAll('li').forEach((li, index) => {
+        if (index === currentSongIndex) {
+            li.classList.add('active');
+        } else {
+            li.classList.remove('active');
+        }
+    });
+}
+
+function togglePlayPause() {
+    if (audioPlayer.paused) {
+        audioPlayer.play().then(() => {
+            playPauseBtn.textContent = '❚❚';
+            if (!audioContext) {
+                initAudioContext();
+            }
+        }).catch(e => console.error('Error resuming playback:', e));
+    } else {
+        audioPlayer.pause();
+        playPauseBtn.textContent = '▶';
+    }
+}
+
+function playPreviousSong() {
+    currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+    playSong(currentSongIndex);
+}
+
+function playNextSong() {
+    currentSongIndex = (currentSongIndex + 1) % songs.length;
+    playSong(currentSongIndex);
+}
+
+function updateProgress() {
+    const duration = audioPlayer.duration;
+    const currentTime = audioPlayer.currentTime;
+    if (duration > 0) {
+        const progressPercent = (currentTime / duration) * 100;
+        progress.style.width = `${progressPercent}%`;
+        timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
+    }
+}
+
+function seek(e) {
+    const progressWidth = this.clientWidth;
+    const clickX = e.type.includes('touch') ? e.touches[0].clientX - this.getBoundingClientRect().left : e.offsetX;
+    const duration = audioPlayer.duration;
+    audioPlayer.currentTime = (clickX / progressWidth) * duration;
+}
+
+function adjustVolume() {
+    audioPlayer.volume = volumeSlider.value;
+}
+
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 }
 
 function setupVisualizer() {
@@ -83,163 +185,6 @@ function setupVisualizer() {
     drawVisualizer();
 }
 
-function populateSongList() {
-    songList.innerHTML = '';
-    songs.forEach((song, index) => {
-        const li = document.createElement('li');
-        li.textContent = song.title;
-        li.addEventListener('click', () => playSong(index));
-        songList.appendChild(li);
-    });
-}
-
-function setupEventListeners() {
-    playPauseBtn.addEventListener('click', togglePlayPause);
-    prevBtn.addEventListener('click', playPreviousSong);
-    nextBtn.addEventListener('click', playNextSong);
-    audioPlayer.addEventListener('timeupdate', updateProgress);
-    volumeSlider.addEventListener('input', adjustVolume);
-    progressContainer.addEventListener('click', seek);
-    audioPlayer.addEventListener('ended', playNextSong);
-    window.addEventListener('resize', resizeCanvas);
-}
-
-function initAudioContext() {
-    if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        analyser = audioContext.createAnalyser();
-        source = audioContext.createMediaElementSource(audioPlayer);
-        source.connect(analyser);
-        analyser.connect(audioContext.destination);
-    }
-}
-
-function playSong(index) {
-    currentSongIndex = index;
-    audioPlayer.src = songs[index].file;
-    audioPlayer.play().then(() => {
-        playPauseBtn.textContent = '❚❚';
-        updateActiveSong();
-        if (!audioContext) {
-            initAudioContext();
-        }
-    }).catch(e => console.error('Error playing audio:', e));
-}
-
-function updateActiveSong() {
-    songList.querySelectorAll('li').forEach((li, index) => {
-        if (index === currentSongIndex) {
-            li.classList.add('active');
-        } else {
-            li.classList.remove('active');
-        }
-    });
-}
-
-function togglePlayPause() {
-    if (audioPlayer.paused) {
-        audioPlayer.play().then(() => {
-            playPauseBtn.textContent = '❚❚';
-            if (!audioContext) {
-                initAudioContext();
-                setupVisualizer();
-            }
-        }).catch(e => console.error('Error resuming playback:', e));
-    } else {
-        audioPlayer.pause();
-        playPauseBtn.textContent = '▶';
-    }
-}
-
-function playPreviousSong() {
-    currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
-    playSong(currentSongIndex);
-}
-
-function playNextSong() {
-    currentSongIndex = (currentSongIndex + 1) % songs.length;
-    playSong(currentSongIndex);
-}
-
-function updateProgress() {
-    const duration = audioPlayer.duration;
-    const currentTime = audioPlayer.currentTime;
-    if (duration > 0) {
-        const progressPercent = (currentTime / duration) * 100;
-        progress.style.width = `${progressPercent}%`;
-        timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
-    }
-}
-
-function seek(e) {
-    const progressWidth = this.clientWidth;
-    const clickX = e.offsetX;
-    const duration = audioPlayer.duration;
-    audioPlayer.currentTime = (clickX / progressWidth) * duration;
-}
-
-function adjustVolume() {
-    audioPlayer.volume = volumeSlider.value;
-}
-
-function formatTime(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-}
-
-function setupVisualizer() {
-    const canvas = document.getElementById('cosmic-visualizer');
-    const ctx = canvas.getContext('2d');
-    const WIDTH = canvas.width;
-    const HEIGHT = canvas.height;
-
-    function mandelbrot(c) {
-        let z = { x: 0, y: 0 }, n = 0, p, d;
-        do {
-            p = {
-                x: Math.pow(z.x, 2) - Math.pow(z.y, 2),
-                y: 2 * z.x * z.y
-            };
-            z = {
-                x: p.x + c.x,
-                y: p.y + c.y
-            };
-            d = Math.sqrt(Math.pow(z.x, 2) + Math.pow(z.y, 2));
-            n++;
-        } while (d <= 2 && n < 100);
-        return [n, d <= 2];
-    }
-
-    function drawFractal(audioData) {
-        ctx.fillStyle = 'rgba(5, 5, 16, 0.1)';
-        ctx.fillRect(0, 0, WIDTH, HEIGHT);
-
-        for (let i = 0; i < WIDTH; i++) {
-            for (let j = 0; j < HEIGHT; j++) {
-                let c = {
-                    x: (i - WIDTH / 2) * 4 / WIDTH,
-                    y: (j - HEIGHT / 2) * 4 / HEIGHT
-                };
-                let [m, isMandelbrotSet] = mandelbrot(c);
-                if (!isMandelbrotSet) {
-                    let hue = ((m * 10) + audioData[i % audioData.length]) % 360;
-                    ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
-                    ctx.fillRect(i, j, 1, 1);
-                }
-            }
-        }
-    }
-
-    function animate() {
-        requestAnimationFrame(animate);
-        analyser.getByteFrequencyData(dataArray);
-        drawFractal(dataArray);
-    }
-
-    animate();
-}
-
 function resizeCanvas() {
     const dpr = window.devicePixelRatio || 1;
     const rect = visualizer.getBoundingClientRect();
@@ -250,7 +195,7 @@ function resizeCanvas() {
 }
 
 function createImmersiveBackground() {
-    const container = document.getElementById('immersive-background');
+    const container = document.getElementById('deep-space-background');
     for (let i = 0; i < 50; i++) {
         const star = document.createElement('div');
         star.className = 'star';
@@ -277,6 +222,10 @@ window.addEventListener('scroll', () => {
 });
 
 navbar.addEventListener('mouseenter', () => {
+    navbar.classList.remove('hidden');
+});
+
+navbar.addEventListener('touchstart', () => {
     navbar.classList.remove('hidden');
 });
 

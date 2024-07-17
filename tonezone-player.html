@@ -3,46 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Joachim Rayski - ToneZone</title>
+    <title>ToneZone Player</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="deep-space-theme">
+<body>
     <nav id="navbar">
         <ul>
             <li><a href="index.html#about">About</a></li>
             <li><a href="index.html#games">Games</a></li>
             <li><a href="index.html#contact">Contact</a></li>
-            <li><a href="music-player.html">ToneZone</a></li>
+            <li><a href="tonezone-player.html">ToneZone</a></li>
         </ul>
     </nav>
 
     <div id="deep-space-background"></div>
 
     <div class="container">
-        <div class="tonezone-player">
+        <div class="music-player">
             <h2>ToneZone</h2>
-            
-            <canvas id="cosmic-visualizer"></canvas>
-            
+
             <div id="progressContainer" class="progress-container">
                 <div id="progress" class="progress-bar"></div>
             </div>
-            
+
             <div id="timeDisplay" class="time-display">0:00 / 0:00</div>
-            
+
             <div class="player-controls">
                 <button id="prevBtn" class="control-btn">⏮</button>
-                <button id="playPauseBtn" class="control-btn play-pause-btn">▶</button>
+                <button id="playPauseBtn" class="control-btn">▶</button>
                 <button id="nextBtn" class="control-btn">⏭</button>
             </div>
-            
+
             <div class="volume-control">
                 <span>🔈</span>
                 <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.1" value="1">
                 <span>🔊</span>
             </div>
-            
+
             <ul id="songList" class="song-list"></ul>
+
+            <canvas id="visualizer"></canvas>
         </div>
     </div>
 

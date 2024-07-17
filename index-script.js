@@ -1,6 +1,6 @@
 const navbar = document.getElementById('navbar');
 let lastScrollTop = 0;
-const scrollThreshold = 100; // Adjust this value to change when the navbar starts hiding
+const scrollThreshold = 100;
 
 window.addEventListener('scroll', () => {
     let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -13,10 +13,13 @@ window.addEventListener('scroll', () => {
     lastScrollTop = scrollTop;
 });
 
-// Show navbar on hover
-navbar.addEventListener('mouseenter', () => {
+// Show navbar on hover or touch
+navbar.addEventListener('mouseenter', showNavbar);
+navbar.addEventListener('touchstart', showNavbar);
+
+function showNavbar() {
     navbar.classList.remove('hidden');
-});
+}
 
 // Hide navbar when clicking a link if below threshold
 navbar.querySelectorAll('a').forEach(link => {
