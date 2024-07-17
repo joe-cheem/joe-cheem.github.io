@@ -1,156 +1,93 @@
-let audioContext, analyser, source;
-let audioElement, progressBar, timeDisplay, volumeSlider, songList;
-let currentSongIndex = 0;
-let songs = [];
+// Function to handle scrolling behavior of the navbar
+const navbar = document.getElementById('navbar');
+let lastScrollTop = 0;
+const scrollThreshold = 300;
 
-document.addEventListener('DOMContentLoaded', init);
+window.addEventListener('scroll', () => {
+    let scrollTop = window.scrollY || document.documentElement.scrollTop;
+    
+    if (scrollTop > scrollThreshold) {
+        navbar.classList.add('hidden');
+    } else {
+        navbar.classList.remove('hidden');
+    }
+    lastScrollTop = scrollTop;
+});
 
-function init() {
-    audioElement = new Audio();
-    progressBar = document.getElementById('progress-bar');
-    timeDisplay = document.getElementById('time-display');
-    volumeSlider = document.getElementById('volume-slider');
-    songList = document.getElementById('song-list');
+// Show navbar on hover
+navbar.addEventListener('mouseenter', () => {
+    navbar.classList.remove('hidden');
+});
 
-    setupEventListeners();
-    loadSongs();
-    setupAudioContext();
-}
+// Hide navbar when clicking a link if below threshold
+navbar.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+        let scrollTop = window.scrollY || document.documentElement.scrollTop;
+        if (scrollTop > scrollThreshold) {
+            navbar.classList.add('hidden');
+        }
+    });
+});
 
-function setupEventListeners() {
-    document.getElementById('play-pause-button').addEventListener('click', togglePlayPause);
-    document.getElementById('prev-button').addEventListener('click', playPreviousSong);
-    document.getElementById('next-button').addEventListener('click', playNextSong);
-    volumeSlider.addEventListener('input', updateVolume);
-    audioElement.addEventListener('timeupdate', updateProgress);
-    audioElement.addEventListener('ended', playNextSong);
-}
+// Function to scroll to a specific element smoothly
+function scrollToElement(elementId) {
+    const element = document.getElementById(elementId);
+    const navbarHeight = document.getElementById('navbar').offsetHeight;
+    const elementPosition = element.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
 
-function loadSongs() {
-    fetch('music.json')
-        .then(response => response.json())
-        .then(data => {
-            songs = data;
-            updateSongList();
-        })
-        .catch(error => console.error('Error loading songs:', error));
-}
-
-function updateSongList() {
-    songList.innerHTML = '';
-    songs.forEach((song, index) => {
-        const li = document.createElement('li');
-        li.textContent = song.replace('.mp3', '');
-        li.addEventListener('click', () => playSong(index));
-        songList.appendChild(li);
+    window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
     });
 }
 
-function playSong(index) {
-    currentSongIndex = index;
-    audioElement.src = `music/${songs[index]}`;
-    audioElement.play();
-    updatePlayPauseButton();
-    updateCurrentSongTitle();
-    updateActiveSong();
-}
+// Smooth scrolling for navbar links
+document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        scrollToElement(targetId);
+    });
+});
 
-function togglePlayPause() {
-    if (audioElement.paused) {
-        audioElement.play();
-    } else {
-        audioElement.pause();
-    }
-    updatePlayPauseButton();
-}
+// Populate game videos dynamically
+const gameVideos = document.getElementById('gameVideos');
+const games = [
+    { title: "Game 1", videoId: "dQw4w9WgXcQ", description: "Description of Game 1" },
+    { title: "Game 2", videoId: "dQw4w9WgXcQ", description: "Description of Game 2" }
+];
 
-function updatePlayPauseButton() {
-    const playPauseButton = document.getElementById('play-pause-button');
-    playPauseButton.textContent = audioElement.paused ? 'Play' : 'Pause';
-}
+games.forEach(game => {
+    const videoContainer = document.createElement('div');
+    videoContainer.classList.add('video-container');
+    videoContainer.innerHTML = `
+        <h3>${game.title}</h3>
+        <iframe src="https://www.youtube.com/embed/${game.videoId}" 
+                title="${game.title}" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+        </iframe>
+        <p>${game.description}</p>
+    `;
+    gameVideos.appendChild(videoContainer);
+});
 
-function playPreviousSong() {
-    currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
-    playSong(currentSongIndex);
-}
+// Intersection observer to trigger fade-in animations
+const observer = new IntersectionObserver(
+    (entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animationDelay = '0.2s';
+                entry.target.style.animationDuration = '0.8s';
+                entry.target.classList.add('fade-in');
+                observer.unobserve(entry.target);
+            }
+        });
+    },
+    { root: null, rootMargin: '0px', threshold: 0.1 }
+);
 
-function playNextSong() {
-    currentSongIndex = (currentSongIndex + 1) % songs.length;
-    playSong(currentSongIndex);
-}
-
-function updateVolume() {
-    audioElement.volume = volumeSlider.value;
-}
-
-function updateProgress() {
-    const progress = (audioElement.currentTime / audioElement.duration) * 100;
-    progressBar.style.width = `${progress}%`;
-    timeDisplay.textContent = `${formatTime(audioElement.currentTime)} / ${formatTime(audioElement.duration)}`;
-}
-
-function formatTime(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-}
-
-function updateCurrentSongTitle() {
-    const currentSongTitle = document.getElementById('current-song-title');
-    currentSongTitle.textContent = songs[currentSongIndex].replace('.mp3', '');
-}
-
-function updateActiveSong() {
-    const songItems = songList.getElementsByTagName('li');
-    for (let i = 0; i < songItems.length; i++) {
-        songItems[i].classList.remove('active');
-    }
-    songItems[currentSongIndex].classList.add('active');
-}
-
-function setupAudioContext() {
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    analyser = audioContext.createAnalyser();
-    source = audioContext.createMediaElementSource(audioElement);
-    source.connect(analyser);
-    analyser.connect(audioContext.destination);
-
-    visualize();
-}
-
-function visualize() {
-    const canvas = document.getElementById('visualizer');
-    const ctx = canvas.getContext('2d');
-    const WIDTH = canvas.width;
-    const HEIGHT = canvas.height;
-
-    analyser.fftSize = 256;
-    const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
-
-    ctx.clearRect(0, 0, WIDTH, HEIGHT);
-
-    function draw() {
-        requestAnimationFrame(draw);
-
-        analyser.getByteFrequencyData(dataArray);
-
-        ctx.fillStyle = 'rgb(0, 0, 0)';
-        ctx.fillRect(0, 0, WIDTH, HEIGHT);
-
-        const barWidth = (WIDTH / bufferLength) * 2.5;
-        let barHeight;
-        let x = 0;
-
-        for (let i = 0; i < bufferLength; i++) {
-            barHeight = dataArray[i] / 2;
-
-            ctx.fillStyle = `rgb(50, ${barHeight + 100}, 50)`;
-            ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
-
-            x += barWidth + 1;
-        }
-    }
-
-    draw();
-}
+document.querySelectorAll('.section, .video-container').forEach(el => {
+    observer.observe(el);
+});

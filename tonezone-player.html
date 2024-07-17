@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToneZone Player</title>
+    <title>ToneZone Player - Joachim Rayski</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="deep-space-background"></div>
+
     <nav id="navbar">
         <ul>
             <li><a href="index.html#about">About</a></li>
@@ -19,24 +21,32 @@
     <div class="container">
         <div class="music-player">
             <h2>ToneZone</h2>
-            <div class="now-playing">
-                <h3 id="current-song-title">Select a song</h3>
+
+            <div id="progressContainer" class="progress-container">
+                <div id="progress" class="progress-bar"></div>
             </div>
+
+            <div id="timeDisplay" class="time-display">0:00 / 0:00</div>
+
+            <div class="player-controls">
+                <button id="prevBtn" class="control-btn">⏮</button>
+                <button id="playPauseBtn" class="control-btn">▶</button>
+                <button id="nextBtn" class="control-btn">⏭</button>
+            </div>
+
+            <div class="volume-control">
+                <span>🔈</span>
+                <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.1" value="1">
+                <span>🔊</span>
+            </div>
+
             <canvas id="visualizer"></canvas>
-            <div class="controls">
-                <button id="prev-button">Previous</button>
-                <button id="play-pause-button">Play</button>
-                <button id="next-button">Next</button>
-            </div>
-            <div class="progress-container">
-                <div id="progress-bar"></div>
-            </div>
-            <div id="time-display">0:00 / 0:00</div>
-            <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="1">
-            <ul id="song-list"></ul>
+
+            <ul id="songList" class="song-list"></ul>
         </div>
     </div>
 
+    <audio id="audioPlayer"></audio>
     <script src="tonezone-script.js"></script>
 </body>
 </html>
