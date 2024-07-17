@@ -2,6 +2,7 @@ let audioPlayer, playPauseBtn, prevBtn, nextBtn, progressContainer, progress, ti
 let audioContext, analyser, source, dataArray;
 let songs = [];
 let currentSongIndex = 0;
+let isMobile = false;
 
 document.addEventListener('DOMContentLoaded', () => {
     audioPlayer = document.getElementById('audioPlayer');
@@ -16,9 +17,17 @@ document.addEventListener('DOMContentLoaded', () => {
     visualizer = document.getElementById('visualizer');
     navbar = document.getElementById('navbar');
 
+    detectMobileDevice();
     initializePlayer();
     createImmersiveBackground();
 });
+
+function detectMobileDevice() {
+    isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobile) {
+        document.body.classList.add('mobile-device');
+    }
+}
 
 function initializePlayer() {
     fetch('music.json')
@@ -33,41 +42,82 @@ function initializePlayer() {
             setupEventListeners();
             audioPlayer.src = songs[currentSongIndex].file;
             updateActiveSong();
+            if (isMobile) {
+                setupMobileControls();
+            }
         })
         .catch(error => console.error('Error loading music.json:', error));
 }
 
-function initAudioContext() {
-    if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        analyser = audioContext.createAnalyser();
-        source = audioContext.createMediaElementSource(audioPlayer);
-        source.connect(analyser);
-        analyser.connect(audioContext.destination);
-
-        analyser.fftSize = 256;
-        const bufferLength = analyser.frequencyBinCount;
-        dataArray = new Uint8Array(bufferLength);
-
-        setupVisualizer();
-    }
-}
-
 function setupEventListeners() {
-    playPauseBtn.addEventListener('click', togglePlayPause);
-    prevBtn.addEventListener('click', playPreviousSong);
-    nextBtn.addEventListener('click', playNextSong);
+    if (isMobile) {
+        playPauseBtn.addEventListener('touchstart', togglePlayPause);
+        prevBtn.addEventListener('touchstart', playPreviousSong);
+        nextBtn.addEventListener('touchstart', playNextSong);
+        progressContainer.addEventListener('touchstart', seekStart);
+        progressContainer.addEventListener('touchmove', seekMove);
+        progressContainer.addEventListener('touchend', seekEnd);
+    } else {
+        playPauseBtn.addEventListener('click', togglePlayPause);
+        prevBtn.addEventListener('click', playPreviousSong);
+        nextBtn.addEventListener('click', playNextSong);
+        progressContainer.addEventListener('click', seek);
+        volumeSlider.addEventListener('input', adjustVolume);
+    }
+
     audioPlayer.addEventListener('timeupdate', updateProgress);
-    volumeSlider.addEventListener('input', adjustVolume);
-    progressContainer.addEventListener('click', seek);
-    progressContainer.addEventListener('touchstart', seek);
     audioPlayer.addEventListener('ended', playNextSong);
     window.addEventListener('resize', resizeCanvas);
+}
 
-    // Mobile-friendly event listeners
-    playPauseBtn.addEventListener('touchstart', togglePlayPause);
-    prevBtn.addEventListener('touchstart', playPreviousSong);
-    nextBtn.addEventListener('touchstart', playNextSong);
+function setupMobileControls() {
+    // Remove default button styles
+    [playPauseBtn, prevBtn, nextBtn].forEach(btn => {
+        btn.style.webkitTapHighlightColor = 'transparent';
+        btn.style.webkitTouchCallout = 'none';
+        btn.style.webkitUserSelect = 'none';
+        btn.style.userSelect = 'none';
+    });
+
+    // Add touch event listeners to prevent button selection
+    [playPauseBtn, prevBtn, nextBtn].forEach(btn => {
+        btn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            btn.classList.add('active');
+        });
+        btn.addEventListener('touchend', () => {
+            btn.classList.remove('active');
+        });
+    });
+
+    // Create a custom volume control for mobile
+    const volumeControl = document.createElement('div');
+    volumeControl.className = 'mobile-volume-control';
+    volumeControl.innerHTML = `
+        <button id="volumeDownBtn">-</button>
+        <span id="volumeDisplay">100%</span>
+        <button id="volumeUpBtn">+</button>
+    `;
+    volumeSlider.parentNode.replaceChild(volumeControl, volumeSlider);
+
+    const volumeDownBtn = document.getElementById('volumeDownBtn');
+    const volumeUpBtn = document.getElementById('volumeUpBtn');
+    const volumeDisplay = document.getElementById('volumeDisplay');
+
+    volumeDownBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        adjustMobileVolume(-0.1);
+    });
+
+    volumeUpBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        adjustMobileVolume(0.1);
+    });
+
+    function adjustMobileVolume(delta) {
+        audioPlayer.volume = Math.max(0, Math.min(1, audioPlayer.volume + delta));
+        volumeDisplay.textContent = `${Math.round(audioPlayer.volume * 100)}%`;
+    }
 }
 
 function populateSongList() {
@@ -137,9 +187,27 @@ function updateProgress() {
     }
 }
 
+function seekStart(e) {
+    e.preventDefault();
+    audioPlayer.pause();
+}
+
+function seekMove(e) {
+    e.preventDefault();
+    const progressWidth = progressContainer.clientWidth;
+    const touchX = e.touches[0].clientX - progressContainer.getBoundingClientRect().left;
+    const duration = audioPlayer.duration;
+    audioPlayer.currentTime = (touchX / progressWidth) * duration;
+    updateProgress();
+}
+
+function seekEnd() {
+    audioPlayer.play();
+}
+
 function seek(e) {
     const progressWidth = this.clientWidth;
-    const clickX = e.type.includes('touch') ? e.touches[0].clientX - this.getBoundingClientRect().left : e.offsetX;
+    const clickX = e.offsetX;
     const duration = audioPlayer.duration;
     audioPlayer.currentTime = (clickX / progressWidth) * duration;
 }
@@ -152,6 +220,22 @@ function formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
+function initAudioContext() {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        source = audioContext.createMediaElementSource(audioPlayer);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+
+        analyser.fftSize = 256;
+        const bufferLength = analyser.frequencyBinCount;
+        dataArray = new Uint8Array(bufferLength);
+
+        setupVisualizer();
+    }
 }
 
 function setupVisualizer() {
