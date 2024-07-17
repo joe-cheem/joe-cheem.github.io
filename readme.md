@@ -55,6 +55,7 @@ The custom ToneZone music player features:
 - Uses media queries to apply specific styles for different screen widths
 - Improved container width and padding for better mobile experience
 - Navbar remains horizontal with adjusted spacing on smaller screens
+- ToneZone player is properly centered and fitted on all screen sizes
 
 ## Animations and Visual Effects
 - Fade-in animations for page sections

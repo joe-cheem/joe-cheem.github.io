@@ -13,6 +13,10 @@
 
 .container {
     padding-top: 60px; /* Add top padding to prevent overlap with navbar */
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    box-sizing: border-box;
 }
 
 .music-player {
@@ -21,9 +25,9 @@
     padding: 20px;
     box-shadow: 0 8px 32px rgba(138, 43, 226, 0.3);
     backdrop-filter: blur(10px);
-    width: 90%;
-    max-width: 500px;
+    width: 100%;
     margin: 20px auto;
+    box-sizing: border-box;
 }
 
 .music-player h2 {
@@ -192,11 +196,10 @@
 /* Responsive design */
 @media (max-width: 768px) {
     .container {
-        padding-top: 50px; /* Adjust top padding for smaller screens */
+        padding: 15px;
     }
 
     .music-player {
-        width: 95%;
         padding: 15px;
     }
 
@@ -217,6 +220,14 @@
 }
 
 @media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+
+    .music-player {
+        padding: 10px;
+    }
+
     .control-btn {
         width: 35px;
         height: 35px;
@@ -226,5 +237,9 @@
 
     .volume-slider {
         width: 60px;
+    }
+
+    #visualizer {
+        height: 80px;
     }
 }
