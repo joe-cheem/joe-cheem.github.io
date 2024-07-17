@@ -20,25 +20,20 @@
         <div class="music-player">
             <h2>ToneZone</h2>
             <div class="now-playing">
-                <canvas id="visualizer"></canvas>
-                <div class="track-info">
-                    <h3 id="trackTitle">Track Title</h3>
-                </div>
+                <h3 id="current-song-title">Select a song</h3>
+            </div>
+            <canvas id="visualizer"></canvas>
+            <div class="controls">
+                <button id="prev-button">Previous</button>
+                <button id="play-pause-button">Play</button>
+                <button id="next-button">Next</button>
             </div>
             <div class="progress-container">
-                <div id="progress" class="progress-bar"></div>
+                <div id="progress-bar"></div>
             </div>
-            <div id="timeDisplay" class="time-display">0:00 / 0:00</div>
-            <div class="player-controls">
-                <button id="prevBtn" class="control-btn">&#9198;</button>
-                <button id="playPauseBtn" class="control-btn">&#9658;</button>
-                <button id="nextBtn" class="control-btn">&#9197;</button>
-            </div>
-            <div class="volume-control">
-                <span class="volume-icon">&#128266;</span>
-                <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.1" value="1">
-            </div>
-            <ul id="songList" class="song-list"></ul>
+            <div id="time-display">0:00 / 0:00</div>
+            <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="1">
+            <ul id="song-list"></ul>
         </div>
     </div>
 
