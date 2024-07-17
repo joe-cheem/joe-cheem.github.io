@@ -13,12 +13,15 @@ body, html {
     background-color: var(--background-color);
     color: var(--text-color);
     scroll-behavior: smooth;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 .container {
-    width: 80%;
+    width: 100%; /* Change from 80% to 100% */
+    max-width: 1200px; /* Add a max-width for larger screens */
     margin: 0 auto;
     padding: 20px;
+    box-sizing: border-box; /* Include padding in width calculation */
 }
 
 /* Navbar styles */
@@ -36,10 +39,11 @@ nav ul {
     margin: 0;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
 }
 
 nav ul li {
-    margin: 0 15px;
+    margin: 5px 15px;
 }
 
 nav ul li a {
@@ -70,6 +74,26 @@ nav.partially-hidden {
 /* Responsive design */
 @media (max-width: 768px) {
     .container {
-        width: 95%;
+        width: 100%;
+        padding: 15px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 5px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+
+    .section {
+        padding: 15px;
     }
 }

@@ -4,7 +4,7 @@
 This project is a personal portfolio website for Joachim Rayski, a game developer and musician. It showcases Joachim's work, provides information about his background, and includes an immersive music player featuring original compositions.
 
 ## Features
-- Responsive design for desktop and mobile devices
+- Responsive design for desktop and mobile devices, with improved mobile layout
 - Interactive navigation with smooth scrolling and hide/show functionality
 - Game showcase section with embedded YouTube videos and descriptions
 - Custom ToneZone music player with circular visualizer and touch controls
@@ -15,7 +15,7 @@ This project is a personal portfolio website for Joachim Rayski, a game develope
 - `index.html`: Main page of the website
 - `tonezone-player.html`: Dedicated page for the ToneZone music player
 - `css/`
-  - `main.css`: Main stylesheet for shared styles
+  - `main.css`: Main stylesheet for shared styles, including responsive design improvements
   - `index.css`: Styles specific to the index page
   - `tonezone.css`: Styles specific to the ToneZone player page
 - `js/`
@@ -28,7 +28,7 @@ This project is a personal portfolio website for Joachim Rayski, a game develope
 
 ## Technologies Used
 - HTML5
-- CSS3 (with CSS variables for easy theming)
+- CSS3 (with CSS variables for easy theming and responsive design)
 - JavaScript (ES6+)
 - Web Audio API (for circular music visualizer)
 
@@ -47,11 +47,13 @@ The custom ToneZone music player features:
 - Hides partially when scrolling down, leaving a small part visible
 - Fully visible when scrolling up or hovering
 - Consistent appearance across different pages
+- Responsive layout for mobile devices
 
 ## Responsive Design
 - Adapts to various screen sizes (desktop, tablet, mobile)
 - Adjusts layout, font sizes, and spacing for optimal viewing on different devices
 - Uses media queries to apply specific styles for different screen widths
+- Improved container width and padding for better mobile experience
 
 ## Animations and Visual Effects
 - Fade-in animations for page sections
@@ -78,6 +80,7 @@ The custom ToneZone music player features:
 - Add more interactive elements to the game showcase section
 - Enhance the ToneZone player with additional features (e.g., playlists, shuffle)
 - Optimize performance for slower internet connections
+- Continue to refine responsive design for various device sizes and orientations
 
 ## Contributing
 This is a personal project, but suggestions and feedback are welcome.
