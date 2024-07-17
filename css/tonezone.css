@@ -1,150 +1,4 @@
-:root {
-    --primary-color: #8A2BE2;
-    --secondary-color: #4B0082;
-    --background-color: #0D0015;
-    --text-color: #E6E6FA;
-    --accent-color: #009744;
-}
-
-html {
-    overflow-y: scroll;
-}
-
-body {
-    font-family: 'Arial', sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 60px 0 0 0;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    overflow-x: hidden;
-    transition: background-color 0.5s ease;
-    scroll-behavior: smooth;
-    font-size: 16px;
-}
-
-header {
-    background: url('images/banner.png') no-repeat center center;
-    background-size: cover;
-    color: #fff;
-    text-align: center;
-    padding: 4rem 2rem;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-}
-
-header h1 {
-    font-size: 3rem;
-    margin: 0;
-    animation: fadeInTitle 2s ease-out forwards;
-}
-
-header p {
-    font-size: 1.2rem;
-    margin: 0.5rem 0 0;
-    animation: fadeInSubtitle 2.5s ease-out forwards;
-}
-
-@keyframes fadeInTitle {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeInSubtitle {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-nav {
-    background-color: var(--secondary-color);
-    padding: 0.5rem 0;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    transition: transform 0.3s ease-in-out;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-}
-
-nav.hidden {
-    transform: translateY(calc(-100% + 10px));
-}
-
-nav ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-nav ul li {
-    margin: 0;
-    padding: 0 15px;
-}
-
-nav ul li a {
-    color: var(--text-color);
-    text-decoration: none;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    padding: 0.5rem 0;
-    display: block;
-}
-
-nav ul li a:hover {
-    color: var(--accent-color);
-}
-
-.container {
-    width: 80%;
-    margin: auto;
-    overflow: hidden;
-    padding: 20px;
-}
-
-.section {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    padding: 30px;
-    margin-bottom: 30px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.section:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
-}
-
-.video-container {
-    margin-bottom: 20px;
-}
-
-.video-container iframe {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    border: none;
-    border-radius: 5px;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.fade-in {
-    animation: fadeIn 0.5s ease-out forwards;
-    opacity: 0;
-}
-
-.floating-stars, #deep-space-background {
+#deep-space-background {
     position: fixed;
     top: 0;
     left: 0;
@@ -152,7 +6,7 @@ nav ul li a:hover {
     height: 100%;
     pointer-events: none;
     z-index: -1;
-    background-image: url('images/background.png');
+    background-image: url('../images/background.png');
     background-size: cover;
     opacity: 0.5;
 }
@@ -331,42 +185,8 @@ nav ul li a:hover {
     box-shadow: 0 0 20px rgba(138, 43, 226, 0.3);
 }
 
+/* Responsive design */
 @media (max-width: 768px) {
-    body {
-        font-size: 14px;
-        padding-top: 40px;
-    }
-
-    .container {
-        width: 95%;
-        padding: 10px;
-    }
-
-    header h1 {
-        font-size: 2rem;
-    }
-
-    header p {
-        font-size: 1rem;
-    }
-
-    nav {
-        padding: 0.3rem 0;
-    }
-
-    nav ul li {
-        padding: 0 10px;
-    }
-
-    nav ul li a {
-        font-size: 0.9rem;
-        padding: 0.3rem 0;
-    }
-
-    .section {
-        padding: 20px;
-    }
-
     .music-player {
         width: 95%;
         padding: 15px;
@@ -389,27 +209,6 @@ nav ul li a:hover {
 }
 
 @media (max-width: 480px) {
-    body {
-        font-size: 12px;
-    }
-
-    header h1 {
-        font-size: 1.5rem;
-    }
-
-    header p {
-        font-size: 0.9rem;
-    }
-
-    nav ul li {
-        padding: 0 5px;
-    }
-
-    nav ul li a {
-        font-size: 0.8rem;
-        padding: 0.2rem 0;
-    }
-
     .control-btn {
         width: 35px;
         height: 35px;
