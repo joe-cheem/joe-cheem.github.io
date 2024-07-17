@@ -32,12 +32,6 @@ function setupEventListeners() {
     audioPlayer.addEventListener('ended', playNextSong);
     volumeSlider.addEventListener('input', adjustVolume);
     progressContainer.addEventListener('click', seek);
-
-    // Add touch events for mobile
-    playPauseBtn.addEventListener('touchstart', togglePlayPause);
-    prevBtn.addEventListener('touchstart', playPreviousSong);
-    nextBtn.addEventListener('touchstart', playNextSong);
-    progressContainer.addEventListener('touchstart', seek);
 }
 
 function setupAudioContext() {
@@ -51,7 +45,7 @@ function setupAudioContext() {
     const bufferLength = analyser.frequencyBinCount;
     dataArray = new Uint8Array(bufferLength);
 
-    drawVisualizer();
+    drawCircularVisualizer();
 }
 
 function loadSongs() {
@@ -84,7 +78,6 @@ function loadSong(index) {
     currentSongIndex = index;
     audioPlayer.src = songs[index].file;
     document.getElementById('trackTitle').textContent = songs[index].title;
-    document.getElementById('artistName').textContent = 'Joachim Rayski'; // Assuming all songs are by the same artist
     updateActiveSong();
 }
 
@@ -129,7 +122,7 @@ function updateProgress() {
 
 function seek(e) {
     const progressWidth = this.clientWidth;
-    const clickX = e.type.includes('touch') ? e.touches[0].clientX - this.getBoundingClientRect().left : e.offsetX;
+    const clickX = e.offsetX;
     const duration = audioPlayer.duration;
     audioPlayer.currentTime = (clickX / progressWidth) * duration;
 }
@@ -154,47 +147,52 @@ function updateActiveSong() {
     });
 }
 
-function drawVisualizer() {
+function drawCircularVisualizer() {
     const canvas = visualizer;
     const ctx = canvas.getContext('2d');
     const WIDTH = canvas.width;
     const HEIGHT = canvas.height;
+    const centerX = WIDTH / 2;
+    const centerY = HEIGHT / 2;
+    const radius = Math.min(WIDTH, HEIGHT) / 2 - 10;
 
     function renderFrame() {
         requestAnimationFrame(renderFrame);
 
         analyser.getByteFrequencyData(dataArray);
 
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-        ctx.fillRect(0, 0, WIDTH, HEIGHT);
+        ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
-        const barWidth = (WIDTH / dataArray.length) * 2.5;
-        let barHeight;
-        let x = 0;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
 
-        for (let i = 0; i < dataArray.length; i++) {
-            barHeight = dataArray[i] / 2;
+        const barCount = dataArray.length;
+        const barAngleStep = (2 * Math.PI) / barCount;
 
-            const hue = i * 2;
-            ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
-            ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
+        for (let i = 0; i < barCount; i++) {
+            const barHeight = dataArray[i] / 2;
+            const angle = i * barAngleStep;
 
-            x += barWidth + 1;
+            const x1 = centerX + radius * Math.cos(angle);
+            const y1 = centerY + radius * Math.sin(angle);
+            const x2 = centerX + (radius + barHeight) * Math.cos(angle);
+            const y2 = centerY + (radius + barHeight) * Math.sin(angle);
+
+            const hue = i * (360 / barCount);
+            ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+            ctx.lineWidth = 2;
+
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
         }
     }
 
     renderFrame();
-}
-
-// Resize canvas on window resize
-window.addEventListener('resize', resizeCanvas);
-
-function resizeCanvas() {
-    const canvas = visualizer;
-    canvas.width = canvas.clientWidth * window.devicePixelRatio;
-    canvas.height = canvas.clientHeight * window.devicePixelRatio;
-    const ctx = canvas.getContext('2d');
-    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 }
 
 // Handle audio context state for mobile devices
@@ -227,13 +225,16 @@ function handleSwipe() {
     }
 }
 
-// Preload album art
-function preloadAlbumArt() {
-    const img = new Image();
-    img.src = 'placeholder-album-art.jpg';
-}
+// Resize canvas on window resize
+window.addEventListener('resize', resizeCanvas);
 
-preloadAlbumArt();
+function resizeCanvas() {
+    const canvas = visualizer;
+    canvas.width = canvas.clientWidth * window.devicePixelRatio;
+    canvas.height = canvas.clientHeight * window.devicePixelRatio;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+}
 
 // Update navbar behavior
 const navbar = document.getElementById('navbar');
