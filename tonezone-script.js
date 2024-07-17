@@ -1,10 +1,15 @@
-let audioPlayer, playPauseBtn, prevBtn, nextBtn, progressContainer, progress, timeDisplay, volumeSlider, songList, visualizer, navbar;
+let audioPlayer, playPauseBtn, prevBtn, nextBtn, progressContainer, progress, timeDisplay, volumeSlider, songList, visualizer;
 let audioContext, analyser, source, dataArray;
 let songs = [];
 let currentSongIndex = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
-    audioPlayer = document.getElementById('audioPlayer');
+    initializePlayer();
+    loadSongs();
+});
+
+function initializePlayer() {
+    audioPlayer = new Audio();
     playPauseBtn = document.getElementById('playPauseBtn');
     prevBtn = document.getElementById('prevBtn');
     nextBtn = document.getElementById('nextBtn');
@@ -14,43 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
     volumeSlider = document.getElementById('volumeSlider');
     songList = document.getElementById('songList');
     visualizer = document.getElementById('visualizer');
-    navbar = document.getElementById('navbar');
 
-    initializePlayer();
-    createImmersiveBackground();
-});
-
-function initializePlayer() {
-    fetch('music.json')
-        .then(response => response.json())
-        .then(data => {
-            songs = data.map(filename => ({
-                title: filename.replace('.mp3', ''),
-                file: `music/${filename}`
-            }));
-            
-            populateSongList();
-            setupEventListeners();
-            audioPlayer.src = songs[currentSongIndex].file;
-            updateActiveSong();
-        })
-        .catch(error => console.error('Error loading music.json:', error));
-}
-
-function initAudioContext() {
-    if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        analyser = audioContext.createAnalyser();
-        source = audioContext.createMediaElementSource(audioPlayer);
-        source.connect(analyser);
-        analyser.connect(audioContext.destination);
-
-        analyser.fftSize = 256;
-        const bufferLength = analyser.frequencyBinCount;
-        dataArray = new Uint8Array(bufferLength);
-
-        setupVisualizer();
-    }
+    setupEventListeners();
+    setupAudioContext();
 }
 
 function setupEventListeners() {
@@ -58,16 +29,45 @@ function setupEventListeners() {
     prevBtn.addEventListener('click', playPreviousSong);
     nextBtn.addEventListener('click', playNextSong);
     audioPlayer.addEventListener('timeupdate', updateProgress);
+    audioPlayer.addEventListener('ended', playNextSong);
     volumeSlider.addEventListener('input', adjustVolume);
     progressContainer.addEventListener('click', seek);
-    progressContainer.addEventListener('touchstart', seek);
-    audioPlayer.addEventListener('ended', playNextSong);
-    window.addEventListener('resize', resizeCanvas);
 
-    // Mobile-friendly event listeners
+    // Add touch events for mobile
     playPauseBtn.addEventListener('touchstart', togglePlayPause);
     prevBtn.addEventListener('touchstart', playPreviousSong);
     nextBtn.addEventListener('touchstart', playNextSong);
+    progressContainer.addEventListener('touchstart', seek);
+}
+
+function setupAudioContext() {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = audioContext.createAnalyser();
+    source = audioContext.createMediaElementSource(audioPlayer);
+    source.connect(analyser);
+    analyser.connect(audioContext.destination);
+
+    analyser.fftSize = 256;
+    const bufferLength = analyser.frequencyBinCount;
+    dataArray = new Uint8Array(bufferLength);
+
+    drawVisualizer();
+}
+
+function loadSongs() {
+    fetch('music.json')
+        .then(response => response.json())
+        .then(data => {
+            songs = data.map(filename => ({
+                title: filename.replace('.mp3', ''),
+                file: `music/${filename}`
+            }));
+            populateSongList();
+            if (songs.length > 0) {
+                loadSong(0);
+            }
+        })
+        .catch(error => console.error('Error loading music.json:', error));
 }
 
 function populateSongList() {
@@ -76,44 +76,37 @@ function populateSongList() {
         const li = document.createElement('li');
         li.textContent = song.title;
         li.addEventListener('click', () => playSong(index));
-        li.addEventListener('touchstart', () => playSong(index));
         songList.appendChild(li);
     });
 }
 
-function playSong(index) {
+function loadSong(index) {
     currentSongIndex = index;
     audioPlayer.src = songs[index].file;
-    audioPlayer.play().then(() => {
-        playPauseBtn.textContent = '❚❚';
-        updateActiveSong();
-        if (!audioContext) {
-            initAudioContext();
-        }
-    }).catch(e => console.error('Error playing audio:', e));
+    document.getElementById('trackTitle').textContent = songs[index].title;
+    document.getElementById('artistName').textContent = 'Joachim Rayski'; // Assuming all songs are by the same artist
+    updateActiveSong();
 }
 
-function updateActiveSong() {
-    songList.querySelectorAll('li').forEach((li, index) => {
-        if (index === currentSongIndex) {
-            li.classList.add('active');
-        } else {
-            li.classList.remove('active');
-        }
-    });
+function playSong(index) {
+    loadSong(index);
+    audioPlayer.play()
+        .then(() => {
+            playPauseBtn.innerHTML = '&#10074;&#10074;';
+        })
+        .catch(error => console.error('Error playing audio:', error));
 }
 
 function togglePlayPause() {
     if (audioPlayer.paused) {
-        audioPlayer.play().then(() => {
-            playPauseBtn.textContent = '❚❚';
-            if (!audioContext) {
-                initAudioContext();
-            }
-        }).catch(e => console.error('Error resuming playback:', e));
+        audioPlayer.play()
+            .then(() => {
+                playPauseBtn.innerHTML = '&#10074;&#10074;';
+            })
+            .catch(error => console.error('Error playing audio:', error));
     } else {
         audioPlayer.pause();
-        playPauseBtn.textContent = '▶';
+        playPauseBtn.innerHTML = '&#9658;';
     }
 }
 
@@ -128,13 +121,10 @@ function playNextSong() {
 }
 
 function updateProgress() {
-    const duration = audioPlayer.duration;
-    const currentTime = audioPlayer.currentTime;
-    if (duration > 0) {
-        const progressPercent = (currentTime / duration) * 100;
-        progress.style.width = `${progressPercent}%`;
-        timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
-    }
+    const { duration, currentTime } = audioPlayer;
+    const progressPercent = (currentTime / duration) * 100;
+    progress.style.width = `${progressPercent}%`;
+    timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
 }
 
 function seek(e) {
@@ -154,14 +144,24 @@ function formatTime(seconds) {
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 }
 
-function setupVisualizer() {
+function updateActiveSong() {
+    songList.querySelectorAll('li').forEach((li, index) => {
+        if (index === currentSongIndex) {
+            li.classList.add('active');
+        } else {
+            li.classList.remove('active');
+        }
+    });
+}
+
+function drawVisualizer() {
     const canvas = visualizer;
     const ctx = canvas.getContext('2d');
     const WIDTH = canvas.width;
     const HEIGHT = canvas.height;
 
-    function drawVisualizer() {
-        requestAnimationFrame(drawVisualizer);
+    function renderFrame() {
+        requestAnimationFrame(renderFrame);
 
         analyser.getByteFrequencyData(dataArray);
 
@@ -175,45 +175,75 @@ function setupVisualizer() {
         for (let i = 0; i < dataArray.length; i++) {
             barHeight = dataArray[i] / 2;
 
-            ctx.fillStyle = `hsl(${i * 2}, 100%, 50%)`;
+            const hue = i * 2;
+            ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
             ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
 
             x += barWidth + 1;
         }
     }
 
-    drawVisualizer();
+    renderFrame();
 }
+
+// Resize canvas on window resize
+window.addEventListener('resize', resizeCanvas);
 
 function resizeCanvas() {
-    const dpr = window.devicePixelRatio || 1;
-    const rect = visualizer.getBoundingClientRect();
-    visualizer.width = rect.width * dpr;
-    visualizer.height = rect.height * dpr;
-    const ctx = visualizer.getContext('2d');
-    ctx.scale(dpr, dpr);
+    const canvas = visualizer;
+    canvas.width = canvas.clientWidth * window.devicePixelRatio;
+    canvas.height = canvas.clientHeight * window.devicePixelRatio;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 }
 
-function createImmersiveBackground() {
-    const container = document.getElementById('deep-space-background');
-    for (let i = 0; i < 50; i++) {
-        const star = document.createElement('div');
-        star.className = 'star';
-        star.style.left = `${Math.random() * 100}%`;
-        star.style.top = `${Math.random() * 100}%`;
-        star.style.animationDuration = `${Math.random() * 3 + 2}s`;
-        container.appendChild(star);
+// Handle audio context state for mobile devices
+document.body.addEventListener('touchstart', () => {
+    if (audioContext.state === 'suspended') {
+        audioContext.resume();
+    }
+});
+
+// Add swipe gestures for mobile
+let touchStartX = 0;
+let touchEndX = 0;
+
+document.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+});
+
+document.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+});
+
+function handleSwipe() {
+    const swipeThreshold = 50;
+    if (touchEndX < touchStartX - swipeThreshold) {
+        playNextSong();
+    }
+    if (touchEndX > touchStartX + swipeThreshold) {
+        playPreviousSong();
     }
 }
 
-// Navbar behavior
+// Preload album art
+function preloadAlbumArt() {
+    const img = new Image();
+    img.src = 'placeholder-album-art.jpg';
+}
+
+preloadAlbumArt();
+
+// Update navbar behavior
+const navbar = document.getElementById('navbar');
 let lastScrollTop = 0;
 const scrollThreshold = 100;
 
 window.addEventListener('scroll', () => {
     let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     
-    if (scrollTop > scrollThreshold) {
+    if (scrollTop > scrollThreshold && scrollTop > lastScrollTop) {
         navbar.classList.add('hidden');
     } else {
         navbar.classList.remove('hidden');
@@ -227,13 +257,4 @@ navbar.addEventListener('mouseenter', () => {
 
 navbar.addEventListener('touchstart', () => {
     navbar.classList.remove('hidden');
-});
-
-navbar.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        if (scrollTop > scrollThreshold) {
-            navbar.classList.add('hidden');
-        }
-    });
 });

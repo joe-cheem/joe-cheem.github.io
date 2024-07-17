@@ -183,53 +183,53 @@ nav ul li a:hover {
     to { transform: translateX(-50%) translateY(-100%); }
 }
 
-/* Music Player Styles */
 .music-player {
-    background: rgba(75, 0, 130, 0.3);
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 8px 32px rgba(138, 43, 226, 0.3);
-    backdrop-filter: blur(10px);
+    background: linear-gradient(145deg, #4B0082, #8A2BE2);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     width: 90%;
-    max-width: 500px;
+    max-width: 400px;
     margin: 20px auto;
 }
 
 .music-player h2 {
     text-align: center;
-    color: var(--accent-color);
+    color: #E6E6FA;
     margin-bottom: 20px;
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    font-size: 28px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.player-controls {
+.now-playing {
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
-.control-btn {
-    background-color: var(--primary-color);
-    color: var(--text-color);
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin: 0 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+#albumArt {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    margin-right: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.control-btn:hover {
-    background-color: var(--accent-color);
-    color: var(--background-color);
-    transform: scale(1.1);
+.track-info {
+    flex-grow: 1;
+}
+
+#trackTitle {
+    font-size: 18px;
+    font-weight: bold;
+    color: #E6E6FA;
+    margin: 0 0 5px 0;
+}
+
+#artistName {
+    font-size: 14px;
+    color: #B19CD9;
+    margin: 0;
 }
 
 .progress-container {
@@ -237,44 +237,74 @@ nav ul li a:hover {
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
     cursor: pointer;
-    margin: 20px 0;
-    height: 10px;
+    margin: 20px 0 10px;
+    height: 6px;
     position: relative;
     overflow: hidden;
 }
 
 .progress-bar {
     height: 100%;
-    background-color: var(--accent-color);
+    background-color: #00FF7F;
     border-radius: 10px;
     width: 0%;
     transition: width 0.1s linear;
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
 .time-display {
     font-size: 14px;
-    color: var(--text-color);
+    color: #E6E6FA;
     text-align: center;
-    margin-top: 10px;
-    text-shadow: 0 0 5px rgba(230, 230, 250, 0.5);
+    margin-bottom: 15px;
+}
+
+.player-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.control-btn {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #E6E6FA;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.control-btn:hover, .control-btn:active {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
 }
 
 .volume-control {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.volume-icon {
+    color: #E6E6FA;
+    margin-right: 10px;
 }
 
 .volume-slider {
     -webkit-appearance: none;
     width: 100px;
-    height: 5px;
-    border-radius: 5px;
-    background: var(--primary-color);
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.2);
     outline: none;
-    margin: 0 10px;
     opacity: 0.7;
     transition: opacity 0.2s;
 }
@@ -289,18 +319,16 @@ nav ul li a:hover {
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    background: var(--accent-color);
+    background: #00FF7F;
     cursor: pointer;
-    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
 }
 
 .volume-slider::-moz-range-thumb {
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    background: var(--accent-color);
+    background: #00FF7F;
     cursor: pointer;
-    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
 }
 
 .song-list {
@@ -310,7 +338,7 @@ nav ul li a:hover {
     max-height: 200px;
     overflow-y: auto;
     scrollbar-width: thin;
-    scrollbar-color: var(--accent-color) transparent;
+    scrollbar-color: #00FF7F transparent;
 }
 
 .song-list::-webkit-scrollbar {
@@ -322,7 +350,7 @@ nav ul li a:hover {
 }
 
 .song-list::-webkit-scrollbar-thumb {
-    background-color: var(--accent-color);
+    background-color: #00FF7F;
     border-radius: 3px;
 }
 
@@ -333,109 +361,57 @@ nav ul li a:hover {
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s ease;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    color: #E6E6FA;
 }
 
-.song-list li:hover {
+.song-list li:hover, .song-list li:active {
     background-color: rgba(255, 255, 255, 0.2);
     transform: translateX(5px);
 }
 
 .song-list li.active {
-    background-color: var(--accent-color);
-    color: var(--background-color);
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    background-color: #00FF7F;
+    color: #4B0082;
 }
 
 #visualizer {
     width: 100%;
-    height: 150px;
-    background-color: rgba(0, 0, 0, 0.3);
-    margin-top: 20px;
+    height: 100px;
+    background-color: rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-    box-shadow: 0 0 20px rgba(138, 43, 226, 0.3);
+    margin-top: 20px;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-    body {
-        font-size: 14px;
-    }
-
-    .container {
-        width: 95%;
-        padding: 10px;
-    }
-
-    header h1 {
-        font-size: 2rem;
-    }
-
-    header p {
-        font-size: 1rem;
-    }
-
-    nav {
-        padding: 0.5rem;
-    }
-
-    nav ul {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    nav ul li {
-        margin: 5px 0;
-    }
-
-    .section {
-        padding: 20px;
-    }
-
+@media (max-width: 480px) {
     .music-player {
-        width: 95%;
-        padding: 15px;
+        padding: 20px;
     }
 
     .control-btn {
         width: 40px;
         height: 40px;
         font-size: 18px;
-        margin: 0 10px;
+        margin: 0 8px;
     }
 
-    #visualizer {
-        height: 100px;
+    #albumArt {
+        width: 60px;
+        height: 60px;
+    }
+
+    #trackTitle {
+        font-size: 16px;
+    }
+
+    #artistName {
+        font-size: 12px;
     }
 
     .volume-slider {
         width: 80px;
     }
-}
 
-@media (max-width: 480px) {
-    body {
-        font-size: 12px;
-    }
-
-    header h1 {
-        font-size: 1.5rem;
-    }
-
-    header p {
-        font-size: 0.9rem;
-    }
-
-    .control-btn {
-        width: 35px;
-        height: 35px;
-        font-size: 16px;
-        margin: 0 5px;
-    }
-
-    .volume-slider {
-        width: 60px;
+    #visualizer {
+        height: 80px;
     }
 }
