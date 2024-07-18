@@ -41,46 +41,13 @@ function setupEventListeners() {
     playPauseBtn.addEventListener('click', togglePlayPause);
     prevBtn.addEventListener('click', playPreviousSong);
     nextBtn.addEventListener('click', playNextSong);
-    progressContainer.addEventListener('mousedown', seekStart);
-    progressContainer.addEventListener('touchstart', seekStart, { passive: false });
+    progressContainer.addEventListener('click', seek);
     volumeSlider.addEventListener('input', adjustVolume);
     audioPlayer.addEventListener('timeupdate', updateProgress);
     audioPlayer.addEventListener('ended', playNextSong);
     window.addEventListener('resize', handleResize);
     
     document.getElementById('fullscreenToggle').addEventListener('click', toggleFullscreen);
-
-    if (screen.orientation) {
-        screen.orientation.addEventListener('change', handleOrientationChange);
-    } else {
-        window.addEventListener('orientationchange', handleOrientationChange);
-    }
-}
-
-function seekStart(e) {
-    e.preventDefault();
-    const seekHandler = (e) => seek(e);
-    const seekEndHandler = () => {
-        document.removeEventListener('mousemove', seekHandler);
-        document.removeEventListener('mouseup', seekEndHandler);
-        document.removeEventListener('touchmove', seekHandler);
-        document.removeEventListener('touchend', seekEndHandler);
-    };
-
-    document.addEventListener('mousemove', seekHandler);
-    document.addEventListener('mouseup', seekEndHandler);
-    document.addEventListener('touchmove', seekHandler, { passive: false });
-    document.addEventListener('touchend', seekEndHandler);
-
-    seek(e);
-}
-
-function seek(e) {
-    const progressRect = progressContainer.getBoundingClientRect();
-    const seekPosition = (e.clientX || e.touches[0].clientX) - progressRect.left;
-    const seekPercentage = seekPosition / progressRect.width;
-    audioPlayer.currentTime = seekPercentage * audioPlayer.duration;
-    updateProgress();
 }
 
 function populateSongList() {
@@ -153,6 +120,13 @@ function updateProgress() {
     }
 }
 
+function seek(e) {
+    const progressWidth = this.clientWidth;
+    const clickX = e.offsetX;
+    const duration = audioPlayer.duration;
+    audioPlayer.currentTime = (clickX / progressWidth) * duration;
+}
+
 function adjustVolume() {
     audioPlayer.volume = volumeSlider.value;
 }
@@ -190,8 +164,6 @@ function setupVisualizer() {
         const HEIGHT = canvas.height;
 
         ctx.clearRect(0, 0, WIDTH, HEIGHT);
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-        ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
         const barWidth = (WIDTH / dataArray.length) * 2.5;
         let barHeight;
@@ -200,7 +172,7 @@ function setupVisualizer() {
         for (let i = 0; i < dataArray.length; i++) {
             barHeight = dataArray[i] / 2;
 
-            ctx.fillStyle = `hsl(${i * 2}, 100%, 50%)`;
+            ctx.fillStyle = 'rgb(255, 0, 0)';
             ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
 
             x += barWidth + 1;
@@ -217,28 +189,22 @@ function handleResize() {
     }
 }
 
-function handleOrientationChange() {
-    setTimeout(() => {
-        resizeCanvas();
-        if (isFullscreen) {
-            adjustFullscreenLayout();
-        }
-    }, 100);
-}
-
 function toggleFullscreen() {
     const playerContainer = document.querySelector('.music-player');
     const navbar = document.getElementById('navbar');
+    const fullscreenToggle = document.getElementById('fullscreenToggle');
     isFullscreen = !isFullscreen;
     
     if (isFullscreen) {
         playerContainer.classList.add('fullscreen');
         document.body.style.overflow = 'hidden';
         navbar.style.display = 'none';
+        fullscreenToggle.style.top = '20px';
     } else {
         playerContainer.classList.remove('fullscreen');
         document.body.style.overflow = '';
         navbar.style.display = '';
+        fullscreenToggle.style.top = '70px';
     }
     
     adjustFullscreenLayout();
@@ -249,13 +215,9 @@ function adjustFullscreenLayout() {
     const visualizer = document.getElementById('visualizer');
     
     if (isFullscreen) {
-        if (window.innerHeight > window.innerWidth) {
-            visualizer.style.height = '250px';
-        } else {
-            visualizer.style.height = '120px';
-        }
+        visualizer.style.height = '300px';
     } else {
-        visualizer.style.height = '';
+        visualizer.style.height = '150px';
     }
 }
 
@@ -276,13 +238,13 @@ function setupNavbarBehavior() {
 
     function hideNavbar() {
         if (!isFullscreen) {
-            navbar.classList.add('hidden');
+            navbar.style.transform = 'translateY(-100%)';
         }
     }
 
     function showNavbar() {
         if (!isFullscreen) {
-            navbar.classList.remove('hidden');
+            navbar.style.transform = 'translateY(0)';
         }
     }
 
@@ -310,12 +272,8 @@ function setupNavbarBehavior() {
     navbar.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => {
             showNavbar();
-            navbar.classList.add('active');
             clearTimeout(navbarTimeout);
-            navbarTimeout = setTimeout(() => {
-                navbar.classList.remove('active');
-                hideNavbar();
-            }, 2000);
+            navbarTimeout = setTimeout(hideNavbar, 2000);
         });
     });
 }
