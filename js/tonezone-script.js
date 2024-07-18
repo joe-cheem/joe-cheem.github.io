@@ -49,6 +49,19 @@ function setupEventListeners() {
     audioPlayer.addEventListener('ended', playNextSong);
     window.addEventListener('resize', handleResize);
     window.addEventListener('orientationchange', handleOrientationChange);
+
+    // Add these new event listeners for mobile volume control
+    volumeSlider.addEventListener('touchstart', handleVolumeTouch);
+    volumeSlider.addEventListener('touchmove', handleVolumeTouch);
+}
+
+function handleVolumeTouch(e) {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const sliderRect = volumeSlider.getBoundingClientRect();
+    const newVolume = (touch.clientX - sliderRect.left) / sliderRect.width;
+    audioPlayer.volume = Math.max(0, Math.min(1, newVolume));
+    volumeSlider.value = audioPlayer.volume;
 }
 
 function preventScroll(e) {
@@ -201,7 +214,12 @@ function setupVisualizer() {
         for (let i = 0; i < dataArray.length; i++) {
             barHeight = dataArray[i] / 2;
 
-            ctx.fillStyle = 'rgb(0, 151, 68)';
+            // Create a gradient from deep purple to light purple
+            const gradient = ctx.createLinearGradient(0, HEIGHT, 0, HEIGHT - barHeight);
+            gradient.addColorStop(0, '#4B0082');  // Deep purple
+            gradient.addColorStop(1, '#8A2BE2');  // Light purple
+
+            ctx.fillStyle = gradient;
             ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
 
             x += barWidth + 1;
