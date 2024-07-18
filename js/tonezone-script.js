@@ -76,15 +76,39 @@ function seekStart(e) {
     seek(e);
 }
 
-function seek(e) {
-    const progressRect = progressContainer.getBoundingClientRect();
-    const seekPosition = (e.clientX || e.touches[0].clientX) - progressRect.left;
-    const seekPercentage = seekPosition / progressRect.width;
-    audioPlayer.currentTime = seekPercentage * audioPlayer.duration;
-    updateProgress();
+function populateSongList() {
+    songList.innerHTML = '';
+    songs.forEach((song, index) => {
+        const li = document.createElement('li');
+        li.textContent = song.title;
+        li.addEventListener('click', () => playSong(index));
+        songList.appendChild(li);
+    });
 }
 
-// ... (keep other existing functions) ...
+function playSong(index) {
+    currentSongIndex = index;
+    audioPlayer.src = songs[index].file;
+    audioPlayer.play()
+        .then(() => {
+            playPauseBtn.textContent = '❚❚';
+            updateActiveSong();
+            if (!audioContext) {
+                initAudioContext();
+            }
+        })
+        .catch(e => console.error('Error playing audio:', e));
+}
+
+function updateActiveSong() {
+    songList.querySelectorAll('li').forEach((li, index) => {
+        if (index === currentSongIndex) {
+            li.classList.add('active');
+        } else {
+            li.classList.remove('active');
+        }
+    });
+}
 
 function togglePlayPause() {
     if (audioPlayer.paused) {
@@ -104,11 +128,57 @@ function togglePlayPause() {
     }
 }
 
+function playPreviousSong() {
+    currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+    playSong(currentSongIndex);
+}
+
+function playNextSong() {
+    currentSongIndex = (currentSongIndex + 1) % songs.length;
+    playSong(currentSongIndex);
+}
+
+function updateProgress() {
+    const duration = audioPlayer.duration;
+    const currentTime = audioPlayer.currentTime;
+    if (duration > 0) {
+        const progressPercent = (currentTime / duration) * 100;
+        progress.style.width = `${progressPercent}%`;
+        timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
+    }
+}
+
+function seek(e) {
+    const progressRect = progressContainer.getBoundingClientRect();
+    const seekPosition = (e.clientX || e.touches[0].clientX) - progressRect.left;
+    const seekPercentage = seekPosition / progressRect.width;
+    audioPlayer.currentTime = seekPercentage * audioPlayer.duration;
+    updateProgress();
+}
+
 function adjustVolume() {
     audioPlayer.volume = volumeSlider.value;
 }
 
-// ... (keep other existing functions) ...
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
+function initAudioContext() {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = audioContext.createAnalyser();
+    source = audioContext.createMediaElementSource(audioPlayer);
+    source.connect(analyser);
+    analyser.connect(audioContext.destination);
+
+    analyser.fftSize = 256;
+    const bufferLength = analyser.frequencyBinCount;
+    dataArray = new Uint8Array(bufferLength);
+
+    setupVisualizer();
+}
 
 function setupVisualizer() {
     const canvas = visualizer;
@@ -159,3 +229,5 @@ function resizeCanvas() {
     const ctx = visualizer.getContext('2d');
     ctx.scale(dpr, dpr);
 }
+
+// Note: The setupNavbarBehavior function has been removed as it's now handled in common.js
