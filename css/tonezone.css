@@ -12,10 +12,9 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
 }
 
 #deep-space-background {
@@ -217,6 +216,7 @@ body {
     box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
+/* Responsive design */
 @media (max-width: 768px) {
     .container {
         padding: 15px;
@@ -293,5 +293,25 @@ body {
     .song-list {
         max-height: 150px;
         width: 100%;
+    }
+}
+
+/* Improve touch targets for mobile devices */
+@media (hover: none) and (pointer: coarse) {
+    .control-btn {
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    .song-list li {
+        padding: 12px 15px;
+    }
+}
+
+/* Ensure content is visible when keyboard is active on mobile devices */
+@media screen and (max-height: 450px) {
+    .container {
+        height: auto;
+        min-height: 100vh;
     }
 }
