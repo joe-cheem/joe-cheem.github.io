@@ -58,17 +58,11 @@ function setupEventListeners() {
 
 function handleVisibilityChange() {
     if (document.hidden) {
-        if (audioContext) {
-            audioContext.suspend();
-        }
         if (!audioPlayer.paused) {
             audioPlayer.pause();
             isPlaying = true; // Remember that it was playing
         }
     } else {
-        if (audioContext) {
-            audioContext.resume();
-        }
         if (isPlaying) {
             audioPlayer.play().catch(e => console.error('Error resuming playback:', e));
         }
@@ -124,6 +118,7 @@ function playSong(index) {
     audioPlayer.src = songs[index].file;
     audioPlayer.play()
         .then(() => {
+            isPlaying = true;
             playPauseBtn.textContent = '❚❚';
             updateActiveSong();
             if (!audioContext) {
@@ -151,8 +146,6 @@ function togglePlayPause() {
                 playPauseBtn.textContent = '❚❚';
                 if (!audioContext) {
                     initAudioContext();
-                } else {
-                    audioContext.resume();
                 }
             })
             .catch(e => console.error('Error resuming playback:', e));
@@ -160,9 +153,6 @@ function togglePlayPause() {
         audioPlayer.pause();
         isPlaying = false;
         playPauseBtn.textContent = '▶';
-        if (audioContext) {
-            audioContext.suspend();
-        }
     }
 }
 
