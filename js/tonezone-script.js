@@ -181,8 +181,8 @@ function stopVisualizer() {
 function handleResize() {
     const dpr = window.devicePixelRatio || 1;
     const rect = visualizer.getBoundingClientRect();
-    visualizer.style.width = `${rect.width}px`;
-    visualizer.style.height = `${rect.height}px`;
+    visualizer.width = rect.width * dpr;
+    visualizer.height = rect.height * dpr;
 }
 
 window.addEventListener('resize', handleResize);
