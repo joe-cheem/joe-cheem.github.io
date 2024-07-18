@@ -52,21 +52,6 @@ function setupEventListeners() {
 
     volumeSlider.addEventListener('touchstart', handleVolumeTouch);
     volumeSlider.addEventListener('touchmove', handleVolumeTouch);
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-}
-
-function handleVisibilityChange() {
-    if (document.hidden) {
-        if (!audioPlayer.paused) {
-            audioPlayer.pause();
-            isPlaying = true; // Remember that it was playing
-        }
-    } else {
-        if (isPlaying) {
-            audioPlayer.play().catch(e => console.error('Error resuming playback:', e));
-        }
-    }
 }
 
 function handleVolumeTouch(e) {
@@ -90,7 +75,7 @@ function seekStart(e) {
         document.removeEventListener('mouseup', seekEndHandler);
         document.removeEventListener('touchmove', seekHandler);
         document.removeEventListener('touchend', seekEndHandler);
-        if (isPlaying) {
+        if (!audioPlayer.paused) {
             audioPlayer.play();
         }
     };
@@ -118,7 +103,6 @@ function playSong(index) {
     audioPlayer.src = songs[index].file;
     audioPlayer.play()
         .then(() => {
-            isPlaying = true;
             playPauseBtn.textContent = '❚❚';
             updateActiveSong();
             if (!audioContext) {
@@ -142,7 +126,6 @@ function togglePlayPause() {
     if (audioPlayer.paused) {
         audioPlayer.play()
             .then(() => {
-                isPlaying = true;
                 playPauseBtn.textContent = '❚❚';
                 if (!audioContext) {
                     initAudioContext();
@@ -151,7 +134,6 @@ function togglePlayPause() {
             .catch(e => console.error('Error resuming playback:', e));
     } else {
         audioPlayer.pause();
-        isPlaying = false;
         playPauseBtn.textContent = '▶';
     }
 }
