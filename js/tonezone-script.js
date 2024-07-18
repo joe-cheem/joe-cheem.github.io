@@ -201,7 +201,7 @@ function setupVisualizer() {
         for (let i = 0; i < dataArray.length; i++) {
             barHeight = dataArray[i] / 2;
 
-            ctx.fillStyle = 'rgb(255, 0, 0)';
+            ctx.fillStyle = 'rgb(0, 151, 68)';
             ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
 
             x += barWidth + 1;
