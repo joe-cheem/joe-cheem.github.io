@@ -57,8 +57,8 @@ start cmd /k %server_command%
 :: Wait for a moment to ensure the server has started
 timeout /t 2 >nul
 
-:: Open the default web browser
-start http://localhost:8000
+:: Open the default web browser with cache-clearing flags
+start "" "http://localhost:8000/?nocache=%RANDOM%"
 
 echo Local server started. A new browser window should open automatically.
 echo To stop the server, close the command prompt window that was opened.

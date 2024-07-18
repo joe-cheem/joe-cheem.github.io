@@ -50,9 +50,35 @@ function setupEventListeners() {
     window.addEventListener('resize', handleResize);
     window.addEventListener('orientationchange', handleOrientationChange);
 
-    // Add these new event listeners for mobile volume control
     volumeSlider.addEventListener('touchstart', handleVolumeTouch);
     volumeSlider.addEventListener('touchmove', handleVolumeTouch);
+
+    // Add visibility change event listener
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+}
+
+function handleVisibilityChange() {
+    if (document.hidden) {
+        // Page is hidden
+        if (audioContext) {
+            audioContext.suspend();
+        }
+    } else {
+        // Page is visible again
+        if (audioContext) {
+            audioContext.resume().then(() => {
+                // Recreate the audio context to fix pitch issues
+                recreateAudioContext();
+            });
+        }
+    }
+}
+
+function recreateAudioContext() {
+    if (audioContext) {
+        audioContext.close();
+    }
+    initAudioContext();
 }
 
 function handleVolumeTouch(e) {
@@ -247,5 +273,3 @@ function resizeCanvas() {
     const ctx = visualizer.getContext('2d');
     ctx.scale(dpr, dpr);
 }
-
-// Note: The setupNavbarBehavior function has been removed as it's now handled in common.js
