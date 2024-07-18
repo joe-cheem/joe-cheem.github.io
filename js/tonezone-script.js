@@ -1,8 +1,6 @@
-let audioPlayer, playPauseBtn, prevBtn, nextBtn, progressContainer, progress, timeDisplay, volumeSlider, songList, visualizer;
-let audioContext, analyser, source;
+let audioPlayer, playPauseBtn, prevBtn, nextBtn, progressContainer, progress, timeDisplay, volumeSlider, songList;
 let songs = [];
 let currentSongIndex = 0;
-let animationId;
 
 document.addEventListener('DOMContentLoaded', () => {
     audioPlayer = document.getElementById('audioPlayer');
@@ -14,10 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     timeDisplay = document.getElementById('timeDisplay');
     volumeSlider = document.getElementById('volumeSlider');
     songList = document.getElementById('songList');
-    visualizer = document.getElementById('visualizer');
 
     initializePlayer();
-    handleResize();
 });
 
 function initializePlayer() {
@@ -33,23 +29,8 @@ function initializePlayer() {
             setupEventListeners();
             audioPlayer.src = songs[currentSongIndex].file;
             updateActiveSong();
-            initializeAudioContext();
         })
         .catch(error => console.error('Error loading music.json:', error));
-
-    // Hide volume controls on mobile devices
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        document.querySelector('.volume-control').style.display = 'none';
-    }
-}
-
-function initializeAudioContext() {
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    analyser = audioContext.createAnalyser();
-    analyser.fftSize = 256;
-    source = audioContext.createMediaElementSource(audioPlayer);
-    source.connect(analyser);
-    analyser.connect(audioContext.destination);
 }
 
 function setupEventListeners() {
@@ -60,10 +41,8 @@ function setupEventListeners() {
     volumeSlider.addEventListener('input', adjustVolume);
     audioPlayer.addEventListener('timeupdate', updateProgress);
     audioPlayer.addEventListener('ended', playNextSong);
-    audioPlayer.addEventListener('play', startVisualizer);
-    audioPlayer.addEventListener('pause', stopVisualizer);
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('orientationchange', () => setTimeout(handleResize, 100));
+    audioPlayer.addEventListener('play', () => playPauseBtn.textContent = '❚❚');
+    audioPlayer.addEventListener('pause', () => playPauseBtn.textContent = '▶');
 }
 
 function populateSongList() {
@@ -94,10 +73,6 @@ function updateActiveSong() {
 }
 
 function togglePlayPause() {
-    if (audioContext.state === 'suspended') {
-        audioContext.resume();
-    }
-    
     if (audioPlayer.paused) {
         audioPlayer.play().catch(e => console.error('Error playing audio:', e));
     } else {
@@ -139,60 +114,4 @@ function formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-}
-
-function startVisualizer() {
-    if (!animationId) {
-        animateVisualizer();
-    }
-}
-
-function stopVisualizer() {
-    if (animationId) {
-        cancelAnimationFrame(animationId);
-        animationId = null;
-    }
-}
-
-function animateVisualizer() {
-    const ctx = visualizer.getContext('2d');
-    const width = visualizer.width;
-    const height = visualizer.height;
-    const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
-
-    function draw() {
-        animationId = requestAnimationFrame(draw);
-
-        analyser.getByteFrequencyData(dataArray);
-
-        ctx.clearRect(0, 0, width, height);
-
-        const barWidth = width / bufferLength * 2.5;
-        let x = 0;
-
-        for (let i = 0; i < bufferLength; i++) {
-            const barHeight = dataArray[i] / 255 * height;
-
-            const gradient = ctx.createLinearGradient(0, height, 0, height - barHeight);
-            gradient.addColorStop(0, '#4B0082');  // Deep purple
-            gradient.addColorStop(1, '#8A2BE2');  // Light purple
-
-            ctx.fillStyle = gradient;
-            ctx.fillRect(x, height - barHeight, barWidth, barHeight);
-
-            x += barWidth + 1;
-        }
-    }
-
-    draw();
-}
-
-function handleResize() {
-    const dpr = window.devicePixelRatio || 1;
-    const rect = visualizer.getBoundingClientRect();
-    visualizer.width = rect.width * dpr;
-    visualizer.height = rect.height * dpr;
-    const ctx = visualizer.getContext('2d');
-    ctx.scale(dpr, dpr);
 }
