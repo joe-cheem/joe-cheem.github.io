@@ -2,7 +2,7 @@ let audioPlayer, playPauseBtn, prevBtn, nextBtn, progressContainer, progress, ti
 let audioContext, analyser, source, dataArray;
 let songs = [];
 let currentSongIndex = 0;
-let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+let isFullscreen = false;
 
 document.addEventListener('DOMContentLoaded', () => {
     audioPlayer = document.getElementById('audioPlayer');
@@ -41,21 +41,46 @@ function setupEventListeners() {
     playPauseBtn.addEventListener('click', togglePlayPause);
     prevBtn.addEventListener('click', playPreviousSong);
     nextBtn.addEventListener('click', playNextSong);
-    progressContainer.addEventListener('click', seek);
+    progressContainer.addEventListener('mousedown', seekStart);
+    progressContainer.addEventListener('touchstart', seekStart);
     volumeSlider.addEventListener('input', adjustVolume);
     audioPlayer.addEventListener('timeupdate', updateProgress);
     audioPlayer.addEventListener('ended', playNextSong);
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('resize', handleResize);
+    
+    document.getElementById('fullscreenToggle').addEventListener('click', toggleFullscreen);
 
-    if (isMobile) {
-        setupMobileTouchEvents();
+    if (screen.orientation) {
+        screen.orientation.addEventListener('change', handleOrientationChange);
+    } else {
+        window.addEventListener('orientationchange', handleOrientationChange);
     }
 }
 
-function setupMobileTouchEvents() {
-    progressContainer.addEventListener('touchstart', seekStart);
-    progressContainer.addEventListener('touchmove', seekMove);
-    progressContainer.addEventListener('touchend', seekEnd);
+function seekStart(e) {
+    e.preventDefault();
+    const seekHandler = (e) => seek(e);
+    const seekEndHandler = () => {
+        document.removeEventListener('mousemove', seekHandler);
+        document.removeEventListener('mouseup', seekEndHandler);
+        document.removeEventListener('touchmove', seekHandler);
+        document.removeEventListener('touchend', seekEndHandler);
+    };
+
+    document.addEventListener('mousemove', seekHandler);
+    document.addEventListener('mouseup', seekEndHandler);
+    document.addEventListener('touchmove', seekHandler);
+    document.addEventListener('touchend', seekEndHandler);
+
+    seek(e);
+}
+
+function seek(e) {
+    const progressRect = progressContainer.getBoundingClientRect();
+    const seekPosition = (e.clientX || e.touches[0].clientX) - progressRect.left;
+    const seekPercentage = seekPosition / progressRect.width;
+    audioPlayer.currentTime = seekPercentage * audioPlayer.duration;
+    updateProgress();
 }
 
 function populateSongList() {
@@ -128,29 +153,6 @@ function updateProgress() {
     }
 }
 
-function seek(e) {
-    const progressWidth = this.clientWidth;
-    const clickX = e.offsetX;
-    const duration = audioPlayer.duration;
-    audioPlayer.currentTime = (clickX / progressWidth) * duration;
-}
-
-function seekStart(e) {
-    audioPlayer.pause();
-}
-
-function seekMove(e) {
-    const progressWidth = progressContainer.clientWidth;
-    const touchX = e.touches[0].clientX - progressContainer.getBoundingClientRect().left;
-    const duration = audioPlayer.duration;
-    audioPlayer.currentTime = (touchX / progressWidth) * duration;
-    updateProgress();
-}
-
-function seekEnd() {
-    audioPlayer.play();
-}
-
 function adjustVolume() {
     audioPlayer.volume = volumeSlider.value;
 }
@@ -178,14 +180,16 @@ function initAudioContext() {
 function setupVisualizer() {
     const canvas = visualizer;
     const ctx = canvas.getContext('2d');
-    const WIDTH = canvas.width;
-    const HEIGHT = canvas.height;
 
     function drawVisualizer() {
         requestAnimationFrame(drawVisualizer);
 
         analyser.getByteFrequencyData(dataArray);
 
+        const WIDTH = canvas.width;
+        const HEIGHT = canvas.height;
+
+        ctx.clearRect(0, 0, WIDTH, HEIGHT);
         ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
         ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
@@ -204,6 +208,54 @@ function setupVisualizer() {
     }
 
     drawVisualizer();
+}
+
+function handleResize() {
+    resizeCanvas();
+    if (isFullscreen) {
+        adjustFullscreenLayout();
+    }
+}
+
+function handleOrientationChange() {
+    setTimeout(() => {
+        resizeCanvas();
+        if (isFullscreen) {
+            adjustFullscreenLayout();
+        }
+    }, 100);
+}
+
+function toggleFullscreen() {
+    const playerContainer = document.querySelector('.music-player');
+    isFullscreen = !isFullscreen;
+    
+    if (isFullscreen) {
+        playerContainer.classList.add('fullscreen');
+        document.body.style.overflow = 'hidden';
+    } else {
+        playerContainer.classList.remove('fullscreen');
+        document.body.style.overflow = '';
+    }
+    
+    adjustFullscreenLayout();
+    resizeCanvas();
+}
+
+function adjustFullscreenLayout() {
+    const playerContainer = document.querySelector('.music-player');
+    const visualizer = document.getElementById('visualizer');
+    
+    if (isFullscreen) {
+        const containerHeight = playerContainer.offsetHeight;
+        const otherElementsHeight = Array.from(playerContainer.children)
+            .filter(el => el !== visualizer)
+            .reduce((sum, el) => sum + el.offsetHeight, 0);
+        
+        visualizer.style.height = `${containerHeight - otherElementsHeight - 40}px`; // 40px for padding
+    } else {
+        visualizer.style.height = '';
+    }
 }
 
 function resizeCanvas() {

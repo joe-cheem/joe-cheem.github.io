@@ -9,7 +9,7 @@ This project is a personal portfolio website for Joachim Rayski, a game develope
 - Retro browser-like project showcase with fullscreen capability
 - Projects categorized into "First Steps," "College," and "University" sections
 - Embedded content preview for projects (YouTube videos, itch.io games)
-- Custom ToneZone music player with audio visualizer
+- Custom ToneZone music player with audio visualizer and fullscreen mode
 - Animated section transitions and hover effects
 - Immersive space-themed background
 
@@ -36,16 +36,20 @@ This project is a personal portfolio website for Joachim Rayski, a game develope
 1. Ensure all music files are placed in the `music` folder
 2. Host the files on a web server or open `index.html` in a web browser
 
+## Recent Improvements
+- Fixed volume slider functionality on mobile devices
+- Added fullscreen mode for the ToneZone player
+- Improved audio visualizer responsiveness when rotating mobile devices
+- Fixed issues with the audio visualizer display on device rotation
+
 ## Known Issues
-- The volume slider in the ToneZone player does not work on mobile devices
-- The audio visualizer may shift when rotating the phone and doesn't display correctly when rotating back to portrait mode
+- No major known issues at this time
 
 ## Future Improvements
-- Fix volume slider functionality on mobile devices
-- Improve audio visualizer responsiveness and orientation handling
 - Implement lazy loading for embedded content in the project showcase
 - Add keyboard navigation support for the retro browser interface
 - Optimize performance for slower internet connections
+- Enhance the audio visualizer with more advanced effects and user controls
 
 ## Contributing
 This is a personal project, but suggestions and feedback are welcome. Please report any bugs or issues you encounter.
