@@ -1,5 +1,5 @@
 // Global variables
-let audioPlayer, playPauseBtn, prevBtn, nextBtn, progressContainer, progress, timeDisplay, volumeSlider, songList;
+let audioPlayer, playPauseBtn, prevBtn, nextBtn, progressContainer, progress, timeDisplay, volumeSlider, songList, songTitleContainer;
 let songs = [];
 let currentSongIndex = 0;
 let isPlaying = false;
@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     timeDisplay = document.getElementById('timeDisplay');
     volumeSlider = document.getElementById('volumeSlider');
     songList = document.getElementById('songList');
+    songTitleContainer = document.querySelector('.song-title-container');
 
     initializePlayer();
 });
@@ -75,6 +76,9 @@ async function loadSong(index) {
     currentSongIndex = index;
     audioPlayer.src = songs[index].file;
     updateActiveSong();
+    
+    // Update the 8-bit display with the new song title
+    updateSongTitleDisplay(songs[index].title);
     
     // Ensure metadata is loaded before continuing
     if (audioPlayer.readyState === 0) {
@@ -170,4 +174,14 @@ function formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
+// Update the 8-bit display with the song title
+function updateSongTitleDisplay(title) {
+    songTitleContainer.innerHTML = `<span class="song-title">${title}</span>`;
+    
+    // Reset the animation
+    songTitleContainer.style.animation = 'none';
+    songTitleContainer.offsetHeight; // Trigger reflow
+    songTitleContainer.style.animation = null;
 }

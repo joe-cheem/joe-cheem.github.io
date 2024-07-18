@@ -4,6 +4,8 @@
     --background-color: #0D0015;
     --text-color: #E6E6FA;
     --accent-color: #009744;
+    --display-color: rgba(0, 0, 0, 0.3);
+    --display-text-color: #E6E6FA;
 }
 
 body {
@@ -60,13 +62,44 @@ body {
     text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
-#visualizer {
+.eight-bit-display {
     width: 100%;
-    height: 150px;
-    background-color: rgba(0, 0, 0, 0.3);
-    margin-bottom: 20px;
+    height: auto;
+    min-height: 60px;
+    max-height: 100px;
+    background-color: var(--display-color);
     border-radius: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
     box-shadow: 0 0 20px rgba(138, 43, 226, 0.3);
+    padding: 10px 0;
+    position: relative;
+}
+
+.song-title-container {
+    display: inline-block;
+    white-space: nowrap;
+    position: absolute;
+    left: 100%;
+    animation: scroll-text 8s linear infinite;
+}
+
+.song-title {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 16px;
+    color: var(--display-text-color);
+    text-shadow: 0 0 5px rgba(230, 230, 250, 0.5);
+}
+
+@keyframes scroll-text {
+    100% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-800%);
+    }
 }
 
 .progress-container {
@@ -216,7 +249,6 @@ body {
     box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     .container {
         padding: 15px;
@@ -262,8 +294,13 @@ body {
         width: 60px;
     }
 
-    #visualizer {
-        height: 80px;
+    .eight-bit-display {
+        min-height: 40px;
+        max-height: 80px;
+    }
+
+    .song-title {
+        font-size: 14px;
     }
 }
 
@@ -279,9 +316,10 @@ body {
         flex-wrap: wrap;
     }
 
-    #visualizer {
+    .eight-bit-display {
         width: 100%;
-        height: 80px;
+        min-height: 40px;
+        max-height: 60px;
         order: -1;
     }
 
@@ -296,7 +334,6 @@ body {
     }
 }
 
-/* Improve touch targets for mobile devices */
 @media (hover: none) and (pointer: coarse) {
     .control-btn {
         min-width: 44px;
@@ -308,7 +345,6 @@ body {
     }
 }
 
-/* Ensure content is visible when keyboard is active on mobile devices */
 @media screen and (max-height: 450px) {
     .container {
         height: auto;
