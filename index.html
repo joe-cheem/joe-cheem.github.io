@@ -9,33 +9,73 @@
 </head>
 <body>
     <div class="floating-stars"></div>
+
     <header>
         <h1>Joachim Rayski</h1>
         <p>Game Developer & Musician</p>
     </header>
+
     <nav id="navbar">
         <ul>
             <li><a href="#about">About</a></li>
-            <li><a href="#games">Games</a></li>
+            <li><a href="#projects">Project Browser</a></li>
             <li><a href="#contact">Contact</a></li>
             <li><a href="tonezone-player.html">ToneZone</a></li>
         </ul>
     </nav>
-    <main class="container">
+
+    <div class="container" role="main">
         <section id="about" class="section">
             <h2>About Me</h2>
             <p>I'm an energetic and creative game developer with a passion for music production. With a background in Computing for Games from Falmouth University and experience in customer service, I bring a unique blend of technical skills and interpersonal abilities to my projects.</p>
             <p>My goal is to create immersive gaming experiences that combine innovative gameplay with captivating soundscapes.</p>
         </section>
-        <section id="games" class="section">
-            <h2>Games</h2>
-            <div id="gameVideos"></div>
+
+        <section id="projects" class="section full-screen">
+            <div class="project-browser-header">
+                <h2>Project Browser</h2>
+            </div>
+            <div id="project-browser" class="retro-browser">
+                <div class="browser-toolbar">
+                    <div class="browser-buttons">
+                        <span class="browser-button"></span>
+                        <span class="browser-button"></span>
+                        <span id="fullscreen-toggle" class="browser-button"></span>
+                    </div>
+                    <div class="browser-address-bar">
+                        <span>http://</span><span id="current-project">projects</span>
+                    </div>
+                </div>
+                <div class="project-tabs">
+                    <div class="tab-section">
+                        <h3>First Steps</h3>
+                        <!-- First Steps tabs will be inserted here -->
+                    </div>
+                    <div class="tab-section">
+                        <h3>College</h3>
+                        <!-- College tabs will be inserted here -->
+                    </div>
+                    <div class="tab-section">
+                        <h3>University</h3>
+                        <!-- University tabs will be inserted here -->
+                    </div>
+                </div>
+                <div class="browser-content">
+                    <div id="preview-container">
+                        <iframe id="preview-frame" src="" frameborder="0" allowfullscreen></iframe>
+                        <a id="preview-link" href="" target="_blank" style="display: none;">View Project</a>
+                        <div id="embed-container" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
         </section>
+
         <section id="contact" class="section">
             <h2>Contact</h2>
             <p>You can reach me at: <a href="mailto:joachim.r.4k@gmail.com">joachim.r.4k@gmail.com</a></p>
         </section>
-    </main>
+    </div>
+
     <script src="js/index-script.js"></script>
 </body>
 </html>
