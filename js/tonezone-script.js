@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
     visualizer = document.getElementById('visualizer');
 
     initializePlayer();
-    setupNavbarBehavior();
 });
 
 function initializePlayer() {
@@ -192,46 +191,4 @@ function resizeCanvas() {
     ctx.scale(dpr, dpr);
 }
 
-function setupNavbarBehavior() {
-    const navbar = document.getElementById('navbar');
-    let lastScrollTop = 0;
-    const scrollThreshold = 100;
-    let navbarTimeout;
-
-    function hideNavbar() {
-        navbar.style.transform = 'translateY(-100%)';
-    }
-
-    function showNavbar() {
-        navbar.style.transform = 'translateY(0)';
-    }
-
-    window.addEventListener('scroll', () => {
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        
-        if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
-            hideNavbar();
-        } else {
-            showNavbar();
-        }
-        lastScrollTop = scrollTop;
-    });
-
-    navbar.addEventListener('mouseenter', () => {
-        showNavbar();
-        clearTimeout(navbarTimeout);
-    });
-
-    navbar.addEventListener('mouseleave', () => {
-        navbarTimeout = setTimeout(hideNavbar, 2000); // Hide after 2 seconds
-    });
-
-    // Show navbar when clicking a link
-    navbar.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            showNavbar();
-            clearTimeout(navbarTimeout);
-            navbarTimeout = setTimeout(hideNavbar, 2000);
-        });
-    });
-}
+// Note: The setupNavbarBehavior function has been removed as it's now handled in common.js

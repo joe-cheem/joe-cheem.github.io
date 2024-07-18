@@ -14,31 +14,17 @@ body {
     padding: 0;
 }
 
-#navbar {
-    background-color: var(--secondary-color);
-    padding: 15px 0;
+#deep-space-background {
     position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
-    z-index: 1000;
-}
-
-#navbar ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-}
-
-#navbar li {
-    margin: 0 15px;
-}
-
-#navbar a {
-    color: var(--text-color);
-    text-decoration: none;
-    font-weight: bold;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    background-image: url('../images/background.png');
+    background-size: cover;
+    opacity: 0.5;
 }
 
 .container {
