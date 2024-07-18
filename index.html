@@ -27,9 +27,8 @@
     <div class="container" role="main">
         <section id="about" class="section">
             <h2>About Me</h2>
-            <p>I'm an energetic and creative game developer and music producer with a passion for helping others thrive.</p>
-            <p>With a background in games programming, music production, customer support and residential care work, I bring a unique blend of creative and technical skills as well as interpersonal abilities to my projects.</p>
-            <p>On this site you can find examples of my past work in both games and music. Use the Project Browser to explore my games work, and the ToneZone Player to hear some of the music I've made over the years.</p>
+            <p>I'm an energetic and creative game developer with a passion for music production. With a background in Computing for Games from Falmouth University and experience in customer service, I bring a unique blend of technical skills and interpersonal abilities to my projects.</p>
+            <p>My goal is to create immersive gaming experiences that combine innovative gameplay with captivating soundscapes.</p>
         </section>
 
         <section id="projects" class="section full-screen">
@@ -44,23 +43,27 @@
                         <span id="fullscreen-toggle" class="browser-button"></span>
                     </div>
                     <div class="browser-address-bar">
-                        http://<span id="current-project">projects</span>
+                        <span>http://</span><span id="current-project">projects</span>
                     </div>
                 </div>
                 <div class="project-tabs">
                     <div class="tab-section">
                         <h3>First Steps</h3>
+                        <!-- First Steps tabs will be inserted here -->
                     </div>
                     <div class="tab-section">
                         <h3>College</h3>
+                        <!-- College tabs will be inserted here -->
                     </div>
                     <div class="tab-section">
                         <h3>University</h3>
+                        <!-- University tabs will be inserted here -->
                     </div>
                 </div>
                 <div class="browser-content">
                     <div id="preview-container">
-                        <a id="preview-link" target="_blank" style="display: none;">View Project</a>
+                        <iframe id="preview-frame" src="" frameborder="0" allowfullscreen></iframe>
+                        <a id="preview-link" href="" target="_blank" style="display: none;">View Project</a>
                         <div id="embed-container" style="display: none;"></div>
                     </div>
                 </div>
@@ -73,7 +76,6 @@
         </section>
     </div>
 
-    <script src="js/common.js"></script>
     <script src="js/index-script.js"></script>
 </body>
 </html>
