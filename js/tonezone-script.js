@@ -53,32 +53,26 @@ function setupEventListeners() {
     volumeSlider.addEventListener('touchstart', handleVolumeTouch);
     volumeSlider.addEventListener('touchmove', handleVolumeTouch);
 
-    // Add visibility change event listener
     document.addEventListener('visibilitychange', handleVisibilityChange);
 }
 
 function handleVisibilityChange() {
     if (document.hidden) {
-        // Page is hidden
         if (audioContext) {
             audioContext.suspend();
         }
+        if (!audioPlayer.paused) {
+            audioPlayer.pause();
+            isPlaying = true; // Remember that it was playing
+        }
     } else {
-        // Page is visible again
         if (audioContext) {
-            audioContext.resume().then(() => {
-                // Recreate the audio context to fix pitch issues
-                recreateAudioContext();
-            });
+            audioContext.resume();
+        }
+        if (isPlaying) {
+            audioPlayer.play().catch(e => console.error('Error resuming playback:', e));
         }
     }
-}
-
-function recreateAudioContext() {
-    if (audioContext) {
-        audioContext.close();
-    }
-    initAudioContext();
 }
 
 function handleVolumeTouch(e) {
@@ -157,6 +151,8 @@ function togglePlayPause() {
                 playPauseBtn.textContent = '❚❚';
                 if (!audioContext) {
                     initAudioContext();
+                } else {
+                    audioContext.resume();
                 }
             })
             .catch(e => console.error('Error resuming playback:', e));
@@ -164,6 +160,9 @@ function togglePlayPause() {
         audioPlayer.pause();
         isPlaying = false;
         playPauseBtn.textContent = '▶';
+        if (audioContext) {
+            audioContext.suspend();
+        }
     }
 }
 
@@ -240,7 +239,6 @@ function setupVisualizer() {
         for (let i = 0; i < dataArray.length; i++) {
             barHeight = dataArray[i] / 2;
 
-            // Create a gradient from deep purple to light purple
             const gradient = ctx.createLinearGradient(0, HEIGHT, 0, HEIGHT - barHeight);
             gradient.addColorStop(0, '#4B0082');  // Deep purple
             gradient.addColorStop(1, '#8A2BE2');  // Light purple
