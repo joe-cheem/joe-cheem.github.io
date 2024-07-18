@@ -3,7 +3,6 @@ let audioPlayer, playPauseBtn, prevBtn, nextBtn, progressContainer, progress, ti
 let songs = [];
 let currentSongIndex = 0;
 let isPlaying = false;
-let updateInterval;
 
 // Initialize the player when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -22,22 +21,22 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Initialize the player
-function initializePlayer() {
-    // Fetch the list of songs
-    fetch('music.json')
-        .then(response => response.json())
-        .then(data => {
-            songs = data.map(filename => ({
-                title: filename.replace('.mp3', ''),
-                file: `music/${filename}`
-            }));
-            
-            populateSongList();
-            setupEventListeners();
-            loadSong(currentSongIndex);
-            updateActiveSong();
-        })
-        .catch(error => console.error('Error loading music.json:', error));
+async function initializePlayer() {
+    try {
+        const response = await fetch('music.json');
+        const data = await response.json();
+        songs = data.map(filename => ({
+            title: filename.replace('.mp3', ''),
+            file: `music/${filename}`
+        }));
+        
+        populateSongList();
+        setupEventListeners();
+        await loadSong(currentSongIndex);
+        updateActiveSong();
+    } catch (error) {
+        console.error('Error initializing player:', error);
+    }
 }
 
 // Set up event listeners for player controls
@@ -50,20 +49,14 @@ function setupEventListeners() {
     audioPlayer.addEventListener('ended', playNextSong);
     audioPlayer.addEventListener('loadedmetadata', updateDuration);
     audioPlayer.addEventListener('timeupdate', updateProgress);
-    
-    // Add event listener for visibility change
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-}
-
-// Handle visibility change (e.g., when switching tabs or minimizing)
-function handleVisibilityChange() {
-    if (document.hidden) {
-        // Page is hidden, clear the update interval
-        clearInterval(updateInterval);
-    } else {
-        // Page is visible again, sync the progress
-        updateProgress();
-    }
+    audioPlayer.addEventListener('play', () => {
+        isPlaying = true;
+        updatePlayPauseButton();
+    });
+    audioPlayer.addEventListener('pause', () => {
+        isPlaying = false;
+        updatePlayPauseButton();
+    });
 }
 
 // Populate the song list
@@ -78,21 +71,26 @@ function populateSongList() {
 }
 
 // Load a song
-function loadSong(index) {
+async function loadSong(index) {
     currentSongIndex = index;
     audioPlayer.src = songs[index].file;
     updateActiveSong();
+    
+    // Ensure metadata is loaded before continuing
+    if (audioPlayer.readyState === 0) {
+        await new Promise(resolve => {
+            audioPlayer.addEventListener('loadedmetadata', resolve, { once: true });
+        });
+    }
+    
+    updateDuration();
+    updateProgress();
 }
 
 // Play a song
-function playSong(index) {
-    loadSong(index);
-    audioPlayer.play()
-        .then(() => {
-            isPlaying = true;
-            updatePlayPauseButton();
-        })
-        .catch(e => console.error('Error playing audio:', e));
+async function playSong(index) {
+    await loadSong(index);
+    audioPlayer.play().catch(e => console.error('Error playing audio:', e));
 }
 
 // Update the active song in the list
@@ -111,11 +109,8 @@ function togglePlayPause() {
     if (isPlaying) {
         audioPlayer.pause();
     } else {
-        audioPlayer.play()
-            .catch(e => console.error('Error playing audio:', e));
+        audioPlayer.play().catch(e => console.error('Error playing audio:', e));
     }
-    isPlaying = !isPlaying;
-    updatePlayPauseButton();
 }
 
 // Update play/pause button appearance
@@ -159,8 +154,10 @@ function seek(e) {
     const progressRect = progressContainer.getBoundingClientRect();
     const seekPercentage = (e.clientX - progressRect.left) / progressRect.width;
     const newTime = seekPercentage * audioPlayer.duration;
-    audioPlayer.currentTime = newTime;
-    updateProgress();
+    if (!isNaN(newTime)) {
+        audioPlayer.currentTime = newTime;
+        updateProgress();
+    }
 }
 
 // Adjust the volume
