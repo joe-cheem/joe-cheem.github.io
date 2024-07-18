@@ -1,8 +1,6 @@
-let audioPlayer, playPauseBtn, prevBtn, nextBtn, progressContainer, progress, timeDisplay, volumeSlider, songList, visualizer;
-let audioContext, analyser, source, dataArray;
+let audioPlayer, playPauseBtn, prevBtn, nextBtn, progressContainer, progress, timeDisplay, volumeSlider, songList;
 let songs = [];
 let currentSongIndex = 0;
-let isPlaying = false;
 
 document.addEventListener('DOMContentLoaded', () => {
     audioPlayer = document.getElementById('audioPlayer');
@@ -14,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     timeDisplay = document.getElementById('timeDisplay');
     volumeSlider = document.getElementById('volumeSlider');
     songList = document.getElementById('songList');
-    visualizer = document.getElementById('visualizer');
 
     initializePlayer();
 });
@@ -40,52 +37,12 @@ function setupEventListeners() {
     playPauseBtn.addEventListener('click', togglePlayPause);
     prevBtn.addEventListener('click', playPreviousSong);
     nextBtn.addEventListener('click', playNextSong);
-    progressContainer.addEventListener('mousedown', seekStart);
-    progressContainer.addEventListener('touchstart', seekStart, { passive: false });
+    progressContainer.addEventListener('click', seek);
     volumeSlider.addEventListener('input', adjustVolume);
-    volumeSlider.addEventListener('touchstart', preventScroll, { passive: false });
-    volumeSlider.addEventListener('touchmove', preventScroll, { passive: false });
     audioPlayer.addEventListener('timeupdate', updateProgress);
     audioPlayer.addEventListener('ended', playNextSong);
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('orientationchange', handleOrientationChange);
-
-    volumeSlider.addEventListener('touchstart', handleVolumeTouch);
-    volumeSlider.addEventListener('touchmove', handleVolumeTouch);
-}
-
-function handleVolumeTouch(e) {
-    e.preventDefault();
-    const touch = e.touches[0];
-    const sliderRect = volumeSlider.getBoundingClientRect();
-    const newVolume = (touch.clientX - sliderRect.left) / sliderRect.width;
-    audioPlayer.volume = Math.max(0, Math.min(1, newVolume));
-    volumeSlider.value = audioPlayer.volume;
-}
-
-function preventScroll(e) {
-    e.preventDefault();
-}
-
-function seekStart(e) {
-    e.preventDefault();
-    const seekHandler = (e) => seek(e);
-    const seekEndHandler = () => {
-        document.removeEventListener('mousemove', seekHandler);
-        document.removeEventListener('mouseup', seekEndHandler);
-        document.removeEventListener('touchmove', seekHandler);
-        document.removeEventListener('touchend', seekEndHandler);
-        if (!audioPlayer.paused) {
-            audioPlayer.play();
-        }
-    };
-
-    document.addEventListener('mousemove', seekHandler);
-    document.addEventListener('mouseup', seekEndHandler);
-    document.addEventListener('touchmove', seekHandler, { passive: false });
-    document.addEventListener('touchend', seekEndHandler);
-
-    seek(e);
+    audioPlayer.addEventListener('play', () => playPauseBtn.textContent = '❚❚');
+    audioPlayer.addEventListener('pause', () => playPauseBtn.textContent = '▶');
 }
 
 function populateSongList() {
@@ -101,15 +58,8 @@ function populateSongList() {
 function playSong(index) {
     currentSongIndex = index;
     audioPlayer.src = songs[index].file;
-    audioPlayer.play()
-        .then(() => {
-            playPauseBtn.textContent = '❚❚';
-            updateActiveSong();
-            if (!audioContext) {
-                initAudioContext();
-            }
-        })
-        .catch(e => console.error('Error playing audio:', e));
+    audioPlayer.play().catch(e => console.error('Error playing audio:', e));
+    updateActiveSong();
 }
 
 function updateActiveSong() {
@@ -124,17 +74,9 @@ function updateActiveSong() {
 
 function togglePlayPause() {
     if (audioPlayer.paused) {
-        audioPlayer.play()
-            .then(() => {
-                playPauseBtn.textContent = '❚❚';
-                if (!audioContext) {
-                    initAudioContext();
-                }
-            })
-            .catch(e => console.error('Error resuming playback:', e));
+        audioPlayer.play().catch(e => console.error('Error playing audio:', e));
     } else {
         audioPlayer.pause();
-        playPauseBtn.textContent = '▶';
     }
 }
 
@@ -160,10 +102,8 @@ function updateProgress() {
 
 function seek(e) {
     const progressRect = progressContainer.getBoundingClientRect();
-    const seekPosition = (e.clientX || e.touches[0].clientX) - progressRect.left;
-    const seekPercentage = seekPosition / progressRect.width;
+    const seekPercentage = (e.clientX - progressRect.left) / progressRect.width;
     audioPlayer.currentTime = seekPercentage * audioPlayer.duration;
-    updateProgress();
 }
 
 function adjustVolume() {
@@ -174,72 +114,4 @@ function formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-}
-
-function initAudioContext() {
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    analyser = audioContext.createAnalyser();
-    source = audioContext.createMediaElementSource(audioPlayer);
-    source.connect(analyser);
-    analyser.connect(audioContext.destination);
-
-    analyser.fftSize = 256;
-    const bufferLength = analyser.frequencyBinCount;
-    dataArray = new Uint8Array(bufferLength);
-
-    setupVisualizer();
-}
-
-function setupVisualizer() {
-    const canvas = visualizer;
-    const ctx = canvas.getContext('2d');
-
-    function drawVisualizer() {
-        requestAnimationFrame(drawVisualizer);
-
-        analyser.getByteFrequencyData(dataArray);
-
-        const WIDTH = canvas.width;
-        const HEIGHT = canvas.height;
-
-        ctx.clearRect(0, 0, WIDTH, HEIGHT);
-
-        const barWidth = (WIDTH / dataArray.length) * 2.5;
-        let barHeight;
-        let x = 0;
-
-        for (let i = 0; i < dataArray.length; i++) {
-            barHeight = dataArray[i] / 2;
-
-            const gradient = ctx.createLinearGradient(0, HEIGHT, 0, HEIGHT - barHeight);
-            gradient.addColorStop(0, '#4B0082');  // Deep purple
-            gradient.addColorStop(1, '#8A2BE2');  // Light purple
-
-            ctx.fillStyle = gradient;
-            ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
-
-            x += barWidth + 1;
-        }
-    }
-
-    drawVisualizer();
-}
-
-function handleResize() {
-    resizeCanvas();
-}
-
-function handleOrientationChange() {
-    setTimeout(() => {
-        resizeCanvas();
-    }, 100);
-}
-
-function resizeCanvas() {
-    const dpr = window.devicePixelRatio || 1;
-    const rect = visualizer.getBoundingClientRect();
-    visualizer.width = rect.width * dpr;
-    visualizer.height = rect.height * dpr;
-    const ctx = visualizer.getContext('2d');
-    ctx.scale(dpr, dpr);
 }
