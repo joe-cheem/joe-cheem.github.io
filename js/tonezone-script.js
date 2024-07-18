@@ -2,7 +2,6 @@ let audioPlayer, playPauseBtn, prevBtn, nextBtn, progressContainer, progress, ti
 let audioContext, analyser, source, dataArray;
 let songs = [];
 let currentSongIndex = 0;
-let isFullscreen = false;
 
 document.addEventListener('DOMContentLoaded', () => {
     audioPlayer = document.getElementById('audioPlayer');
@@ -46,8 +45,6 @@ function setupEventListeners() {
     audioPlayer.addEventListener('timeupdate', updateProgress);
     audioPlayer.addEventListener('ended', playNextSong);
     window.addEventListener('resize', handleResize);
-    
-    document.getElementById('fullscreenToggle').addEventListener('click', toggleFullscreen);
 }
 
 function populateSongList() {
@@ -184,41 +181,6 @@ function setupVisualizer() {
 
 function handleResize() {
     resizeCanvas();
-    if (isFullscreen) {
-        adjustFullscreenLayout();
-    }
-}
-
-function toggleFullscreen() {
-    const playerContainer = document.querySelector('.music-player');
-    const navbar = document.getElementById('navbar');
-    const fullscreenToggle = document.getElementById('fullscreenToggle');
-    isFullscreen = !isFullscreen;
-    
-    if (isFullscreen) {
-        playerContainer.classList.add('fullscreen');
-        document.body.style.overflow = 'hidden';
-        navbar.style.display = 'none';
-        fullscreenToggle.style.top = '20px';
-    } else {
-        playerContainer.classList.remove('fullscreen');
-        document.body.style.overflow = '';
-        navbar.style.display = '';
-        fullscreenToggle.style.top = '70px';
-    }
-    
-    adjustFullscreenLayout();
-    resizeCanvas();
-}
-
-function adjustFullscreenLayout() {
-    const visualizer = document.getElementById('visualizer');
-    
-    if (isFullscreen) {
-        visualizer.style.height = '300px';
-    } else {
-        visualizer.style.height = '150px';
-    }
 }
 
 function resizeCanvas() {
@@ -237,15 +199,11 @@ function setupNavbarBehavior() {
     let navbarTimeout;
 
     function hideNavbar() {
-        if (!isFullscreen) {
-            navbar.style.transform = 'translateY(-100%)';
-        }
+        navbar.style.transform = 'translateY(-100%)';
     }
 
     function showNavbar() {
-        if (!isFullscreen) {
-            navbar.style.transform = 'translateY(0)';
-        }
+        navbar.style.transform = 'translateY(0)';
     }
 
     window.addEventListener('scroll', () => {
