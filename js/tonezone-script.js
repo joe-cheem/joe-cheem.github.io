@@ -42,7 +42,7 @@ function setupEventListeners() {
     prevBtn.addEventListener('click', playPreviousSong);
     nextBtn.addEventListener('click', playNextSong);
     progressContainer.addEventListener('mousedown', seekStart);
-    progressContainer.addEventListener('touchstart', seekStart);
+    progressContainer.addEventListener('touchstart', seekStart, { passive: false });
     volumeSlider.addEventListener('input', adjustVolume);
     audioPlayer.addEventListener('timeupdate', updateProgress);
     audioPlayer.addEventListener('ended', playNextSong);
@@ -69,7 +69,7 @@ function seekStart(e) {
 
     document.addEventListener('mousemove', seekHandler);
     document.addEventListener('mouseup', seekEndHandler);
-    document.addEventListener('touchmove', seekHandler);
+    document.addEventListener('touchmove', seekHandler, { passive: false });
     document.addEventListener('touchend', seekEndHandler);
 
     seek(e);
@@ -228,14 +228,17 @@ function handleOrientationChange() {
 
 function toggleFullscreen() {
     const playerContainer = document.querySelector('.music-player');
+    const navbar = document.getElementById('navbar');
     isFullscreen = !isFullscreen;
     
     if (isFullscreen) {
         playerContainer.classList.add('fullscreen');
         document.body.style.overflow = 'hidden';
+        navbar.style.display = 'none';
     } else {
         playerContainer.classList.remove('fullscreen');
         document.body.style.overflow = '';
+        navbar.style.display = '';
     }
     
     adjustFullscreenLayout();
@@ -243,16 +246,14 @@ function toggleFullscreen() {
 }
 
 function adjustFullscreenLayout() {
-    const playerContainer = document.querySelector('.music-player');
     const visualizer = document.getElementById('visualizer');
     
     if (isFullscreen) {
-        const containerHeight = playerContainer.offsetHeight;
-        const otherElementsHeight = Array.from(playerContainer.children)
-            .filter(el => el !== visualizer)
-            .reduce((sum, el) => sum + el.offsetHeight, 0);
-        
-        visualizer.style.height = `${containerHeight - otherElementsHeight - 40}px`; // 40px for padding
+        if (window.innerHeight > window.innerWidth) {
+            visualizer.style.height = '250px';
+        } else {
+            visualizer.style.height = '120px';
+        }
     } else {
         visualizer.style.height = '';
     }
@@ -274,11 +275,15 @@ function setupNavbarBehavior() {
     let navbarTimeout;
 
     function hideNavbar() {
-        navbar.classList.add('hidden');
+        if (!isFullscreen) {
+            navbar.classList.add('hidden');
+        }
     }
 
     function showNavbar() {
-        navbar.classList.remove('hidden');
+        if (!isFullscreen) {
+            navbar.classList.remove('hidden');
+        }
     }
 
     window.addEventListener('scroll', () => {
