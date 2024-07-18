@@ -41,6 +41,8 @@ This project is a personal portfolio website for Joachim Rayski, a game develope
 - Added fullscreen mode for the ToneZone player
 - Improved audio visualizer responsiveness when rotating mobile devices
 - Fixed issues with the audio visualizer display on device rotation
+- Repositioned the visualizer above the progress bar for better user experience
+- Enhanced touch and mouse event handling for consistent functionality across devices
 
 ## Known Issues
 - No major known issues at this time
