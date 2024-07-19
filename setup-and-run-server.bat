@@ -57,6 +57,10 @@ start cmd /k %server_command%
 :: Wait for a moment to ensure the server has started
 timeout /t 2 >nul
 
+:: Try to open in thorium (incognito mode)
+start "" thorium --incognito "http://localhost:8000"
+if %errorlevel% equ 0 goto :end
+
 :: Try to open in Chrome (incognito mode)
 start "" chrome --incognito "http://localhost:8000"
 if %errorlevel% equ 0 goto :end
