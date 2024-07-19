@@ -63,12 +63,10 @@ function setupEventListeners() {
     audioPlayer.addEventListener('play', () => {
         isPlaying = true;
         updatePlayPauseButton();
-        updateSongTitleDisplay();
     });
     audioPlayer.addEventListener('pause', () => {
         isPlaying = false;
         updatePlayPauseButton();
-        updateSongTitleDisplay();
     });
 
     // Add visibility change event listener for hard refresh
@@ -129,10 +127,18 @@ async function loadSong(index) {
     updateSongTitleDisplay();
 }
 
+// Clear ongoing animations
+function clearAnimations() {
+    animationTimeouts.forEach(clearInterval);
+    animationTimeouts = [];
+    isAnimating = false;
+}
+
 // Play a song
 async function playSong(index) {
     await loadSong(index);
     audioPlayer.play().catch(e => console.error('Error playing audio:', e));
+    updateSongTitleDisplay();
 }
 
 // Update the active song in the list
@@ -153,11 +159,13 @@ function togglePlayPause() {
     } else {
         audioPlayer.play().catch(e => console.error('Error playing audio:', e));
     }
+    updateSongTitleDisplay();
 }
 
 // Update play/pause button appearance
 function updatePlayPauseButton() {
     playPauseBtn.textContent = isPlaying ? '❚❚' : '▶';
+    updateSongTitleDisplay();
 }
 
 // Play the previous song
@@ -214,10 +222,6 @@ function formatTime(seconds) {
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 }
 
-
-let currentDisplayText = '';
-let isAnimating = false;
-
 // Initialize the player when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
     // Get DOM elements
@@ -268,6 +272,10 @@ async function initializePlayer() {
     }
 }
 
+let currentDisplayText = '';
+let isAnimating = false;
+let animationTimeouts = [];
+
 // Update the song title display with full random character transition
 function updateSongTitleDisplay() {
     const currentSong = songs[currentSongIndex];
@@ -275,9 +283,12 @@ function updateSongTitleDisplay() {
         const status = isPlaying ? 'Playing: ' : 'Paused: ';
         const newDisplayText = status + currentSong.title;
         
-        if (newDisplayText !== currentDisplayText && !isAnimating) {
-            isAnimating = true;
+        if (newDisplayText !== currentDisplayText) {
+            // Clear any ongoing animations
+            clearAnimations();
+            
             currentDisplayText = newDisplayText;
+            isAnimating = true;
             
             // Clear previous content
             songTitleElement.innerHTML = '';

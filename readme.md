@@ -38,33 +38,8 @@ This project is a personal portfolio website for Joachim Rayski, a game develope
 2. Update the `music.json` file with the list of music files (you can use the `setup-and-run-server.bat` script to do this automatically)
 3. Host the files on a web server or use the provided `setup-and-run-server.bat` script to start a local server
 
-## Recent Improvements
-- Refactored ToneZone player JavaScript for improved reliability and performance
-- Enhanced mobile responsiveness of the ToneZone player
-- Improved handling of visibility changes (e.g., switching tabs or minimizing the browser)
-- Fixed issues with progress bar syncing and song skipping
-- Added comments to the code for better maintainability
-- Updated CSS for better touch targets on mobile devices
-- Improved keyboard accessibility
-- Replaced scrolling song title with a static display and added a text reveal effect
-
-## Known Issues
-- Audio visualizer is not yet implemented
-
-## Future Improvements
-- Implement audio visualizer using Web Audio API
-- Add keyboard navigation support for the retro browser interface
-- Implement lazy loading for embedded content in the project showcase
-- Optimize performance for slower internet connections
-- Add more interactive elements to the main portfolio page
-
 ## Contributing
 This is a personal project, but suggestions and feedback are welcome. Please report any bugs or issues you encounter.
 
 ## License
 [Specify your license here]
-
-## Development Notes
-- When making changes to the ToneZone player, ensure to test on both desktop and mobile devices
-- Pay special attention to the player's behavior when switching tabs or minimizing the browser
-- Always update this README when adding new features or making significant changes
