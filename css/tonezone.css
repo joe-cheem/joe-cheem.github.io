@@ -64,42 +64,30 @@ body {
 
 .eight-bit-display {
     width: 100%;
-    height: auto;
-    min-height: 60px;
-    max-height: 100px;
+    height: 60px;
     background-color: var(--display-color);
     border-radius: 10px;
     margin-bottom: 20px;
     display: flex;
     align-items: center;
+    justify-content: center;
     overflow: hidden;
     box-shadow: 0 0 20px rgba(138, 43, 226, 0.3);
-    padding: 10px 0;
-    position: relative;
-}
-
-.song-title-container {
-    display: inline-block;
-    white-space: nowrap;
-    position: absolute;
-    left: 100%;
-    animation: scroll-text 8s linear infinite;
 }
 
 .song-title {
     font-family: 'Press Start 2P', cursive;
-    font-size: 16px;
+    font-size: 14px;
     color: var(--display-text-color);
     text-shadow: 0 0 5px rgba(230, 230, 250, 0.5);
-}
-
-@keyframes scroll-text {
-    100% {
-        transform: translateX(0%);
-    }
-    100% {
-        transform: translateX(-800%);
-    }
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+    min-height: 1em;  /* Ensure consistent height even when empty */
 }
 
 .progress-container {
@@ -300,54 +288,6 @@ body {
     }
 
     .song-title {
-        font-size: 14px;
-    }
-}
-
-@media (max-height: 600px) and (orientation: landscape) {
-    .container {
-        flex-direction: row;
-        align-items: flex-start;
-        max-width: 100%;
-    }
-
-    .music-player {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .eight-bit-display {
-        width: 100%;
-        min-height: 40px;
-        max-height: 60px;
-        order: -1;
-    }
-
-    .player-controls {
-        width: 100%;
-        justify-content: space-around;
-    }
-
-    .song-list {
-        max-height: 150px;
-        width: 100%;
-    }
-}
-
-@media (hover: none) and (pointer: coarse) {
-    .control-btn {
-        min-width: 44px;
-        min-height: 44px;
-    }
-
-    .song-list li {
-        padding: 12px 15px;
-    }
-}
-
-@media screen and (max-height: 450px) {
-    .container {
-        height: auto;
-        min-height: 100vh;
+        font-size: 12px;
     }
 }

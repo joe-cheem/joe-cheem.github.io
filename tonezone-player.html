@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ToneZone Player</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/tonezone.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="deep-space-background"></div>
@@ -23,37 +23,28 @@
     <div class="container">
         <div class="music-player">
             <h2>ToneZone</h2>
-            
             <div class="eight-bit-display">
-                <div class="song-title-container">
-                    <div id="song-title" class="song-title"></div>
-                </div>
+                <div id="song-title" class="song-title"></div>
             </div>
-
             <div id="progressContainer" class="progress-container">
                 <div id="progress" class="progress-bar"></div>
             </div>
-
             <div id="timeDisplay" class="time-display">0:00 / 0:00</div>
-
             <div class="player-controls">
                 <button id="prevBtn" class="control-btn">⟪</button>
                 <button id="playPauseBtn" class="control-btn">▶</button>
                 <button id="nextBtn" class="control-btn">⟫</button>
             </div>
-
             <div class="volume-control desktop-only">
                 <span class="volume-icon">🔈</span>
                 <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.1" value="1">
                 <span class="volume-icon">🔊</span>
             </div>
-
             <ul id="songList" class="song-list"></ul>
         </div>
     </div>
 
     <audio id="audioPlayer"></audio>
-
     <script src="js/common.js"></script>
     <script src="js/tonezone-script.js"></script>
 </body>

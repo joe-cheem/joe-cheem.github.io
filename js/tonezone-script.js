@@ -1,5 +1,5 @@
 // Global variables
-let audioPlayer, playPauseBtn, prevBtn, nextBtn, progressContainer, progress, timeDisplay, volumeSlider, songList, songTitleContainer;
+let audioPlayer, playPauseBtn, prevBtn, nextBtn, progressContainer, progress, timeDisplay, volumeSlider, songList, songTitleElement;
 let songs = [];
 let currentSongIndex = 0;
 let isPlaying = false;
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     timeDisplay = document.getElementById('timeDisplay');
     volumeSlider = document.getElementById('volumeSlider');
     songList = document.getElementById('songList');
-    songTitleContainer = document.querySelector('.song-title-container');
+    songTitleElement = document.getElementById('song-title');
 
     initializePlayer();
 });
@@ -35,6 +35,16 @@ async function initializePlayer() {
         setupEventListeners();
         await loadSong(currentSongIndex);
         updateActiveSong();
+        
+        // Pause the audio immediately after loading
+        audioPlayer.pause();
+        isPlaying = false;
+        updatePlayPauseButton();
+        updateSongTitleDisplay();
+        
+        console.log('Player initialized');
+        console.log('Current song index:', currentSongIndex);
+        console.log('Is Playing:', isPlaying);
     } catch (error) {
         console.error('Error initializing player:', error);
     }
@@ -53,11 +63,41 @@ function setupEventListeners() {
     audioPlayer.addEventListener('play', () => {
         isPlaying = true;
         updatePlayPauseButton();
+        updateSongTitleDisplay();
     });
     audioPlayer.addEventListener('pause', () => {
         isPlaying = false;
         updatePlayPauseButton();
+        updateSongTitleDisplay();
     });
+
+    // Add visibility change event listener for hard refresh
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+}
+
+// Handle visibility change (for hard refresh)
+function handleVisibilityChange() {
+    if (document.visibilityState === 'visible') {
+        hardRefresh();
+    }
+}
+
+// Perform a hard refresh of the player
+async function hardRefresh() {
+    const currentTime = audioPlayer.currentTime;
+    const wasPlaying = !audioPlayer.paused;
+
+    await loadSong(currentSongIndex);
+    
+    audioPlayer.currentTime = currentTime;
+    
+    if (wasPlaying) {
+        audioPlayer.play();
+    }
+
+    updateProgress();
+    updateSongTitleDisplay();
+    console.log('Hard refresh performed');
 }
 
 // Populate the song list
@@ -77,9 +117,6 @@ async function loadSong(index) {
     audioPlayer.src = songs[index].file;
     updateActiveSong();
     
-    // Update the 8-bit display with the new song title
-    updateSongTitleDisplay(songs[index].title);
-    
     // Ensure metadata is loaded before continuing
     if (audioPlayer.readyState === 0) {
         await new Promise(resolve => {
@@ -89,6 +126,7 @@ async function loadSong(index) {
     
     updateDuration();
     updateProgress();
+    updateSongTitleDisplay();
 }
 
 // Play a song
@@ -176,12 +214,132 @@ function formatTime(seconds) {
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 }
 
-// Update the 8-bit display with the song title
-function updateSongTitleDisplay(title) {
-    songTitleContainer.innerHTML = `<span class="song-title">${title}</span>`;
+
+let currentDisplayText = '';
+let isAnimating = false;
+
+// Initialize the player when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Get DOM elements
+    audioPlayer = document.getElementById('audioPlayer');
+    playPauseBtn = document.getElementById('playPauseBtn');
+    prevBtn = document.getElementById('prevBtn');
+    nextBtn = document.getElementById('nextBtn');
+    progressContainer = document.getElementById('progressContainer');
+    progress = document.getElementById('progress');
+    timeDisplay = document.getElementById('timeDisplay');
+    volumeSlider = document.getElementById('volumeSlider');
+    songList = document.getElementById('songList');
+    songTitleElement = document.getElementById('song-title');
+
+    // Initialize the song title display immediately
+    songTitleElement.textContent = 'Loading...';
+
+    initializePlayer();
+});
+
+// Initialize the player
+async function initializePlayer() {
+    try {
+        const response = await fetch('music.json');
+        const data = await response.json();
+        songs = data.map(filename => ({
+            title: filename.replace('.mp3', ''),
+            file: `music/${filename}`
+        }));
+        
+        populateSongList();
+        setupEventListeners();
+        await loadSong(currentSongIndex);
+        updateActiveSong();
+        
+        // Pause the audio immediately after loading
+        audioPlayer.pause();
+        isPlaying = false;
+        updatePlayPauseButton();
+        updateSongTitleDisplay();
+        
+        console.log('Player initialized');
+        console.log('Current song index:', currentSongIndex);
+        console.log('Is Playing:', isPlaying);
+    } catch (error) {
+        console.error('Error initializing player:', error);
+        songTitleElement.textContent = 'Error loading songs';
+    }
+}
+
+// Update the song title display with full random character transition
+function updateSongTitleDisplay() {
+    const currentSong = songs[currentSongIndex];
+    if (currentSong) {
+        const status = isPlaying ? 'Playing: ' : 'Paused: ';
+        const newDisplayText = status + currentSong.title;
+        
+        if (newDisplayText !== currentDisplayText && !isAnimating) {
+            isAnimating = true;
+            currentDisplayText = newDisplayText;
+            
+            // Clear previous content
+            songTitleElement.innerHTML = '';
+            
+            // Create spans for each character
+            const spans = currentDisplayText.split('').map(char => {
+                const span = document.createElement('span');
+                span.textContent = getRandomChar(char);
+                span.dataset.char = char;
+                songTitleElement.appendChild(span);
+                return span;
+            });
+
+            // Reveal effect
+            revealCharacters(spans);
+        }
+    }
+}
+
+// Get a random character preserving case
+function getRandomChar(char) {
+    const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
+    const numbers = '0123456789';
+    const symbols = '!@#$%^&*()';
     
-    // Reset the animation
-    songTitleContainer.style.animation = 'none';
-    songTitleContainer.offsetHeight; // Trigger reflow
-    songTitleContainer.style.animation = null;
+    if (uppercaseChars.includes(char)) {
+        return uppercaseChars[Math.floor(Math.random() * uppercaseChars.length)];
+    } else if (lowercaseChars.includes(char)) {
+        return lowercaseChars[Math.floor(Math.random() * lowercaseChars.length)];
+    } else if (numbers.includes(char)) {
+        return numbers[Math.floor(Math.random() * numbers.length)];
+    } else if (symbols.includes(char)) {
+        return symbols[Math.floor(Math.random() * symbols.length)];
+    } else {
+        return char; // Keep spaces and other characters as is
+    }
+}
+
+// Reveal characters one by one with smooth transition
+function revealCharacters(spans) {
+    const revealInterval = 50; // ms between each character reveal
+    const cycleInterval = 50; // ms between each random character change
+    const cyclesPerChar = 5; // number of random cycles before revealing the actual character
+
+    let completedChars = 0;
+
+    spans.forEach((span, index) => {
+        let cyclesLeft = cyclesPerChar + index; // Stagger the start
+
+        const intervalId = setInterval(() => {
+            if (cyclesLeft > 0) {
+                span.textContent = getRandomChar(span.dataset.char);
+                cyclesLeft--;
+            } else {
+                clearInterval(intervalId);
+                span.textContent = span.dataset.char;
+                completedChars++;
+                if (completedChars === spans.length) {
+                    isAnimating = false;
+                }
+            }
+        }, cycleInterval);
+    });
 }

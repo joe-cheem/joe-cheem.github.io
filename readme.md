@@ -9,7 +9,7 @@ This project is a personal portfolio website for Joachim Rayski, a game develope
 - Retro browser-like project showcase with fullscreen capability
 - Projects categorized into "First Steps," "College," and "University" sections
 - Embedded content preview for projects (YouTube videos, itch.io games)
-- Custom ToneZone music player with audio visualizer and fullscreen mode
+- Custom ToneZone music player with text reveal effect and fullscreen mode
 - Animated section transitions and hover effects
 - Immersive space-themed background
 
@@ -31,7 +31,7 @@ This project is a personal portfolio website for Joachim Rayski, a game develope
 - HTML5
 - CSS3 (with CSS variables for easy theming and responsive design)
 - JavaScript (ES6+)
-- Web Audio API (for audio visualizer)
+- Web Audio API (for audio playback)
 
 ## Setup and Usage
 1. Ensure all music files are placed in the `music` folder
@@ -46,6 +46,7 @@ This project is a personal portfolio website for Joachim Rayski, a game develope
 - Added comments to the code for better maintainability
 - Updated CSS for better touch targets on mobile devices
 - Improved keyboard accessibility
+- Replaced scrolling song title with a static display and added a text reveal effect
 
 ## Known Issues
 - Audio visualizer is not yet implemented

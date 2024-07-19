@@ -57,10 +57,25 @@ start cmd /k %server_command%
 :: Wait for a moment to ensure the server has started
 timeout /t 2 >nul
 
-:: Open the default web browser with cache-clearing flags
-start "" "http://localhost:8000/?nocache=%RANDOM%"
+:: Try to open in Chrome (incognito mode)
+start "" chrome --incognito "http://localhost:8000"
+if %errorlevel% equ 0 goto :end
 
-echo Local server started. A new browser window should open automatically.
+:: If Chrome fails, try Firefox (private mode)
+start "" firefox -private-window "http://localhost:8000"
+if %errorlevel% equ 0 goto :end
+
+:: If Firefox fails, try Edge (InPrivate mode)
+start "" msedge -inprivate "http://localhost:8000"
+if %errorlevel% equ 0 goto :end
+
+:: If all browsers fail, provide instructions to the user
+echo Unable to automatically open a browser.
+echo Please open http://localhost:8000 manually in your preferred browser's private/incognito mode.
+
+:end
+echo Local server started. A browser window should open automatically in private/incognito mode.
+echo If not, please open http://localhost:8000 manually in your preferred browser's private/incognito mode.
 echo To stop the server, close the command prompt window that was opened.
 pause
 
