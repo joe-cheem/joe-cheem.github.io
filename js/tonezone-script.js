@@ -3,6 +3,7 @@ let audioPlayer, playPauseBtn, prevBtn, nextBtn, progressContainer, progress, ti
 let songs = [];
 let currentSongIndex = 0;
 let isPlaying = false;
+let isPlayerReady = false;
 
 // Initialize the player when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -35,15 +36,8 @@ async function initializePlayer() {
         }));
         
         populateSongList();
+        await preloadFirstSong();
         setupEventListeners();
-        await loadSong(currentSongIndex);
-        updateActiveSong();
-        
-        // Pause the audio immediately after loading
-        audioPlayer.pause();
-        isPlaying = false;
-        updatePlayPauseButton();
-        updateSongTitleDisplay();
         
         console.log('Player initialized');
         console.log('Current song index:', currentSongIndex);
@@ -51,6 +45,23 @@ async function initializePlayer() {
     } catch (error) {
         console.error('Error initializing player:', error);
         songTitleElement.textContent = 'Error loading songs';
+    }
+}
+
+// Preload the first song
+async function preloadFirstSong() {
+    if (songs.length > 0) {
+        audioPlayer.src = songs[0].file;
+        await new Promise(resolve => {
+            audioPlayer.addEventListener('loadedmetadata', () => {
+                updateDuration();
+                updateProgress();
+                updateSongTitleDisplay();
+                updateActiveSong();
+                isPlayerReady = true;
+                resolve();
+            }, { once: true });
+        });
     }
 }
 
@@ -62,7 +73,6 @@ function setupEventListeners() {
     progressContainer.addEventListener('click', seek);
     volumeSlider.addEventListener('input', adjustVolume);
     audioPlayer.addEventListener('ended', playNextSong);
-    audioPlayer.addEventListener('loadedmetadata', updateDuration);
     audioPlayer.addEventListener('timeupdate', updateProgress);
     audioPlayer.addEventListener('play', () => {
         isPlaying = true;
@@ -93,21 +103,21 @@ async function loadSong(index) {
     audioPlayer.src = songs[index].file;
     updateActiveSong();
     
-    // Ensure metadata is loaded before continuing
-    if (audioPlayer.readyState === 0) {
-        await new Promise(resolve => {
-            audioPlayer.addEventListener('loadedmetadata', resolve, { once: true });
-        });
-    }
-    
-    updateDuration();
-    updateProgress();
-    updateSongTitleDisplay();
+    await new Promise(resolve => {
+        audioPlayer.addEventListener('loadedmetadata', () => {
+            updateDuration();
+            updateProgress();
+            updateSongTitleDisplay();
+            resolve();
+        }, { once: true });
+    });
 }
 
 // Play a song
 async function playSong(index) {
-    await loadSong(index);
+    if (index !== currentSongIndex || !isPlayerReady) {
+        await loadSong(index);
+    }
     audioPlayer.play().catch(e => console.error('Error playing audio:', e));
 }
 
@@ -152,7 +162,7 @@ function playNextSong() {
 function updateProgress() {
     const duration = audioPlayer.duration;
     const currentTime = audioPlayer.currentTime;
-    if (duration > 0 && !isNaN(duration)) {
+    if (duration > 0 && !isNaN(duration) && isFinite(duration)) {
         const progressPercent = (currentTime / duration) * 100;
         progress.style.width = `${progressPercent}%`;
         timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
@@ -169,10 +179,11 @@ function updateDuration() {
 
 // Seek to a specific point in the song
 function seek(e) {
+    if (!isPlayerReady) return;
     const progressRect = progressContainer.getBoundingClientRect();
     const seekPercentage = (e.clientX - progressRect.left) / progressRect.width;
     const newTime = seekPercentage * audioPlayer.duration;
-    if (!isNaN(newTime)) {
+    if (!isNaN(newTime) && isFinite(newTime)) {
         audioPlayer.currentTime = newTime;
         updateProgress();
     }
