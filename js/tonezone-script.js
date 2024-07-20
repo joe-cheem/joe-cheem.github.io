@@ -109,6 +109,7 @@ async function loadSong(index) {
     if (!isInitializing) {
         updateSongTitleDisplay();
     }
+    scrollToCurrentSong();
 }
 
 // Clear ongoing animations
@@ -134,6 +135,18 @@ function updateActiveSong() {
             li.classList.remove('active');
         }
     });
+    scrollToCurrentSong();
+}
+
+// Scroll to the current song in the list
+function scrollToCurrentSong() {
+    const activeItem = songList.querySelector('li.active');
+    if (activeItem) {
+        activeItem.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
+    }
 }
 
 // Toggle play/pause
