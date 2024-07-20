@@ -3,11 +3,6 @@ let audioPlayer, playPauseBtn, prevBtn, nextBtn, progressContainer, progress, ti
 let songs = [];
 let currentSongIndex = 0;
 let isPlaying = false;
-let isSeeking = false;
-let currentDisplayText = '';
-let isAnimating = false;
-let lastPlayState = false;
-let animationQueue = [];
 
 // Initialize the player when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -42,10 +37,13 @@ async function initializePlayer() {
         populateSongList();
         setupEventListeners();
         await loadSong(currentSongIndex);
+        updateActiveSong();
         
-        // Force an update of the progress bar and song title display
-        updateProgress();
-        updateSongTitleDisplay(true);
+        // Pause the audio immediately after loading
+        audioPlayer.pause();
+        isPlaying = false;
+        updatePlayPauseButton();
+        updateSongTitleDisplay();
         
         console.log('Player initialized');
         console.log('Current song index:', currentSongIndex);
@@ -61,31 +59,20 @@ function setupEventListeners() {
     playPauseBtn.addEventListener('click', togglePlayPause);
     prevBtn.addEventListener('click', playPreviousSong);
     nextBtn.addEventListener('click', playNextSong);
-    progressContainer.addEventListener('touchstart', startSeeking);
-    progressContainer.addEventListener('touchmove', seek);
-    progressContainer.addEventListener('touchend', endSeeking);
-    progressContainer.addEventListener('mousedown', startSeeking);
-    progressContainer.addEventListener('mousemove', seek);
-    progressContainer.addEventListener('mouseup', endSeeking);
-    progressContainer.addEventListener('mouseleave', endSeeking);
+    progressContainer.addEventListener('click', seek);
     volumeSlider.addEventListener('input', adjustVolume);
     audioPlayer.addEventListener('ended', playNextSong);
-    audioPlayer.addEventListener('loadedmetadata', () => {
-        updateDuration();
-        updateProgress();
-    });
+    audioPlayer.addEventListener('loadedmetadata', updateDuration);
     audioPlayer.addEventListener('timeupdate', updateProgress);
     audioPlayer.addEventListener('play', () => {
         isPlaying = true;
         updatePlayPauseButton();
-        if (!lastPlayState) updateSongTitleDisplay(true);
-        lastPlayState = true;
+        updateSongTitleDisplay();
     });
     audioPlayer.addEventListener('pause', () => {
         isPlaying = false;
         updatePlayPauseButton();
-        if (lastPlayState) updateSongTitleDisplay(true);
-        lastPlayState = false;
+        updateSongTitleDisplay();
     });
 }
 
@@ -107,17 +94,15 @@ async function loadSong(index) {
     updateActiveSong();
     
     // Ensure metadata is loaded before continuing
-    await new Promise(resolve => {
-        if (audioPlayer.readyState >= 2) { // HAVE_CURRENT_DATA or higher
-            resolve();
-        } else {
+    if (audioPlayer.readyState === 0) {
+        await new Promise(resolve => {
             audioPlayer.addEventListener('loadedmetadata', resolve, { once: true });
-        }
-    });
+        });
+    }
     
     updateDuration();
     updateProgress();
-    updateSongTitleDisplay(true);
+    updateSongTitleDisplay();
 }
 
 // Play a song
@@ -163,43 +148,11 @@ function playNextSong() {
     playSong(currentSongIndex);
 }
 
-// Start seeking
-function startSeeking(e) {
-    isSeeking = true;
-    seek(e);
-}
-
-// End seeking
-function endSeeking() {
-    if (isSeeking) {
-        isSeeking = false;
-        if (isPlaying) {
-            audioPlayer.play();
-        }
-    }
-}
-
-// Seek to a specific point in the song
-function seek(e) {
-    if (!isSeeking && e.type === 'mousemove') return;
-    e.preventDefault();
-    const progressRect = progressContainer.getBoundingClientRect();
-    const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-    const seekPosition = clientX - progressRect.left;
-    const seekPercentage = seekPosition / progressRect.width;
-    const seekTime = seekPercentage * audioPlayer.duration;
-    
-    if (!isNaN(seekTime) && isFinite(seekTime)) {
-        audioPlayer.currentTime = seekTime;
-        updateProgress();
-    }
-}
-
 // Update the progress bar and time display
 function updateProgress() {
     const duration = audioPlayer.duration;
     const currentTime = audioPlayer.currentTime;
-    if (duration > 0 && !isNaN(duration) && isFinite(duration)) {
+    if (duration > 0 && !isNaN(duration)) {
         const progressPercent = (currentTime / duration) * 100;
         progress.style.width = `${progressPercent}%`;
         timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
@@ -209,8 +162,19 @@ function updateProgress() {
 // Update the duration display when metadata is loaded
 function updateDuration() {
     const duration = audioPlayer.duration;
-    if (duration > 0 && !isNaN(duration) && isFinite(duration)) {
+    if (duration > 0 && !isNaN(duration)) {
         timeDisplay.textContent = `0:00 / ${formatTime(duration)}`;
+    }
+}
+
+// Seek to a specific point in the song
+function seek(e) {
+    const progressRect = progressContainer.getBoundingClientRect();
+    const seekPercentage = (e.clientX - progressRect.left) / progressRect.width;
+    const newTime = seekPercentage * audioPlayer.duration;
+    if (!isNaN(newTime)) {
+        audioPlayer.currentTime = newTime;
+        updateProgress();
     }
 }
 
@@ -226,52 +190,36 @@ function formatTime(seconds) {
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 }
 
+let currentDisplayText = '';
+let isAnimating = false;
+
 // Update the song title display with full random character transition
-function updateSongTitleDisplay(forceUpdate = false) {
+function updateSongTitleDisplay() {
     const currentSong = songs[currentSongIndex];
     if (currentSong) {
         const status = isPlaying ? 'Playing: ' : 'Paused: ';
         const newDisplayText = status + currentSong.title;
         
-        if (newDisplayText !== currentDisplayText || forceUpdate) {
+        if (newDisplayText !== currentDisplayText && !isAnimating) {
+            isAnimating = true;
             currentDisplayText = newDisplayText;
             
-            // Immediately update the text content
-            songTitleElement.textContent = currentDisplayText;
+            // Clear previous content
+            songTitleElement.innerHTML = '';
             
-            // Queue the animation
-            animationQueue.push(newDisplayText);
-            if (!isAnimating) {
-                animateNextInQueue();
-            }
+            // Create spans for each character
+            const spans = currentDisplayText.split('').map(char => {
+                const span = document.createElement('span');
+                span.textContent = getRandomChar(char);
+                span.dataset.char = char;
+                songTitleElement.appendChild(span);
+                return span;
+            });
+
+            // Reveal effect
+            revealCharacters(spans);
         }
     }
-}
-
-// Animate the next text in the queue
-function animateNextInQueue() {
-    if (animationQueue.length === 0) {
-        isAnimating = false;
-        return;
-    }
-    
-    isAnimating = true;
-    const textToAnimate = animationQueue.shift();
-    
-    // Clear previous content
-    songTitleElement.innerHTML = '';
-    
-    // Create spans for each character
-    const spans = textToAnimate.split('').map(char => {
-        const span = document.createElement('span');
-        span.textContent = getRandomChar(char);
-        span.dataset.char = char;
-        songTitleElement.appendChild(span);
-        return span;
-    });
-
-    // Reveal effect
-    revealCharacters(spans);
 }
 
 // Get a random character preserving case
@@ -314,7 +262,7 @@ function revealCharacters(spans) {
                 span.textContent = span.dataset.char;
                 completedChars++;
                 if (completedChars === spans.length) {
-                    animateNextInQueue();
+                    isAnimating = false;
                 }
             }
         }, cycleInterval);
