@@ -176,10 +176,18 @@ function updateDuration() {
 }
 
 // Seek to a specific point in the song
-function seek(e) {
+async function seek(e) {
     const progressRect = progressContainer.getBoundingClientRect();
     const seekPercentage = (e.clientX - progressRect.left) / progressRect.width;
     const newTime = seekPercentage * audioPlayer.duration;
+    
+    // Ensure metadata is loaded before seeking
+    if (audioPlayer.readyState === 0) {
+        await new Promise(resolve => {
+            audioPlayer.addEventListener('loadedmetadata', resolve, { once: true });
+        });
+    }
+    
     if (!isNaN(newTime)) {
         audioPlayer.currentTime = newTime;
         updateProgress();
