@@ -37,13 +37,9 @@ async function initializePlayer() {
         populateSongList();
         setupEventListeners();
         await loadSong(currentSongIndex);
-        updateActiveSong();
         
-        // Pause the audio immediately after loading
-        audioPlayer.pause();
-        isPlaying = false;
-        updatePlayPauseButton();
-        updateSongTitleDisplay();
+        // Force an update of the progress bar
+        updateProgress();
         
         console.log('Player initialized');
         console.log('Current song index:', currentSongIndex);
@@ -62,7 +58,10 @@ function setupEventListeners() {
     progressContainer.addEventListener('click', seek);
     volumeSlider.addEventListener('input', adjustVolume);
     audioPlayer.addEventListener('ended', playNextSong);
-    audioPlayer.addEventListener('loadedmetadata', updateDuration);
+    audioPlayer.addEventListener('loadedmetadata', () => {
+        updateDuration();
+        updateProgress();
+    });
     audioPlayer.addEventListener('timeupdate', updateProgress);
     audioPlayer.addEventListener('play', () => {
         isPlaying = true;
@@ -94,11 +93,13 @@ async function loadSong(index) {
     updateActiveSong();
     
     // Ensure metadata is loaded before continuing
-    if (audioPlayer.readyState === 0) {
-        await new Promise(resolve => {
+    await new Promise(resolve => {
+        if (audioPlayer.readyState >= 2) { // HAVE_CURRENT_DATA or higher
+            resolve();
+        } else {
             audioPlayer.addEventListener('loadedmetadata', resolve, { once: true });
-        });
-    }
+        }
+    });
     
     updateDuration();
     updateProgress();
@@ -152,7 +153,7 @@ function playNextSong() {
 function updateProgress() {
     const duration = audioPlayer.duration;
     const currentTime = audioPlayer.currentTime;
-    if (duration > 0 && !isNaN(duration)) {
+    if (duration > 0 && !isNaN(duration) && isFinite(duration)) {
         const progressPercent = (currentTime / duration) * 100;
         progress.style.width = `${progressPercent}%`;
         timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
@@ -162,7 +163,7 @@ function updateProgress() {
 // Update the duration display when metadata is loaded
 function updateDuration() {
     const duration = audioPlayer.duration;
-    if (duration > 0 && !isNaN(duration)) {
+    if (duration > 0 && !isNaN(duration) && isFinite(duration)) {
         timeDisplay.textContent = `0:00 / ${formatTime(duration)}`;
     }
 }
@@ -172,7 +173,7 @@ function seek(e) {
     const progressRect = progressContainer.getBoundingClientRect();
     const seekPercentage = (e.clientX - progressRect.left) / progressRect.width;
     const newTime = seekPercentage * audioPlayer.duration;
-    if (!isNaN(newTime)) {
+    if (!isNaN(newTime) && isFinite(newTime)) {
         audioPlayer.currentTime = newTime;
         updateProgress();
     }
