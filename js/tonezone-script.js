@@ -3,7 +3,6 @@ let audioPlayer, playPauseBtn, prevBtn, nextBtn, progressContainer, progress, ti
 let songs = [];
 let currentSongIndex = 0;
 let isPlaying = false;
-let currentAnimation = null;
 
 // Initialize the player when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -68,12 +67,10 @@ function setupEventListeners() {
     audioPlayer.addEventListener('play', () => {
         isPlaying = true;
         updatePlayPauseButton();
-        updateSongTitleDisplay();
     });
     audioPlayer.addEventListener('pause', () => {
         isPlaying = false;
         updatePlayPauseButton();
-        updateSongTitleDisplay();
     });
 }
 
@@ -106,10 +103,18 @@ async function loadSong(index) {
     updateSongTitleDisplay();
 }
 
+// Clear ongoing animations
+function clearAnimations() {
+    animationTimeouts.forEach(clearInterval);
+    animationTimeouts = [];
+    isAnimating = false;
+}
+
 // Play a song
 async function playSong(index) {
     await loadSong(index);
     audioPlayer.play().catch(e => console.error('Error playing audio:', e));
+    updateSongTitleDisplay();
 }
 
 // Update the active song in the list
@@ -130,11 +135,13 @@ function togglePlayPause() {
     } else {
         audioPlayer.play().catch(e => console.error('Error playing audio:', e));
     }
+    updateSongTitleDisplay();
 }
 
 // Update play/pause button appearance
 function updatePlayPauseButton() {
     playPauseBtn.textContent = isPlaying ? '❚❚' : '▶';
+    updateSongTitleDisplay();
 }
 
 // Play the previous song
@@ -191,6 +198,10 @@ function formatTime(seconds) {
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 }
 
+let currentDisplayText = '';
+let isAnimating = false;
+let animationTimeouts = [];
+
 // Update the song title display with full random character transition
 function updateSongTitleDisplay() {
     const currentSong = songs[currentSongIndex];
@@ -198,25 +209,28 @@ function updateSongTitleDisplay() {
         const status = isPlaying ? 'Playing: ' : 'Paused: ';
         const newDisplayText = status + currentSong.title;
         
-        // Cancel the current animation if it's running
-        if (currentAnimation) {
-            clearTimeout(currentAnimation);
-        }
-        
-        // Clear previous content
-        songTitleElement.innerHTML = '';
-        
-        // Create spans for each character
-        const spans = newDisplayText.split('').map(char => {
-            const span = document.createElement('span');
-            span.textContent = getRandomChar(char);
-            span.dataset.char = char;
-            songTitleElement.appendChild(span);
-            return span;
-        });
+        if (newDisplayText !== currentDisplayText) {
+            // Clear any ongoing animations
+            clearAnimations();
+            
+            currentDisplayText = newDisplayText;
+            isAnimating = true;
+            
+            // Clear previous content
+            songTitleElement.innerHTML = '';
+            
+            // Create spans for each character
+            const spans = currentDisplayText.split('').map(char => {
+                const span = document.createElement('span');
+                span.textContent = getRandomChar(char);
+                span.dataset.char = char;
+                songTitleElement.appendChild(span);
+                return span;
+            });
 
-        // Start the new reveal effect
-        revealCharacters(spans);
+            // Reveal effect
+            revealCharacters(spans);
+        }
     }
 }
 
@@ -260,15 +274,10 @@ function revealCharacters(spans) {
                 span.textContent = span.dataset.char;
                 completedChars++;
                 if (completedChars === spans.length) {
-                    currentAnimation = null;
+                    isAnimating = false;
                 }
             }
         }, cycleInterval);
+        animationTimeouts.push(intervalId);
     });
-
-    // Set a timeout to clear the animation if it hasn't completed
-    currentAnimation = setTimeout(() => {
-        spans.forEach(span => span.textContent = span.dataset.char);
-        currentAnimation = null;
-    }, spans.length * revealInterval + cyclesPerChar * cycleInterval);
 }
