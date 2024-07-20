@@ -3,9 +3,6 @@ let audioPlayer, playPauseBtn, prevBtn, nextBtn, progressContainer, progress, ti
 let songs = [];
 let currentSongIndex = 0;
 let isPlaying = false;
-let isAudioInitialized = false;
-let currentDisplayText = '';
-let isAnimating = false;
 
 // Initialize the player when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -77,34 +74,6 @@ function setupEventListeners() {
         updatePlayPauseButton();
         updateSongTitleDisplay();
     });
-
-    // Add visibility change event listener for hard refresh
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-}
-
-// Handle visibility change (for hard refresh)
-function handleVisibilityChange() {
-    if (document.visibilityState === 'visible') {
-        hardRefresh();
-    }
-}
-
-// Perform a hard refresh of the player
-async function hardRefresh() {
-    const currentTime = audioPlayer.currentTime;
-    const wasPlaying = !audioPlayer.paused;
-
-    await loadSong(currentSongIndex);
-    
-    audioPlayer.currentTime = currentTime;
-    
-    if (wasPlaying) {
-        audioPlayer.play().catch(e => console.error('Error playing audio:', e));
-    }
-
-    updateProgress();
-    updateSongTitleDisplay();
-    console.log('Hard refresh performed');
 }
 
 // Populate the song list
@@ -134,7 +103,6 @@ async function loadSong(index) {
     updateDuration();
     updateProgress();
     updateSongTitleDisplay();
-    isAudioInitialized = true;
 }
 
 // Play a song
@@ -156,9 +124,6 @@ function updateActiveSong() {
 
 // Toggle play/pause
 function togglePlayPause() {
-    if (!isAudioInitialized) {
-        initializeAudio();
-    }
     if (isPlaying) {
         audioPlayer.pause();
     } else {
@@ -187,7 +152,7 @@ function playNextSong() {
 function updateProgress() {
     const duration = audioPlayer.duration;
     const currentTime = audioPlayer.currentTime;
-    if (duration > 0 && !isNaN(duration) && isFinite(duration)) {
+    if (duration > 0 && !isNaN(duration)) {
         const progressPercent = (currentTime / duration) * 100;
         progress.style.width = `${progressPercent}%`;
         timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
@@ -204,13 +169,10 @@ function updateDuration() {
 
 // Seek to a specific point in the song
 function seek(e) {
-    if (!isAudioInitialized) {
-        initializeAudio();
-    }
     const progressRect = progressContainer.getBoundingClientRect();
     const seekPercentage = (e.clientX - progressRect.left) / progressRect.width;
     const newTime = seekPercentage * audioPlayer.duration;
-    if (!isNaN(newTime) && isFinite(newTime)) {
+    if (!isNaN(newTime)) {
         audioPlayer.currentTime = newTime;
         updateProgress();
     }
@@ -228,13 +190,8 @@ function formatTime(seconds) {
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 }
 
-// Initialize audio on first user interaction
-function initializeAudio() {
-    audioPlayer.play().then(() => {
-        audioPlayer.pause();
-        isAudioInitialized = true;
-    }).catch(e => console.error('Error initializing audio:', e));
-}
+let currentDisplayText = '';
+let isAnimating = false;
 
 // Update the song title display with full random character transition
 function updateSongTitleDisplay() {
