@@ -9,6 +9,11 @@
 6. [Technologies Used](#technologies-used)
 7. [ToneZone Player](#tonezone-player)
 8. [Contributing](#contributing)
+<<<<<<< HEAD
+9. [License](#license)
+10. [The Void](#the-void)
+=======
+>>>>>>> 8a100e3bcbc96fc677f5260b06918824694facb0
 
 ## Introduction
 This repository contains the source code for Joachim Rayski's portfolio website. The site showcases Joachim's work as a game developer and musician, featuring a project browser for his games and a custom music player called ToneZone.
@@ -32,19 +37,22 @@ project-root/
 ├── css/
 │   ├── main.css
 │   ├── index.css
-│   └── tonezone.css
+│   ├── tonezone.css
+│   └── existential-bonzi.css
 │
 ├── js/
 │   ├── common.js
 │   ├── index-script.js
-│   └── tonezone-script.js
+│   ├── tonezone-script.js
+│   └── existential-bonzi.js
 │
 ├── music/
 │   └── (various .mp3 files)
 │
 └── images/
     ├── background.png
-    └── banner.png
+    ├── banner.png
+    └── Bonzi_Buddy.webp
 ```
 
 ## Setup and Installation
@@ -77,3 +85,15 @@ To add or remove songs from the ToneZone player:
 
 ## Contributing
 This is a personal portfolio project and is not open for direct contributions. However, if you have suggestions or find any issues, please feel free to open an issue in the repository.
+<<<<<<< HEAD
+
+## License
+[Insert your chosen license here]
+
+## The Void
+In the quiet nook where shadows convene,
+A gentle touch brings forth the unseen.
+In the corner where edges subtly align,
+Five strokes of curiosity will make the hidden shine.
+=======
+>>>>>>> 8a100e3bcbc96fc677f5260b06918824694facb0
