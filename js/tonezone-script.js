@@ -4,6 +4,7 @@ let songs = [];
 let currentSongIndex = 0;
 let isPlaying = false;
 let isAudioInitialized = false;
+let isInitializing = false;
 
 // Initialize the player when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -66,12 +67,16 @@ function setupEventListeners() {
     audioPlayer.addEventListener('loadedmetadata', updateDuration);
     audioPlayer.addEventListener('timeupdate', updateProgress);
     audioPlayer.addEventListener('play', () => {
-        isPlaying = true;
-        updatePlayPauseButton();
+        if (!isInitializing) {
+            isPlaying = true;
+            updatePlayPauseButton();
+        }
     });
     audioPlayer.addEventListener('pause', () => {
-        isPlaying = false;
-        updatePlayPauseButton();
+        if (!isInitializing) {
+            isPlaying = false;
+            updatePlayPauseButton();
+        }
     });
 }
 
@@ -101,12 +106,14 @@ async function loadSong(index) {
     
     updateDuration();
     updateProgress();
-    updateSongTitleDisplay();
+    if (!isInitializing) {
+        updateSongTitleDisplay();
+    }
 }
 
 // Clear ongoing animations
 function clearAnimations() {
-    animationTimeouts.forEach(clearInterval);
+    animationTimeouts.forEach(clearTimeout);
     animationTimeouts = [];
     isAnimating = false;
 }
@@ -142,7 +149,9 @@ function togglePlayPause() {
 // Update play/pause button appearance
 function updatePlayPauseButton() {
     playPauseBtn.textContent = isPlaying ? '❚❚' : '▶';
-    updateSongTitleDisplay();
+    if (!isInitializing) {
+        updateSongTitleDisplay();
+    }
 }
 
 // Play the previous song
@@ -179,8 +188,10 @@ function updateDuration() {
 // Initialize audio and seek to a specific point in the song
 async function initializeAndSeek(e) {
     if (!isAudioInitialized) {
+        isInitializing = true;
         await initializeAudioPlayback();
         isAudioInitialized = true;
+        isInitializing = false;
     }
     seek(e);
 }
