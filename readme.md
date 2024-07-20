@@ -9,7 +9,6 @@
 6. [Technologies Used](#technologies-used)
 7. [ToneZone Player](#tonezone-player)
 8. [Contributing](#contributing)
-9. [License](#license)
 
 ## Introduction
 This repository contains the source code for Joachim Rayski's portfolio website. The site showcases Joachim's work as a game developer and musician, featuring a project browser for his games and a custom music player called ToneZone.
