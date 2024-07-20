@@ -4,6 +4,10 @@ let songs = [];
 let currentSongIndex = 0;
 let isPlaying = false;
 let isSeeking = false;
+let currentDisplayText = '';
+let isAnimating = false;
+let lastPlayState = false;
+let animationQueue = [];
 
 // Initialize the player when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -39,8 +43,9 @@ async function initializePlayer() {
         setupEventListeners();
         await loadSong(currentSongIndex);
         
-        // Force an update of the progress bar
+        // Force an update of the progress bar and song title display
         updateProgress();
+        updateSongTitleDisplay(true);
         
         console.log('Player initialized');
         console.log('Current song index:', currentSongIndex);
@@ -73,12 +78,14 @@ function setupEventListeners() {
     audioPlayer.addEventListener('play', () => {
         isPlaying = true;
         updatePlayPauseButton();
-        updateSongTitleDisplay();
+        if (!lastPlayState) updateSongTitleDisplay(true);
+        lastPlayState = true;
     });
     audioPlayer.addEventListener('pause', () => {
         isPlaying = false;
         updatePlayPauseButton();
-        updateSongTitleDisplay();
+        if (lastPlayState) updateSongTitleDisplay(true);
+        lastPlayState = false;
     });
 }
 
@@ -110,7 +117,7 @@ async function loadSong(index) {
     
     updateDuration();
     updateProgress();
-    updateSongTitleDisplay();
+    updateSongTitleDisplay(true);
 }
 
 // Play a song
@@ -166,7 +173,9 @@ function startSeeking(e) {
 function endSeeking() {
     if (isSeeking) {
         isSeeking = false;
-        audioPlayer.play();
+        if (isPlaying) {
+            audioPlayer.play();
+        }
     }
 }
 
@@ -175,16 +184,14 @@ function seek(e) {
     if (!isSeeking && e.type === 'mousemove') return;
     e.preventDefault();
     const progressRect = progressContainer.getBoundingClientRect();
-    const seekPosition = (e.type.includes('touch') ? e.touches[0].clientX : e.clientX) - progressRect.left;
+    const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+    const seekPosition = clientX - progressRect.left;
     const seekPercentage = seekPosition / progressRect.width;
     const seekTime = seekPercentage * audioPlayer.duration;
     
     if (!isNaN(seekTime) && isFinite(seekTime)) {
         audioPlayer.currentTime = seekTime;
         updateProgress();
-        if (isPlaying) {
-            audioPlayer.play();
-        }
     }
 }
 
@@ -219,36 +226,52 @@ function formatTime(seconds) {
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 }
 
-let currentDisplayText = '';
-let isAnimating = false;
-
 // Update the song title display with full random character transition
-function updateSongTitleDisplay() {
+function updateSongTitleDisplay(forceUpdate = false) {
     const currentSong = songs[currentSongIndex];
     if (currentSong) {
         const status = isPlaying ? 'Playing: ' : 'Paused: ';
         const newDisplayText = status + currentSong.title;
         
-        if (newDisplayText !== currentDisplayText && !isAnimating) {
-            isAnimating = true;
+        if (newDisplayText !== currentDisplayText || forceUpdate) {
             currentDisplayText = newDisplayText;
             
-            // Clear previous content
-            songTitleElement.innerHTML = '';
+            // Immediately update the text content
+            songTitleElement.textContent = currentDisplayText;
             
-            // Create spans for each character
-            const spans = currentDisplayText.split('').map(char => {
-                const span = document.createElement('span');
-                span.textContent = getRandomChar(char);
-                span.dataset.char = char;
-                songTitleElement.appendChild(span);
-                return span;
-            });
-
-            // Reveal effect
-            revealCharacters(spans);
+            // Queue the animation
+            animationQueue.push(newDisplayText);
+            if (!isAnimating) {
+                animateNextInQueue();
+            }
         }
     }
+}
+
+// Animate the next text in the queue
+function animateNextInQueue() {
+    if (animationQueue.length === 0) {
+        isAnimating = false;
+        return;
+    }
+    
+    isAnimating = true;
+    const textToAnimate = animationQueue.shift();
+    
+    // Clear previous content
+    songTitleElement.innerHTML = '';
+    
+    // Create spans for each character
+    const spans = textToAnimate.split('').map(char => {
+        const span = document.createElement('span');
+        span.textContent = getRandomChar(char);
+        span.dataset.char = char;
+        songTitleElement.appendChild(span);
+        return span;
+    });
+
+    // Reveal effect
+    revealCharacters(spans);
 }
 
 // Get a random character preserving case
@@ -291,7 +314,7 @@ function revealCharacters(spans) {
                 span.textContent = span.dataset.char;
                 completedChars++;
                 if (completedChars === spans.length) {
-                    isAnimating = false;
+                    animateNextInQueue();
                 }
             }
         }, cycleInterval);
