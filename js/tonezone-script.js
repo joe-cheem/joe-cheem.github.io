@@ -3,6 +3,7 @@ let audioPlayer, playPauseBtn, prevBtn, nextBtn, progressContainer, progress, ti
 let songs = [];
 let currentSongIndex = 0;
 let isPlaying = false;
+let isAudioInitialized = false;
 
 // Initialize the player when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -59,7 +60,7 @@ function setupEventListeners() {
     playPauseBtn.addEventListener('click', togglePlayPause);
     prevBtn.addEventListener('click', playPreviousSong);
     nextBtn.addEventListener('click', playNextSong);
-    progressContainer.addEventListener('click', seek);
+    progressContainer.addEventListener('click', initializeAndSeek);
     volumeSlider.addEventListener('input', adjustVolume);
     audioPlayer.addEventListener('ended', playNextSong);
     audioPlayer.addEventListener('loadedmetadata', updateDuration);
@@ -175,19 +176,27 @@ function updateDuration() {
     }
 }
 
+// Initialize audio and seek to a specific point in the song
+async function initializeAndSeek(e) {
+    if (!isAudioInitialized) {
+        await initializeAudioPlayback();
+        isAudioInitialized = true;
+    }
+    seek(e);
+}
+
+// Initialize audio playback to satisfy mobile browser requirements
+async function initializeAudioPlayback() {
+    await audioPlayer.play();
+    audioPlayer.pause();
+}
+
 // Seek to a specific point in the song
-async function seek(e) {
+function seek(e) {
     const progressRect = progressContainer.getBoundingClientRect();
     const seekPercentage = (e.clientX - progressRect.left) / progressRect.width;
     const newTime = seekPercentage * audioPlayer.duration;
-
-    // Ensure metadata is loaded before seeking
-    if (audioPlayer.readyState === 0) {
-        await new Promise(resolve => {
-            audioPlayer.addEventListener('loadedmetadata', resolve, { once: true });
-        });
-    }
-
+    
     if (!isNaN(newTime)) {
         audioPlayer.currentTime = newTime;
         updateProgress();
