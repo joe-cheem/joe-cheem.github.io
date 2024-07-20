@@ -180,17 +180,21 @@ async function seek(e) {
     const progressRect = progressContainer.getBoundingClientRect();
     const seekPercentage = (e.clientX - progressRect.left) / progressRect.width;
     const newTime = seekPercentage * audioPlayer.duration;
-    
+
     // Ensure metadata is loaded before seeking
     if (audioPlayer.readyState === 0) {
         await new Promise(resolve => {
             audioPlayer.addEventListener('loadedmetadata', resolve, { once: true });
         });
     }
-    
+
     if (!isNaN(newTime)) {
         audioPlayer.currentTime = newTime;
         updateProgress();
+        // If playing, ensure the playback continues correctly
+        if (isPlaying) {
+            audioPlayer.play().catch(e => console.error('Error playing audio:', e));
+        }
     }
 }
 
