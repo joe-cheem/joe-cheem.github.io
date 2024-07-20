@@ -3,6 +3,7 @@ let audioPlayer, playPauseBtn, prevBtn, nextBtn, progressContainer, progress, ti
 let songs = [];
 let currentSongIndex = 0;
 let isPlaying = false;
+let isSeeking = false;
 
 // Initialize the player when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -55,7 +56,13 @@ function setupEventListeners() {
     playPauseBtn.addEventListener('click', togglePlayPause);
     prevBtn.addEventListener('click', playPreviousSong);
     nextBtn.addEventListener('click', playNextSong);
-    progressContainer.addEventListener('click', seek);
+    progressContainer.addEventListener('touchstart', startSeeking);
+    progressContainer.addEventListener('touchmove', seek);
+    progressContainer.addEventListener('touchend', endSeeking);
+    progressContainer.addEventListener('mousedown', startSeeking);
+    progressContainer.addEventListener('mousemove', seek);
+    progressContainer.addEventListener('mouseup', endSeeking);
+    progressContainer.addEventListener('mouseleave', endSeeking);
     volumeSlider.addEventListener('input', adjustVolume);
     audioPlayer.addEventListener('ended', playNextSong);
     audioPlayer.addEventListener('loadedmetadata', () => {
@@ -149,6 +156,38 @@ function playNextSong() {
     playSong(currentSongIndex);
 }
 
+// Start seeking
+function startSeeking(e) {
+    isSeeking = true;
+    seek(e);
+}
+
+// End seeking
+function endSeeking() {
+    if (isSeeking) {
+        isSeeking = false;
+        audioPlayer.play();
+    }
+}
+
+// Seek to a specific point in the song
+function seek(e) {
+    if (!isSeeking && e.type === 'mousemove') return;
+    e.preventDefault();
+    const progressRect = progressContainer.getBoundingClientRect();
+    const seekPosition = (e.type.includes('touch') ? e.touches[0].clientX : e.clientX) - progressRect.left;
+    const seekPercentage = seekPosition / progressRect.width;
+    const seekTime = seekPercentage * audioPlayer.duration;
+    
+    if (!isNaN(seekTime) && isFinite(seekTime)) {
+        audioPlayer.currentTime = seekTime;
+        updateProgress();
+        if (isPlaying) {
+            audioPlayer.play();
+        }
+    }
+}
+
 // Update the progress bar and time display
 function updateProgress() {
     const duration = audioPlayer.duration;
@@ -165,17 +204,6 @@ function updateDuration() {
     const duration = audioPlayer.duration;
     if (duration > 0 && !isNaN(duration) && isFinite(duration)) {
         timeDisplay.textContent = `0:00 / ${formatTime(duration)}`;
-    }
-}
-
-// Seek to a specific point in the song
-function seek(e) {
-    const progressRect = progressContainer.getBoundingClientRect();
-    const seekPercentage = (e.clientX - progressRect.left) / progressRect.width;
-    const newTime = seekPercentage * audioPlayer.duration;
-    if (!isNaN(newTime) && isFinite(newTime)) {
-        audioPlayer.currentTime = newTime;
-        updateProgress();
     }
 }
 
