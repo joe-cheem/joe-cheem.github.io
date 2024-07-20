@@ -200,10 +200,6 @@ function seek(e) {
     if (!isNaN(newTime)) {
         audioPlayer.currentTime = newTime;
         updateProgress();
-        // If playing, ensure the playback continues correctly
-        if (isPlaying) {
-            audioPlayer.play().catch(e => console.error('Error playing audio:', e));
-        }
     }
 }
 
