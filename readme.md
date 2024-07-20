@@ -10,6 +10,7 @@ This project is a personal portfolio website for Joachim Rayski, a game develope
 - Projects categorized into "First Steps," "College," and "University" sections
 - Embedded content preview for projects (YouTube videos, itch.io games)
 - Custom ToneZone music player with text reveal effect and fullscreen mode
+- Improved mobile compatibility and responsiveness for the ToneZone player
 - Animated section transitions and hover effects
 - Immersive space-themed background
 
@@ -37,6 +38,11 @@ This project is a personal portfolio website for Joachim Rayski, a game develope
 1. Ensure all music files are placed in the `music` folder
 2. Update the `music.json` file with the list of music files (you can use the `setup-and-run-server.bat` script to do this automatically)
 3. Host the files on a web server or use the provided `setup-and-run-server.bat` script to start a local server
+
+## Recent Updates
+- Improved ToneZone player responsiveness on mobile devices
+- Fixed issues with audio initialization and playback on mobile browsers
+- Enhanced visibility change handling for smoother transitions when switching tabs or minimizing the browser
 
 ## Contributing
 This is a personal project, but suggestions and feedback are welcome. Please report any bugs or issues you encounter.
