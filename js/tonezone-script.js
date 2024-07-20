@@ -211,8 +211,16 @@ async function initializeAndSeek(e) {
 
 // Initialize audio playback to satisfy mobile browser requirements
 async function initializeAudioPlayback() {
-    await audioPlayer.play();
-    audioPlayer.pause();
+    try {
+        // Check if the audio is already playing to avoid unnecessary play/pause
+        if (isPlaying) {
+            return; // Audio is already playing, so do nothing
+        }
+        await audioPlayer.play();
+        audioPlayer.pause(); // Ensure the audio is paused immediately after starting
+    } catch (error) {
+        console.error('Error during audio playback initialization:', error);
+    }
 }
 
 // Seek to a specific point in the song
