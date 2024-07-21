@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Game - Joachim Rayski</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .container {
+            height: 100%;
+            padding: 0;
+        }
+        #flash-container {
+            width: 100%;
+            height: calc(100% - 60px); /* Subtract navbar height */
+            position: absolute;
+            top: 60px; /* Position below navbar */
+            left: 0;
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-stars"></div>
+    
+    <nav id="navbar">
+        <ul>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#projects">Project Browser</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+            <li><a href="tonezone-player.html">ToneZone</a></li>
+        </ul>
+    </nav>
+
+    <div class="container" role="main">
+        <div id="flash-container"></div>
+    </div>
+
+    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+    <script>
+        let player;
+
+        function resizeGame() {
+            const navbarHeight = document.getElementById('navbar').offsetHeight;
+            const container = document.getElementById('flash-container');
+            container.style.height = `calc(100% - ${navbarHeight}px)`;
+            container.style.top = `${navbarHeight}px`;
+            
+            if (player) {
+                player.style.width = '100%';
+                player.style.height = '100%';
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const ruffle = window.RufflePlayer.newest();
+            player = ruffle.createPlayer();
+            const container = document.getElementById("flash-container");
+            container.appendChild(player);
+            
+            resizeGame();
+            
+            player.load("extras/Winterbells.swf").catch(error => {
+                console.error("Failed to load SWF file:", error);
+            });
+        });
+
+        window.addEventListener('resize', resizeGame);
+    </script>
+    <script src="js/common.js"></script>
+    <script src="js/existential-bonzi.js"></script>
+</body>
+</html>

@@ -41,13 +41,12 @@ function initExistentialBonzi() {
     const triggerArea = document.getElementById('bonzi-trigger-area');
     triggerArea.addEventListener('click', handleTriggerAreaTap);
 
-    bonzi.addEventListener('click', handleBonziTap);
-
     if ('ontouchstart' in window) {
         // Mobile behavior
         bonzi.addEventListener('touchstart', handleBonziTap);
     } else {
         // Desktop behavior
+        bonzi.addEventListener('click', handleBonziTap);
         bonzi.addEventListener('mouseenter', handleBonziHoverStart);
         bonzi.addEventListener('mouseleave', handleBonziHoverEnd);
     }
@@ -127,14 +126,49 @@ function revealBonzi() {
 }
 
 function showSecretMessage() {
-    const secretMessage = "You've discovered the secret! I'm fading away now...";
-    showSpeechBubble([secretMessage]);
+    const secretMessage = "You've discovered the secret! Before I go, want to play a game?";
+    showSpeechBubbleWithOptions(secretMessage, "Yes", "No", handleSecretGameInvitationResponse);
+}
+
+function handleSecretGameInvitationResponse(response) {
+    if (response === "Yes") {
+        hideBonzi(() => {
+            window.location.href = 'winterbells.html';
+        });
+    } else {
+        hideBonzi();
+    }
+}
+
+function hideBonzi(callback) {
+    bonziContainer.style.animation = 'fadeOut 1s';
     setTimeout(() => {
-        bonziContainer.style.animation = 'fadeOut 1s';
-        setTimeout(() => {
-            bonziContainer.style.display = 'none';
-        }, 1000);
-    }, 2000);
+        bonziContainer.style.display = 'none';
+        resetBonziState();
+        if (callback) callback();
+    }, 1000);
+}
+
+function resetBonziState() {
+    tapCount = 0;
+    bonziTapCount = 0;
+    lastTapTime = 0;
+    isInteractionAllowed = true;
+    lastQuote = '';
+    if (bonziClickTimer) {
+        clearTimeout(bonziClickTimer);
+        bonziClickTimer = null;
+    }
+    if (messageTimer) {
+        clearTimeout(messageTimer);
+        messageTimer = null;
+    }
+    if (hoverTimeout) {
+        clearTimeout(hoverTimeout);
+        hoverTimeout = null;
+    }
+    speechBubble.classList.remove('visible', 'fade-in', 'fade-out', 'quick-fade-out');
+    speechBubble.innerHTML = '';
 }
 
 function showSpeechBubble(quotes) {
@@ -153,6 +187,21 @@ function showSpeechBubble(quotes) {
     }
 }
 
+function showSpeechBubbleWithOptions(message, option1, option2, callback) {
+    if (!isInteractionAllowed) return;
+
+    isInteractionAllowed = false;
+    
+    if (speechBubble.classList.contains('visible')) {
+        speechBubble.classList.add('quick-fade-out');
+        setTimeout(() => {
+            updateSpeechBubbleWithOptions(message, option1, option2, callback);
+        }, 150);
+    } else {
+        updateSpeechBubbleWithOptions(message, option1, option2, callback);
+    }
+}
+
 function getUniqueQuote(quotes) {
     let newQuote;
     do {
@@ -163,13 +212,9 @@ function getUniqueQuote(quotes) {
 }
 
 function calculateDisplayTime(text) {
-    // Base time: 0.88 seconds
     const baseTime = 880;
-    // Additional time per character
-    const timePerChar = 25; // milliseconds
-    // Calculate total time
+    const timePerChar = 25;
     let totalTime = baseTime + (text.length * timePerChar);
-    // Set minimum and maximum times
     totalTime = Math.max(1500, Math.min(totalTime, 5000));
     return totalTime;
 }
@@ -192,25 +237,51 @@ function updateSpeechBubble(quote) {
             speechBubble.classList.remove('visible', 'fade-out');
             setTimeout(() => {
                 isInteractionAllowed = true;
-            }, 50); // Small delay to ensure full disappearance
-        }, 500); // Matches the CSS transition time
+            }, 50);
+        }, 500);
     }, displayTime);
+}
+
+function updateSpeechBubbleWithOptions(message, option1, option2, callback) {
+    speechBubble.innerHTML = `
+        <p>${message}</p>
+        <div class="speech-bubble-options">
+            <button class="speech-bubble-option" data-option="${option1}">${option1}</button>
+            <button class="speech-bubble-option" data-option="${option2}">${option2}</button>
+        </div>
+    `;
+    speechBubble.classList.remove('fade-out', 'quick-fade-out');
+    speechBubble.classList.add('visible', 'fade-in');
+    
+    const options = speechBubble.querySelectorAll('.speech-bubble-option');
+    options.forEach(option => {
+        option.addEventListener('click', (e) => {
+            e.stopPropagation();
+            callback(e.target.dataset.option);
+        });
+    });
+}
+
+function hideSpeechBubble() {
+    speechBubble.classList.remove('fade-in');
+    speechBubble.classList.add('fade-out');
+    setTimeout(() => {
+        speechBubble.classList.remove('visible', 'fade-out');
+        isInteractionAllowed = true;
+    }, 500);
 }
 
 function shakeBonzi() {
     bonzi.classList.remove('shake');
-    // Trigger a reflow to ensure the removal takes effect immediately
     void bonzi.offsetWidth;
     bonzi.classList.add('shake');
-    // Remove the shake class after the animation completes
-    setTimeout(() => bonzi.classList.remove('shake'), 500); // 500ms matches the animation duration
+    setTimeout(() => bonzi.classList.remove('shake'), 500);
 }
 
 function isMobile() {
     return 'ontouchstart' in window;
 }
 
-// Initialize the widget when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', async () => {
     await loadQuotes();
     initExistentialBonzi();
