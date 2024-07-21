@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Navbar functionality
     const navbar = document.getElementById('navbar');
     const header = document.querySelector('header');
     let lastScrollTop = 0;
@@ -47,7 +48,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-
             document.querySelector(this.getAttribute('href')).scrollIntoView({
                 behavior: 'smooth'
             });
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             title: "A Bapwac Christmas Tale",
             description: "Game Jam project created during college.",
-            embed: '<iframe height="167" frameborder="0" src="https://itch.io/embed/345531" width="552"><a href="https://priestleycgd.itch.io/a-bapwac-christmas-tale">A Bapwac Christmas Tale by PriestleyCGD</a></iframe>',
+            embed: '<iframe src="https://itch.io/embed/345531" width="552" height="167" frameborder="0" style="background-color: #ffffff;"><a href="https://priestleycgd.itch.io/a-bapwac-christmas-tale">A Bapwac Christmas Tale by PriestleyCGD</a></iframe>',
             link: "https://priestleycgd.itch.io/a-bapwac-christmas-tale",
             category: "College"
         },
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
             title: "Ace Cuppa",
             description: "Final Major Project for college.",
             link: "https://fito300.itch.io/ace-cuppa",
-            embed: '<iframe width="552" height="167" frameborder="0" src="https://itch.io/embed/268773"><a href="https://fito300.itch.io/ace-cuppa">Ace Cuppa by Fito300</a></iframe>',
+            embed: '<iframe src="https://itch.io/embed/268773" width="552" height="167" frameborder="0" style="background-color: #ffffff;"><a href="https://fito300.itch.io/ace-cuppa">Ace Cuppa by Fito300</a></iframe>',
             category: "College"
         },
         {
@@ -113,27 +113,43 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     ];
 
+    // Create project tabs
     function createProjectTabs() {
-        const categories = {
-            "First Steps": document.querySelector('.tab-section:nth-child(1)'),
-            "College": document.querySelector('.tab-section:nth-child(2)'),
-            "University": document.querySelector('.tab-section:nth-child(3)')
-        };
+        const tabContainer = document.querySelector('.project-tabs');
+        tabContainer.innerHTML = ''; // Clear existing tabs
 
-        projects.forEach((project, index) => {
-            const tab = document.createElement('button');
-            tab.className = 'project-tab';
-            tab.textContent = project.title;
-            tab.addEventListener('click', (e) => {
-                e.preventDefault();
-                showProjectContent(index);
+        const categories = ["First Steps", "College", "University"];
+        
+        categories.forEach(category => {
+            const tabSection = document.createElement('div');
+            tabSection.className = 'tab-section';
+            
+            const categoryHeader = document.createElement('h3');
+            categoryHeader.textContent = category;
+            tabSection.appendChild(categoryHeader);
+
+            const projectTabs = document.createElement('div');
+            projectTabs.className = 'project-tabs-inner';
+
+            projects.filter(project => project.category === category).forEach((project, index) => {
+                const tab = document.createElement('button');
+                tab.className = 'project-tab';
+                tab.textContent = project.title;
+                tab.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showProjectContent(projects.indexOf(project));
+                });
+                projectTabs.appendChild(tab);
             });
-            categories[project.category].appendChild(tab);
+
+            tabSection.appendChild(projectTabs);
+            tabContainer.appendChild(tabSection);
         });
     }
 
     let currentProjectLinkHandler = null; // Variable to store the event handler function
 
+    // Display project content
     function showProjectContent(index) {
         const project = projects[index];
         const tabs = document.querySelectorAll('.project-tab');
@@ -183,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-
+    // Display preview for links
     function showPreview(url) {
         const previewFrame = document.getElementById('preview-frame');
         const previewLink = document.getElementById('preview-link');
@@ -216,12 +232,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const previewFrame = document.getElementById('preview-frame');
         const previewLink = document.getElementById('preview-link');
         const embedContainer = document.getElementById('embed-container');
+    
         previewFrame.style.display = 'none';
         previewLink.style.display = 'none';
-        embedContainer.style.display = 'block';
+        embedContainer.style.display = 'flex';
+    
+        // Remove inline styles from the iframe
+        embedCode = embedCode.replace(/style="[^"]*"/g, '');
+    
         embedContainer.innerHTML = embedCode;
     }
-
+    
+    // Display link for Google Drive content
     function showDriveLink(url, text) {
         const previewFrame = document.getElementById('preview-frame');
         const previewLink = document.getElementById('preview-link');
@@ -233,6 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
         previewLink.textContent = `View ${text}`;
     }
 
+    // Clear preview area
     function clearPreview() {
         const previewFrame = document.getElementById('preview-frame');
         const previewLink = document.getElementById('preview-link');
@@ -248,22 +271,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const fullscreenToggle = document.getElementById('fullscreen-toggle');
     const projectBrowser = document.getElementById('project-browser');
 
-    fullscreenToggle.addEventListener('click', () => {
-        projectBrowser.classList.toggle('fullscreen');
-        if (projectBrowser.classList.contains('fullscreen')) {
-            fullscreenToggle.style.transform = 'scale(0.8)';
-        } else {
-            fullscreenToggle.style.transform = 'scale(1)';
-        }
-    });
+    fullscreenToggle.addEventListener('click', toggleFullscreen);
 
     // Allow exiting fullscreen with Escape key
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && projectBrowser.classList.contains('fullscreen')) {
-            projectBrowser.classList.remove('fullscreen');
-            fullscreenToggle.style.transform = 'scale(1)';
-        }
-    });
+    document.addEventListener('keydown', handleEscapeKey);
 
     // Initialize project browser
     createProjectTabs();
@@ -281,4 +292,74 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initial call to set navbar position
     handleScroll();
+
+    // Fullscreen functionality implementation
+    function toggleFullscreen() {
+        if (isFullscreenSupported()) {
+            if (!document.fullscreenElement) {
+                enterFullscreen();
+            } else {
+                exitFullscreen();
+            }
+        } else {
+            // Fallback for unsupported browsers
+            toggleCustomFullscreen();
+        }
+    }
+
+    function isFullscreenSupported() {
+        return !!(
+            document.fullscreenEnabled ||
+            document.webkitFullscreenEnabled ||
+            document.mozFullScreenEnabled ||
+            document.msFullscreenEnabled
+        );
+    }
+
+    function enterFullscreen() {
+        if (projectBrowser.requestFullscreen) {
+            projectBrowser.requestFullscreen();
+        } else if (projectBrowser.webkitRequestFullscreen) {
+            projectBrowser.webkitRequestFullscreen();
+        } else if (projectBrowser.mozRequestFullScreen) {
+            projectBrowser.mozRequestFullScreen();
+        } else if (projectBrowser.msRequestFullscreen) {
+            projectBrowser.msRequestFullscreen();
+        }
+        projectBrowser.classList.add('fullscreen');
+        fullscreenToggle.style.transform = 'scale(0.8)';
+    }
+
+    function exitFullscreen() {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+        projectBrowser.classList.remove('fullscreen');
+        fullscreenToggle.style.transform = 'scale(1)';
+    }
+
+    function toggleCustomFullscreen() {
+        projectBrowser.classList.toggle('custom-fullscreen');
+        if (projectBrowser.classList.contains('custom-fullscreen')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    }
+
+    function handleEscapeKey(e) {
+        if (e.key === 'Escape' && (document.fullscreenElement || projectBrowser.classList.contains('custom-fullscreen'))) {
+            if (document.fullscreenElement) {
+                exitFullscreen();
+            } else {
+                toggleCustomFullscreen();
+            }
+        }
+    }
 });
