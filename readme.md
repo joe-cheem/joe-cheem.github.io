@@ -84,7 +84,7 @@ To add or remove songs from the ToneZone player:
 This is a personal portfolio project and is not open for direct contributions. However, if you have suggestions or find any issues, please feel free to open an issue in the repository.
 
 ## License
-This project is licensed under the MIT License. See the [LICENSE](https://github.com/username/repository-name/blob/main/LICENSE.md) file for details.
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/joe-cheem/joe-cheem.github.io/blob/main/LICENSE.md) file for details.
 
 ## The Void
 In the quiet nook where shadows convene,
