@@ -69,6 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
             title: "A Bapwac Christmas Tale",
             description: "Game Jam project created during college.",
             embed: '<iframe height="167" frameborder="0" src="https://itch.io/embed/345531" width="552"><a href="https://priestleycgd.itch.io/a-bapwac-christmas-tale">A Bapwac Christmas Tale by PriestleyCGD</a></iframe>',
+            link: "https://priestleycgd.itch.io/a-bapwac-christmas-tale",
             category: "College"
         },
         {
@@ -80,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             title: "Ace Cuppa",
             description: "Final Major Project for college.",
+            link: "https://fito300.itch.io/ace-cuppa",
             embed: '<iframe width="552" height="167" frameborder="0" src="https://itch.io/embed/268773"><a href="https://fito300.itch.io/ace-cuppa">Ace Cuppa by Fito300</a></iframe>',
             category: "College"
         },
@@ -130,6 +132,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    let currentProjectLinkHandler = null; // Variable to store the event handler function
+
     function showProjectContent(index) {
         const project = projects[index];
         const tabs = document.querySelectorAll('.project-tab');
@@ -141,7 +145,31 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        currentProject.textContent = project.title.toLowerCase().replace(/ /g, '-');
+        // Update the content of the currentProject element
+        const currentProject = document.getElementById('current-project');
+
+        // Define the click handler function
+        function handleClick() {
+            if (project.link) {
+                window.open(project.link, '_blank');
+            }
+        }
+
+        // Remove previous click handler if it exists
+        if (currentProjectLinkHandler) {
+            currentProject.removeEventListener('click', currentProjectLinkHandler);
+        }
+
+        // Update the currentProject element based on whether the project has a link
+        if (project.link) {
+            currentProject.textContent = project.link;
+            currentProject.style.cursor = 'pointer';
+            currentProjectLinkHandler = handleClick;
+            currentProject.addEventListener('click', currentProjectLinkHandler);
+        } else {
+            currentProject.textContent = project.title.toLowerCase().replace(/ /g, '-');
+            currentProject.style.cursor = 'default';
+        }
 
         // Show preview or link
         if (project.isDrive) {
@@ -154,6 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
             clearPreview();
         }
     }
+
 
     function showPreview(url) {
         const previewFrame = document.getElementById('preview-frame');
