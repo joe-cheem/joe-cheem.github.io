@@ -54,10 +54,7 @@ project-root/
 │   └── (various .mp3 files)
 │
 ├── images/
-│   ├── background.png
-│   ├── banner.png
-│   ├── Bonzi_Buddy.webp
-│   └── overlay.png
+│   └── (various image files)
 │
 └── extras/
     └── Winterbells.swf
