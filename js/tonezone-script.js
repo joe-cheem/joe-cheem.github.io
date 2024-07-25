@@ -3,6 +3,7 @@ let songs = [];
 let currentSongIndex = 0;
 let isPlaying = false;
 let isAudioInitialized = false;
+let isInitializing = false;
 
 document.addEventListener('DOMContentLoaded', initializePlayer);
 
@@ -39,10 +40,29 @@ async function initializePlayer() {
         isPlaying = false;
         updatePlayPauseButton();
         updateSongTitleDisplay();
+        
+        document.addEventListener('click', initializeAudioOnFirstInteraction, { once: true });
+        document.addEventListener('touchstart', initializeAudioOnFirstInteraction, { once: true });
     } catch (error) {
         console.error('Error initializing player:', error);
         songTitleElement.textContent = 'Error loading songs';
         updateLiveRegion('Error loading the song list. Please refresh the page or try again later.');
+    }
+}
+
+async function initializeAudioOnFirstInteraction() {
+    if (!isAudioInitialized && !isInitializing) {
+        isInitializing = true;
+        try {
+            await audioPlayer.play();
+            audioPlayer.pause();
+            isAudioInitialized = true;
+            console.log('Audio initialized on first interaction');
+        } catch (error) {
+            console.error('Error initializing audio:', error);
+        } finally {
+            isInitializing = false;
+        }
     }
 }
 
@@ -69,8 +89,8 @@ function setupEventListeners() {
     playPauseBtn.addEventListener('click', togglePlayPause);
     prevBtn.addEventListener('click', playPreviousSong);
     nextBtn.addEventListener('click', playNextSong);
-    skipBackwardBtn.addEventListener('click', () => seekRelative(-10));
-    skipForwardBtn.addEventListener('click', () => seekRelative(10));
+    skipBackwardBtn.addEventListener('click', skipBackward);
+    skipForwardBtn.addEventListener('click', skipForward);
     progressContainer.addEventListener('click', handleSeek);
     volumeSlider.addEventListener('input', adjustVolume);
     audioPlayer.addEventListener('ended', playNextSong);
@@ -98,21 +118,39 @@ function handleKeyboardControls(e) {
             break;
         case 'ArrowLeft':
             e.preventDefault();
-            seekRelative(-10);
+            skipBackward();
             break;
         case 'ArrowRight':
             e.preventDefault();
-            seekRelative(10);
+            skipForward();
             break;
         case 'ArrowUp':
             e.preventDefault();
-            adjustVolume(0.1);
+            increaseVolume();
             break;
         case 'ArrowDown':
             e.preventDefault();
-            adjustVolume(-0.1);
+            decreaseVolume();
             break;
     }
+}
+
+function skipBackward() {
+    seekToTime(Math.max(audioPlayer.currentTime - 10, 0));
+}
+
+function skipForward() {
+    seekToTime(Math.min(audioPlayer.currentTime + 10, audioPlayer.duration || 0));
+}
+
+function increaseVolume() {
+    audioPlayer.volume = Math.min(audioPlayer.volume + 0.1, 1);
+    volumeSlider.value = audioPlayer.volume;
+}
+
+function decreaseVolume() {
+    audioPlayer.volume = Math.max(audioPlayer.volume - 0.1, 0);
+    volumeSlider.value = audioPlayer.volume;
 }
 
 async function loadSong(index) {
@@ -132,7 +170,10 @@ async function loadSong(index) {
 
 async function playSong(index) {
     await loadSong(index);
-    await playAudio();
+    audioPlayer.play().catch(e => console.error('Error playing audio:', e));
+    isPlaying = true;
+    updatePlayPauseButton();
+    updateSongTitleDisplay();
     updateLiveRegion(`Now playing: ${songs[index].title}`);
 }
 
@@ -165,29 +206,22 @@ function scrollToCurrentSong() {
     }
 }
 
-async function togglePlayPause() {
+function togglePlayPause() {
+    if (isInitializing) return;
+
     if (isPlaying) {
         audioPlayer.pause();
     } else {
-        await playAudio();
+        audioPlayer.play().catch(e => console.error('Error playing audio:', e));
     }
-}
-
-async function playAudio() {
-    try {
-        if (!isAudioInitialized) {
-            await initializeAudio();
-        }
-        await audioPlayer.play();
-        isPlaying = true;
-        updatePlayPauseButton();
-        updateSongTitleDisplay();
-    } catch (e) {
-        console.error('Error playing audio:', e);
-    }
+    isPlaying = !isPlaying;
+    updatePlayPauseButton();
+    updateSongTitleDisplay();
 }
 
 function updatePlayPauseButton() {
+    if (isInitializing) return;
+
     playPauseBtn.textContent = isPlaying ? '❚❚' : '▶';
     playPauseBtn.setAttribute('aria-label', isPlaying ? 'Pause' : 'Play');
 }
@@ -222,35 +256,33 @@ function updateDuration() {
     }
 }
 
-async function handleSeek(e) {
-    if (!isAudioInitialized) {
-        await initializeAudio();
-    }
+function handleSeek(e) {
     const progressRect = progressContainer.getBoundingClientRect();
     const seekPercentage = (e.clientX - progressRect.left) / progressRect.width;
     const seekTime = seekPercentage * audioPlayer.duration;
     
     if (!isNaN(seekTime)) {
-        audioPlayer.currentTime = seekTime;
+        seekToTime(seekTime);
+    }
+}
+
+function seekToTime(time) {
+    if (!isNaN(time)) {
+        const wasPlaying = !audioPlayer.paused;
+        audioPlayer.currentTime = time;
         updateProgress();
+        if (!wasPlaying && isAudioInitialized) {
+            audioPlayer.play().then(() => {
+                audioPlayer.pause();
+            }).catch(e => console.error('Error during seek:', e));
+        }
     }
 }
 
-async function seekRelative(seconds) {
-    if (!isAudioInitialized) {
-        await initializeAudio();
-    }
-    const newTime = Math.max(0, Math.min(audioPlayer.currentTime + seconds, audioPlayer.duration));
-    audioPlayer.currentTime = newTime;
-    updateProgress();
-}
-
-function adjustVolume(delta = 0) {
-    const newVolume = Math.max(0, Math.min(audioPlayer.volume + delta, 1));
-    audioPlayer.volume = newVolume;
-    volumeSlider.value = newVolume;
-    volumeSlider.setAttribute('aria-valuenow', newVolume * 100);
-    volumeSlider.setAttribute('aria-valuetext', `Volume ${Math.round(newVolume * 100)}%`);
+function adjustVolume() {
+    audioPlayer.volume = volumeSlider.value;
+    volumeSlider.setAttribute('aria-valuenow', audioPlayer.volume * 100);
+    volumeSlider.setAttribute('aria-valuetext', `Volume ${Math.round(audioPlayer.volume * 100)}%`);
 }
 
 function formatTime(seconds) {
@@ -345,19 +377,5 @@ function updateLiveRegion(message) {
     const liveRegion = document.getElementById('live-region');
     if (liveRegion) {
         liveRegion.textContent = message;
-    }
-}
-
-async function initializeAudio() {
-    if (!isAudioInitialized) {
-        try {
-            await audioPlayer.play();
-            audioPlayer.pause();
-            audioPlayer.currentTime = 0;
-            isAudioInitialized = true;
-            console.log('Audio initialized');
-        } catch (error) {
-            console.error('Error initializing audio:', error);
-        }
     }
 }

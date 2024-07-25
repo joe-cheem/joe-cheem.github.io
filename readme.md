@@ -27,29 +27,40 @@ This repository contains the source code for Joachim Rayski's portfolio website.
 project-root/
 │
 ├── index.html
-├── tonezone-player.html
+├── tonezone-player.html 
+├── everything.html
+├── poem.html
+├── winterbells.html
 ├── setup-and-run-server.bat
+├── LICENSE.md
 ├── README.md
 │
 ├── css/
 │   ├── main.css
-│   ├── index.css
+│   ├── index.css  
 │   ├── tonezone.css
-│   └── existential-bonzi.css
+│   ├── existential-bonzi.css
+│   └── poem.css
 │
 ├── js/
 │   ├── common.js
 │   ├── index-script.js
-│   ├── tonezone-script.js
-│   └── existential-bonzi.js
+│   ├── tonezone-script.js 
+│   ├── existential-bonzi.js
+│   ├── everything.js
+│   └── poem.js
 │
 ├── music/
 │   └── (various .mp3 files)
 │
-└── images/
-    ├── background.png
-    ├── banner.png
-    └── Bonzi_Buddy.webp
+├── images/
+│   ├── background.png
+│   ├── banner.png
+│   ├── Bonzi_Buddy.webp
+│   └── overlay.png
+│
+└── extras/
+    └── Winterbells.swf
 ```
 
 ## Setup and Installation
