@@ -51,6 +51,84 @@ echo ] >> music.json
 
 echo music.json file has been generated.
 
+:: Generate project.txt file
+echo Generating project.txt file...
+
+:: Create or overwrite the project.txt file
+(
+    echo ================================================================
+    echo                       PROJECT STRUCTURE
+    echo ================================================================
+    echo.
+    echo ----------------------------------------------------------------
+    echo                         ROOT DIRECTORY
+    echo ----------------------------------------------------------------
+    for %%F in (*.html *.css *.js *.md *.txt *.json *.bat) do (
+        if "%%F" neq "project.txt" (
+            echo.
+            echo File: %%F
+            echo --------------------------------
+            type "%%F"
+            echo.
+            echo --------------------------------
+            echo.
+        )
+    )
+    
+    if exist css (
+        echo ----------------------------------------------------------------
+        echo                         CSS DIRECTORY
+        echo ----------------------------------------------------------------
+        for %%F in (css\*.css) do (
+            echo.
+            echo File: %%F
+            echo --------------------------------
+            type "%%F"
+            echo.
+            echo --------------------------------
+            echo.
+        )
+    )
+    
+    if exist js (
+        echo ----------------------------------------------------------------
+        echo                         JS DIRECTORY
+        echo ----------------------------------------------------------------
+        for %%F in (js\*.js) do (
+            echo.
+            echo File: %%F
+            echo --------------------------------
+            type "%%F"
+            echo.
+            echo --------------------------------
+            echo.
+        )
+    )
+    
+    if exist images (
+        echo ----------------------------------------------------------------
+        echo                       IMAGES DIRECTORY
+        echo ----------------------------------------------------------------
+        echo.
+        for %%F in (images\*) do echo %%F
+        echo.
+    )
+    
+    if exist music (
+        echo ----------------------------------------------------------------
+        echo                       MUSIC DIRECTORY
+        echo ----------------------------------------------------------------
+        echo.
+        for %%F in (music\*.mp3) do echo %%F
+        echo.
+    )
+    echo ================================================================
+    echo                    END OF PROJECT STRUCTURE
+    echo ================================================================
+) > project.txt
+
+echo project.txt file has been generated.
+
 :: Start the server in a new command prompt window
 start cmd /k %server_command%
 

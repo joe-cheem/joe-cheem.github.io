@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Everything</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #container {
+            text-align: center;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        #input {
+            margin: 1rem 0;
+            padding: 0.5rem;
+            width: 200px;
+        }
+        #output {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Everything</h1>
+        <p>Type anything or leave it blank:</p>
+        <input type="text" id="input" placeholder="Enter something...">
+        <button onclick="evaluateEverything()">Evaluate</button>
+        <div id="output"></div>
+    </div>
+
+    <script src="js/everything.js"></script>
+    <script>
+        const secretPhrase = "unlock the verse";
+
+        function evaluateEverything() {
+            const input = document.getElementById('input').value;
+            
+            if (input.toLowerCase() === secretPhrase) {
+                window.location.href = 'poem.html';
+                return;
+            }
+
+            const result = input ? everything(input) : everything;
+            const outputDiv = document.getElementById('output');
+            outputDiv.textContent = `Result: ${result === everything ? 'everything' : result}`;
+        }
+    </script>
+</body>
+</html>

@@ -9,15 +9,19 @@
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/existential-bonzi.css">
     <!-- External resources -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/favicons/site.webmanifest">
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/favicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-    <!-- Background stars animation -->
-    <div class="floating-stars"></div>
-
     <!-- Header section -->
     <header>
         <div class="container">
@@ -31,7 +35,7 @@
         <ul>
             <li><a href="#about">About</a></li>
             <li><a href="#projects">Project Browser</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#contact" class="contact-link">Contact</a></li>
             <li><a href="tonezone-player.html">ToneZone</a></li>
         </ul>
     </nav>
@@ -53,11 +57,11 @@
                 <div class="browser-toolbar">
                     <h2 class="project-browser-header" id="project-browser">Project Browser</h2>
                     <div class="browser-controls">
-                        <div class="browser-buttons">
-                            <span class="browser-button"></span>
-                            <span class="browser-button"></span>
-                            <span id="fullscreen-toggle" class="browser-button"></span>
-                        </div>
+                        <button id="fullscreen-toggle" class="browser-button" aria-label="Toggle fullscreen">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                            </svg>
+                        </button>
                     </div>
                 </div>
                 <!-- Address bar -->
@@ -65,13 +69,13 @@
                     <span id="current-project"></span>
                 </div>
                 <!-- Project tabs -->
-                <div class="project-tabs"></div>
+                <div class="project-tabs" role="tablist"></div>
                 <!-- Content display area -->
                 <div class="browser-content">
                     <div id="preview-container">
-                        <a href="" id="preview-link" target="_blank">View Project</a>
+                        <iframe id="preview-frame" title="Project preview" src="about:blank"></iframe>
+                        <a id="preview-link" href="#" target="_blank" rel="noopener noreferrer">View Project</a>
                         <div id="embed-container"></div>
-                        <iframe id="preview-frame" style="display: none;"></iframe>
                     </div>
                 </div>
             </div>

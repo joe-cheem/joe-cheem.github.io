@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>((self)) Poem - Interactive Experience</title>
+  <!-- Link to the external CSS file -->
+  <link rel="stylesheet" href="css/poem.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Overlay for transition effects -->
+    <div class="overlay" aria-hidden="true"></div>
+    <!-- Container for poem lines -->
+    <div id="poem-container" aria-live="polite"></div>
+    <!-- Container for star animations -->
+    <div id="stars" aria-hidden="true"></div>
+  </div>
+
+  <!-- Include GSAP library for animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  <!-- Link to the external JavaScript file -->
+  <script src="js/poem.js"></script>
+</body>
+</html>

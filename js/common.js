@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupNavbarBehavior();
 });
 
-function setupNavbarBehavior() {
+const setupNavbarBehavior = () => {
     const navbar = document.getElementById('navbar');
     const header = document.querySelector('header');
     let lastScrollTop = 0;
@@ -10,13 +10,13 @@ function setupNavbarBehavior() {
     const headerHeight = header ? header.offsetHeight : 0;
     const navbarOriginalTop = headerHeight;
 
-    function handleScroll() {
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const handleScroll = () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
         if (scrollTop > navbarOriginalTop) {
             if (!navbar.classList.contains('sticky')) {
                 navbar.classList.add('sticky');
-                document.body.style.paddingTop = navbarHeight + 'px';
+                document.body.style.paddingTop = `${navbarHeight}px`;
             }
             if (scrollTop > lastScrollTop && scrollTop > headerHeight) {
                 navbar.classList.add('hidden');
@@ -30,20 +30,30 @@ function setupNavbarBehavior() {
         }
 
         lastScrollTop = scrollTop;
-    }
+    };
 
-    window.addEventListener('scroll', handleScroll);
-
-    navbar.addEventListener('mouseenter', () => {
+    const handleNavbarHover = (event) => {
         if (navbar.classList.contains('sticky')) {
-            navbar.classList.remove('hidden');
+            navbar.classList.toggle('hidden', event.type === 'mouseleave' && window.pageYOffset > headerHeight);
         }
-    });
+    };
 
-    navbar.addEventListener('mouseleave', () => {
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        if (navbar.classList.contains('sticky') && scrollTop > headerHeight) {
-            navbar.classList.add('hidden');
+    // Use passive event listeners for better performance
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    navbar.addEventListener('mouseenter', handleNavbarHover, { passive: true });
+    navbar.addEventListener('mouseleave', handleNavbarHover, { passive: true });
+};
+
+// Add smooth scrolling for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').slice(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: 'smooth'
+            });
         }
     });
-}
+});

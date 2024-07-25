@@ -13,7 +13,7 @@ let isInteractionAllowed = true;
 let lastQuote = '';
 let hoverTimeout = null;
 
-async function loadQuotes() {
+const loadQuotes = async () => {
     try {
         const response = await fetch('bonzi-quotes.json');
         const data = await response.json();
@@ -23,15 +23,15 @@ async function loadQuotes() {
     } catch (error) {
         console.error('Error loading quotes:', error);
     }
-}
+};
 
-function initExistentialBonzi() {
+const initExistentialBonzi = () => {
     bonziContainer = document.createElement('div');
     bonziContainer.id = 'bonzi-container';
     bonziContainer.style.display = 'none';
     bonziContainer.innerHTML = `
-        <img id="bonzi" src="images/Bonzi_Buddy.webp" alt="Bonzi Buddy">
-        <div id="speech-bubble"></div>
+        <img id="bonzi" src="images/Bonzi_Buddy.webp" alt="Bonzi Buddy" tabindex="0">
+        <div id="speech-bubble" role="status" aria-live="polite"></div>
     `;
     document.body.appendChild(bonziContainer);
 
@@ -49,10 +49,20 @@ function initExistentialBonzi() {
         bonzi.addEventListener('click', handleBonziTap);
         bonzi.addEventListener('mouseenter', handleBonziHoverStart);
         bonzi.addEventListener('mouseleave', handleBonziHoverEnd);
+        bonzi.addEventListener('focus', handleBonziHoverStart);
+        bonzi.addEventListener('blur', handleBonziHoverEnd);
     }
-}
 
-function handleTriggerAreaTap(e) {
+    // Add keyboard support
+    bonzi.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleBonziTap(e);
+        }
+    });
+};
+
+const handleTriggerAreaTap = (e) => {
     const currentTime = new Date().getTime();
     if (currentTime - lastTapTime < 500) {
         tapCount++;
@@ -64,17 +74,16 @@ function handleTriggerAreaTap(e) {
         tapCount = 1;
     }
     lastTapTime = currentTime;
-}
+};
 
-function handleBonziTap(e) {
+const handleBonziTap = (e) => {
     e.preventDefault();
     if (!isInteractionAllowed) return;
 
-    // Cancel any ongoing hover events
     clearTimeout(hoverTimeout);
     bonzi.classList.remove('bounce');
 
-    shakeBonzi(); // Call the shake function on tap
+    shakeBonzi();
     const currentTime = new Date().getTime();
 
     if (bonziClickTimer) {
@@ -102,35 +111,34 @@ function handleBonziTap(e) {
     }
 
     lastTapTime = currentTime;
-}
+};
 
-function handleBonziHoverStart() {
+const handleBonziHoverStart = () => {
     if (isInteractionAllowed) {
-        bonzi.classList.add('bounce'); // Apply bouncing animation class
+        bonzi.classList.add('bounce');
         hoverTimeout = setTimeout(() => {
             showSpeechBubble(hoverQuotes);
-        }, 0); // Show instantly
+        }, 0);
     }
-}
+};
 
-function handleBonziHoverEnd() {
-    clearTimeout(hoverTimeout); // Clear the hover timeout
-    bonzi.classList.remove('bounce'); // Ensure the animation class is removed
-    // Ensure the shake animation is not applied
-    bonzi.classList.remove('shake');
-}
+const handleBonziHoverEnd = () => {
+    clearTimeout(hoverTimeout);
+    bonzi.classList.remove('bounce', 'shake');
+};
 
-function revealBonzi() {
+const revealBonzi = () => {
     bonziContainer.style.display = 'block';
     bonziContainer.style.animation = 'fadeIn 0.5s';
-}
+    bonzi.setAttribute('aria-hidden', 'false');
+};
 
-function showSecretMessage() {
+const showSecretMessage = () => {
     const secretMessage = "You've discovered the secret! Before I go, want to play a game?";
     showSpeechBubbleWithOptions(secretMessage, "Yes", "No", handleSecretGameInvitationResponse);
-}
+};
 
-function handleSecretGameInvitationResponse(response) {
+const handleSecretGameInvitationResponse = (response) => {
     if (response === "Yes") {
         hideBonzi(() => {
             window.location.href = 'winterbells.html';
@@ -138,40 +146,32 @@ function handleSecretGameInvitationResponse(response) {
     } else {
         hideBonzi();
     }
-}
+};
 
-function hideBonzi(callback) {
+const hideBonzi = (callback) => {
     bonziContainer.style.animation = 'fadeOut 1s';
     setTimeout(() => {
         bonziContainer.style.display = 'none';
         resetBonziState();
+        bonzi.setAttribute('aria-hidden', 'true');
         if (callback) callback();
     }, 1000);
-}
+};
 
-function resetBonziState() {
+const resetBonziState = () => {
     tapCount = 0;
     bonziTapCount = 0;
     lastTapTime = 0;
     isInteractionAllowed = true;
     lastQuote = '';
-    if (bonziClickTimer) {
-        clearTimeout(bonziClickTimer);
-        bonziClickTimer = null;
-    }
-    if (messageTimer) {
-        clearTimeout(messageTimer);
-        messageTimer = null;
-    }
-    if (hoverTimeout) {
-        clearTimeout(hoverTimeout);
-        hoverTimeout = null;
-    }
+    clearTimeout(bonziClickTimer);
+    clearTimeout(messageTimer);
+    clearTimeout(hoverTimeout);
     speechBubble.classList.remove('visible', 'fade-in', 'fade-out', 'quick-fade-out');
     speechBubble.innerHTML = '';
-}
+};
 
-function showSpeechBubble(quotes) {
+const showSpeechBubble = (quotes) => {
     if (!isInteractionAllowed) return;
 
     isInteractionAllowed = false;
@@ -185,9 +185,9 @@ function showSpeechBubble(quotes) {
     } else {
         updateSpeechBubble(newQuote);
     }
-}
+};
 
-function showSpeechBubbleWithOptions(message, option1, option2, callback) {
+const showSpeechBubbleWithOptions = (message, option1, option2, callback) => {
     if (!isInteractionAllowed) return;
 
     isInteractionAllowed = false;
@@ -200,33 +200,30 @@ function showSpeechBubbleWithOptions(message, option1, option2, callback) {
     } else {
         updateSpeechBubbleWithOptions(message, option1, option2, callback);
     }
-}
+};
 
-function getUniqueQuote(quotes) {
+const getUniqueQuote = (quotes) => {
     let newQuote;
     do {
         newQuote = quotes[Math.floor(Math.random() * quotes.length)];
     } while (newQuote === lastQuote && quotes.length > 1);
     lastQuote = newQuote;
     return newQuote;
-}
+};
 
-function calculateDisplayTime(text) {
+const calculateDisplayTime = (text) => {
     const baseTime = 880;
     const timePerChar = 25;
     let totalTime = baseTime + (text.length * timePerChar);
-    totalTime = Math.max(1500, Math.min(totalTime, 5000));
-    return totalTime;
-}
+    return Math.max(1500, Math.min(totalTime, 5000));
+};
 
-function updateSpeechBubble(quote) {
+const updateSpeechBubble = (quote) => {
     speechBubble.textContent = quote;
     speechBubble.classList.remove('fade-out', 'quick-fade-out');
     speechBubble.classList.add('visible', 'fade-in');
     
-    if (messageTimer) {
-        clearTimeout(messageTimer);
-    }
+    clearTimeout(messageTimer);
     
     const displayTime = calculateDisplayTime(quote);
     
@@ -240,9 +237,9 @@ function updateSpeechBubble(quote) {
             }, 50);
         }, 500);
     }, displayTime);
-}
+};
 
-function updateSpeechBubbleWithOptions(message, option1, option2, callback) {
+const updateSpeechBubbleWithOptions = (message, option1, option2, callback) => {
     speechBubble.innerHTML = `
         <p>${message}</p>
         <div class="speech-bubble-options">
@@ -260,29 +257,128 @@ function updateSpeechBubbleWithOptions(message, option1, option2, callback) {
             callback(e.target.dataset.option);
         });
     });
-}
 
-function hideSpeechBubble() {
+    // Remove automatic focus on the first button
+    // options[0].focus();
+
+    speechBubble.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+            e.preventDefault();
+            const currentIndex = Array.from(options).indexOf(document.activeElement);
+            const nextIndex = e.key === 'ArrowRight' ? (currentIndex + 1) % 2 : (currentIndex - 1 + 2) % 2;
+            options[nextIndex].focus();
+        } else if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            document.activeElement.click();
+        }
+    });
+};
+
+const hideSpeechBubble = () => {
     speechBubble.classList.remove('fade-in');
     speechBubble.classList.add('fade-out');
     setTimeout(() => {
         speechBubble.classList.remove('visible', 'fade-out');
         isInteractionAllowed = true;
     }, 500);
-}
+};
 
-function shakeBonzi() {
+const shakeBonzi = () => {
     bonzi.classList.remove('shake');
-    void bonzi.offsetWidth;
+    void bonzi.offsetWidth; // Trigger reflow
     bonzi.classList.add('shake');
     setTimeout(() => bonzi.classList.remove('shake'), 500);
-}
+};
 
-function isMobile() {
-    return 'ontouchstart' in window;
-}
+const isMobile = () => 'ontouchstart' in window;
+
+// Debounce function to limit the rate of function calls
+const debounce = (func, wait) => {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+};
+
+// Throttle function to limit the rate of function calls
+const throttle = (func, limit) => {
+    let inThrottle;
+    return function(...args) {
+        if (!inThrottle) {
+            func.apply(this, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+};
+
+// Use IntersectionObserver for lazy loading Bonzi
+const lazyLoadBonzi = () => {
+    const bonziImg = document.querySelector('#bonzi');
+    if (!bonziImg) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                bonziImg.src = bonziImg.dataset.src || bonziImg.src;
+                bonziImg.removeAttribute('data-src');
+                observer.unobserve(bonziImg);
+            }
+        });
+    }, { rootMargin: '100px' });
+
+    observer.observe(bonziImg);
+};
 
 document.addEventListener('DOMContentLoaded', async () => {
     await loadQuotes();
     initExistentialBonzi();
+    lazyLoadBonzi();
+
+    // Add resize listener with throttle
+    window.addEventListener('resize', throttle(() => {
+        // Adjust Bonzi position or size based on window size
+        const bonziContainer = document.getElementById('bonzi-container');
+        if (window.innerWidth < 768) {
+            bonziContainer.style.right = '10px';
+            bonziContainer.style.bottom = '10px';
+        } else {
+            bonziContainer.style.right = '20px';
+            bonziContainer.style.bottom = '20px';
+        }
+    }, 250));
+
+    // Add scroll listener with throttle
+    window.addEventListener('scroll', throttle(() => {
+        // Hide Bonzi when scrolling down, show when scrolling up
+        const currentScrollPos = window.pageYOffset;
+        if (currentScrollPos > lastScrollPos) {
+            bonziContainer.classList.add('hide-bonzi');
+        } else {
+            bonziContainer.classList.remove('hide-bonzi');
+        }
+        lastScrollPos = currentScrollPos;
+    }, 250));
+});
+
+// Accessibility improvements
+const improveAccessibility = () => {
+    const bonzi = document.getElementById('bonzi');
+    bonzi.setAttribute('role', 'button');
+    bonzi.setAttribute('aria-label', 'Interact with Bonzi Buddy');
+    bonzi.setAttribute('tabindex', '0');
+
+    const speechBubble = document.getElementById('speech-bubble');
+    speechBubble.setAttribute('aria-live', 'polite');
+    speechBubble.setAttribute('role', 'status');
+};
+
+// Call improveAccessibility after Bonzi is initialized
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(improveAccessibility, 1000);
 });

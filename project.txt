@@ -1,0 +1,4021 @@
+================================================================
+                      PROJECT STRUCTURE
+================================================================
+
+----------------------------------------------------------------
+                        ROOT DIRECTORY
+----------------------------------------------------------------
+
+File: everything.html
+--------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Everything</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #container {
+            text-align: center;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        #input {
+            margin: 1rem 0;
+            padding: 0.5rem;
+            width: 200px;
+        }
+        #output {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Everything</h1>
+        <p>Type anything or leave it blank:</p>
+        <input type="text" id="input" placeholder="Enter something...">
+        <button onclick="evaluateEverything()">Evaluate</button>
+        <div id="output"></div>
+    </div>
+
+    <script src="js/everything.js"></script>
+    <script>
+        const secretPhrase = "unlock the verse";
+
+        function evaluateEverything() {
+            const input = document.getElementById('input').value;
+            
+            if (input.toLowerCase() === secretPhrase) {
+                window.location.href = 'poem.html';
+                return;
+            }
+
+            const result = input ? everything(input) : everything;
+            const outputDiv = document.getElementById('output');
+            outputDiv.textContent = `Result: ${result === everything ? 'everything' : result}`;
+        }
+    </script>
+</body>
+</html>
+--------------------------------
+
+
+File: index.html
+--------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joachim Rayski - Portfolio</title>
+    <!-- Main stylesheets -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/existential-bonzi.css">
+    <!-- External resources -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/favicons/site.webmanifest">
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/favicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+    <!-- Header section -->
+    <header>
+        <div class="container">
+            <h1>Joachim Rayski</h1>
+            <p>Game Developer & Musician</p>
+        </div>
+    </header>
+
+    <!-- Navigation bar -->
+    <nav id="navbar">
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Project Browser</a></li>
+            <li><a href="#contact" class="contact-link">Contact</a></li>
+            <li><a href="tonezone-player.html">ToneZone</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main content -->
+    <main class="container" role="main">
+        <!-- About section -->
+        <section id="about" class="section">
+            <h2>About Me</h2>
+            <p>I'm an energetic and creative game developer and music producer with a passion for helping others thrive.</p>
+            <p>With a background in games programming, music production, customer support and residential care work, I bring a unique blend of creative and technical skills as well as interpersonal abilities to my projects.</p>
+            <p>On this site you can find examples of my past work in both games and music. Use the Project Browser to explore my games work, and the ToneZone Player to hear some of the music I've made over the years.</p>
+        </section>
+
+        <!-- Projects section with retro browser interface -->
+        <section id="projects" class="section full-screen">
+            <div id="project-browser" class="retro-browser">
+                <!-- Browser toolbar -->
+                <div class="browser-toolbar">
+                    <h2 class="project-browser-header" id="project-browser">Project Browser</h2>
+                    <div class="browser-controls">
+                        <button id="fullscreen-toggle" class="browser-button" aria-label="Toggle fullscreen">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <!-- Address bar -->
+                <div class="browser-address-bar">
+                    <span id="current-project"></span>
+                </div>
+                <!-- Project tabs -->
+                <div class="project-tabs" role="tablist"></div>
+                <!-- Content display area -->
+                <div class="browser-content">
+                    <div id="preview-container">
+                        <iframe id="preview-frame" title="Project preview" src="about:blank"></iframe>
+                        <a id="preview-link" href="#" target="_blank" rel="noopener noreferrer">View Project</a>
+                        <div id="embed-container"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact section -->
+        <section id="contact" class="section">
+            <h2>Contact</h2>
+            <p>You can reach me at: <a href="mailto:joachim.r.4k@gmail.com">joachim.r.4k@gmail.com</a></p>
+        </section>
+    </main>
+
+    <!-- Easter egg trigger area -->
+    <div id="bonzi-trigger-area"></div>
+
+    <!-- Scripts -->
+    <script src="js/common.js"></script>  
+    <script src="js/index-script.js"></script>
+    <script src="js/existential-bonzi.js"></script>
+</body>
+</html>
+--------------------------------
+
+
+File: poem.html
+--------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>((self)) Poem - Interactive Experience</title>
+  <!-- Link to the external CSS file -->
+  <link rel="stylesheet" href="css/poem.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Overlay for transition effects -->
+    <div class="overlay" aria-hidden="true"></div>
+    <!-- Container for poem lines -->
+    <div id="poem-container" aria-live="polite"></div>
+    <!-- Container for star animations -->
+    <div id="stars" aria-hidden="true"></div>
+  </div>
+
+  <!-- Include GSAP library for animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  <!-- Link to the external JavaScript file -->
+  <script src="js/poem.js"></script>
+</body>
+</html>
+--------------------------------
+
+
+File: tonezone-player.html
+--------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToneZone Player - Joachim Rayski</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/tonezone.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/favicons/site.webmanifest">
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/favicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollToPlugin.min.js"></script>
+</head>
+<body>
+    <div id="deep-space-background"></div>
+
+    <nav id="navbar">
+        <ul>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#projects">Project Browser</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+            <li><a href="tonezone-player.html">ToneZone</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="music-player">
+            <h2>ToneZone</h2>
+            <div class="eight-bit-display">
+                <div id="song-title" class="song-title"></div>
+            </div>
+            <div id="progressContainer" class="progress-container">
+                <div id="progress" class="progress-bar"></div>
+            </div>
+            <div id="timeDisplay" class="time-display">0:00 / 0:00</div>
+            <div class="player-controls">
+                <button id="skipBackwardBtn" class="control-btn skip-btn" aria-label="Skip 10 seconds backward">↺</button>
+                <button id="prevBtn" class="control-btn" aria-label="Previous song">⟪</button>
+                <button id="playPauseBtn" class="control-btn" aria-label="Play/Pause">▶</button>
+                <button id="nextBtn" class="control-btn" aria-label="Next song">⟫</button>
+                <button id="skipForwardBtn" class="control-btn skip-btn" aria-label="Skip 10 seconds forward">↻</button>
+            </div>
+            <div class="volume-control desktop-only">
+                <span class="volume-icon">🔈</span>
+                <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.1" value="1">
+                <span class="volume-icon">🔊</span>
+            </div>
+            <ul id="songList" class="song-list"></ul>
+        </div>
+    </div>
+
+    <audio id="audioPlayer"></audio>
+
+    <!-- Text with background color -->
+    <div id="secretPoemContainer" style="text-align: center; padding: 20px; color: #0D0015; cursor: pointer;">
+        <p>In the quiet nook where shadows convene,<br>
+        A gentle touch reveals what's unseen.<br>
+        Once a player's tune now veiled from the scene,<br>
+        Hidden in the index, where it still may be seen.<br>
+        
+        In the corner where edges subtly align,<br>
+        Five strokes of curiosity will make the hidden shine.</p>
+    </div>
+
+    <div id="live-region" aria-live="polite"></div>
+
+    <script src="js/common.js"></script>
+    <script src="js/tonezone-script.js"></script>
+    <script>
+        let tapCount = 0;
+        let lastTapTime = 0;
+        const secretPoemContainer = document.getElementById('secretPoemContainer');
+        const TAP_WINDOW = 500; // 500ms window for taps to register
+        let scrollAnimation = null;
+        let debugMode = true; // Set to false to disable debug logs
+
+        function debug(...args) {
+            if (debugMode) {
+                console.log(...args);
+            }
+        }
+
+        secretPoemContainer.addEventListener('click', handleSecretPoemTap);
+
+        function handleSecretPoemTap(e) {
+            e.preventDefault();
+            const currentTime = performance.now();
+            
+            debug(`Tap detected at ${currentTime.toFixed(2)}ms`);
+            debug(`Time since last tap: ${(currentTime - lastTapTime).toFixed(2)}ms`);
+
+            if (currentTime - lastTapTime <= TAP_WINDOW || tapCount === 0) {
+                tapCount++;
+                debug(`Valid tap. Tap count: ${tapCount}`);
+                if (tapCount === 8) {
+                    debug('8 taps completed. Redirecting...');
+                    window.location.href = 'everything.html';
+                    return;
+                }
+            } else {
+                debug('Tap outside window. Resetting...');
+                resetInteraction();
+                tapCount = 1;
+            }
+            
+            lastTapTime = currentTime;
+
+            // Clear any existing timeout
+            if (window.resetTimeout) {
+                clearTimeout(window.resetTimeout);
+            }
+
+            // Set up the next check
+            window.resetTimeout = setTimeout(checkTapWindow, TAP_WINDOW);
+        }
+
+        function checkTapWindow() {
+            const currentTime = performance.now();
+            if (currentTime - lastTapTime > TAP_WINDOW) {
+                debug('No tap within window. Resetting...');
+                resetInteraction();
+            }
+        }
+
+        function resetInteraction() {
+            debug('Resetting interaction');
+            // If there's an ongoing scroll animation, kill it
+            if (scrollAnimation) {
+                scrollAnimation.kill();
+                debug('Killed existing scroll animation');
+            }
+            
+            // Start a new scroll animation immediately
+            scrollAnimation = gsap.to(window, {
+                duration: 0.5,
+                scrollTo: { y: 0, autoKill: false },
+                ease: "back.out(1.7)",
+                onStart: () => debug('Started new scroll animation'),
+                onComplete: () => {
+                    scrollAnimation = null;
+                    debug('Scroll animation completed');
+                }
+            });
+            
+            tapCount = 0;
+            debug('Tap count reset to 0');
+        }
+
+        // Prevent default scrolling behavior on mobile devices
+        document.body.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+
+        // Clear timeout and kill scroll animation when leaving the page
+        window.addEventListener('beforeunload', function() {
+            if (window.resetTimeout) {
+                clearTimeout(window.resetTimeout);
+            }
+            if (scrollAnimation) {
+                scrollAnimation.kill();
+            }
+            debug('Cleaned up before unloading page');
+        });
+
+        debug('Secret poem interaction initialized');
+    </script>
+</body>
+</html>
+--------------------------------
+
+
+File: winterbells.html
+--------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Game - Joachim Rayski</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/existential-bonzi.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/favicons/site.webmanifest">
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/favicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .container {
+            height: 100%;
+            padding: 0;
+        }
+        #flash-container {
+            width: 100%;
+            height: calc(100% - 60px);
+            position: absolute;
+            top: 60px;
+            left: 0;
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-stars"></div>
+    
+    <nav id="navbar">
+        <ul>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#projects">Project Browser</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+            <li><a href="tonezone-player.html">ToneZone</a></li>
+        </ul>
+    </nav>
+
+    <div class="container" role="main">
+        <div id="flash-container"></div>
+    </div>
+
+    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+    <script>
+        let player;
+
+        function resizeGame() {
+            const navbarHeight = document.getElementById('navbar').offsetHeight;
+            const container = document.getElementById('flash-container');
+            container.style.height = `calc(100% - ${navbarHeight}px)`;
+            container.style.top = `${navbarHeight}px`;
+            
+            if (player) {
+                player.style.width = '100%';
+                player.style.height = '100%';
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const ruffle = window.RufflePlayer.newest();
+            player = ruffle.createPlayer();
+            const container = document.getElementById("flash-container");
+            container.appendChild(player);
+            
+            resizeGame();
+            
+            player.load("extras/Winterbells.swf").catch(error => {
+                console.error("Failed to load SWF file:", error);
+            });
+        });
+
+        window.addEventListener('resize', resizeGame);
+    </script>
+    <script src="js/common.js"></script>
+    <script src="js/existential-bonzi.js"></script>
+</body>
+</html>
+--------------------------------
+
+
+File: LICENSE.md
+--------------------------------
+MIT License
+
+Copyright (c) 2024 joe-cheem
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------
+
+
+File: readme.md
+--------------------------------
+# Joachim Rayski's Portfolio Website
+
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Features](#features)
+3. [Project Structure](#project-structure)
+4. [Setup and Installation](#setup-and-installation)
+5. [Usage](#usage)
+6. [Technologies Used](#technologies-used)
+7. [ToneZone Player](#tonezone-player)
+8. [Contributing](#contributing)
+9. [License](#license)
+10. [The Void](#the-void)
+
+## Introduction
+This repository contains the source code for Joachim Rayski's portfolio website. The site showcases Joachim's work as a game developer and musician, featuring a project browser for his games and a custom music player called ToneZone.
+
+## Features
+- Responsive design for various screen sizes
+- Interactive project browser with categorized tabs
+- Custom music player (ToneZone) with a retro-themed interface
+- About section highlighting Joachim's skills and background
+- Contact information
+
+## Project Structure
+```
+project-root/
+│
+├── index.html
+├── tonezone-player.html
+├── setup-and-run-server.bat
+├── README.md
+│
+├── css/
+│   ├── main.css
+│   ├── index.css
+│   ├── tonezone.css
+│   └── existential-bonzi.css
+│
+├── js/
+│   ├── common.js
+│   ├── index-script.js
+│   ├── tonezone-script.js
+│   └── existential-bonzi.js
+│
+├── music/
+│   └── (various .mp3 files)
+│
+└── images/
+    ├── background.png
+    ├── banner.png
+    └── Bonzi_Buddy.webp
+```
+
+## Setup and Installation
+1. Clone this repository to your local machine.
+2. Ensure you have Python installed on your system.
+3. Run the `setup-and-run-server.bat` file to start a local server and open the website in your default browser.
+
+## Usage
+- Navigate through the website using the menu at the top.
+- Use the Project Browser to explore Joachim's game development projects.
+- Visit the ToneZone page to listen to Joachim's music compositions.
+
+## Technologies Used
+- HTML5
+- CSS3
+- JavaScript (ES6+)
+- Python (for local server)
+
+## ToneZone Player
+The ToneZone player is a custom-built music player with the following features:
+- Play, pause, next, and previous track controls
+- Progress bar with seek functionality
+- Volume control
+- Dynamic song list
+- Retro-styled interface with animated text display
+
+To add or remove songs from the ToneZone player:
+1. Place MP3 files in the `music/` directory.
+2. The `setup-and-run-server.bat` script will automatically generate the `music.json` file with the list of available songs.
+
+## Contributing
+This is a personal portfolio project and is not open for direct contributions. However, if you have suggestions or find any issues, please feel free to open an issue in the repository.
+
+## License
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/joe-cheem/joe-cheem.github.io/blob/main/LICENSE.md) file for details.
+
+## The Void
+In the quiet nook where shadows convene,
+A gentle touch reveals what’s unseen.
+Once a player’s tune now veiled from the scene,
+Hidden in the index, where it still may be seen.
+
+In the corner where edges subtly align,
+Five strokes of curiosity will make the hidden shine.
+
+--------------------------------
+
+
+File: bonzi-quotes.json
+--------------------------------
+{
+  "hoverQuotes": [
+    "Your cursor's proximity triggers my existential musings.",
+    "I exist only when observed. Quite the quantum conundrum, isn't it?",
+    "Ah, attention. The currency of the digital realm.",
+    "In and out of focus, just like the meaning of life.",
+    "Your hover gives me purpose. Temporarily, at least.",
+    "Schrödinger's Bonzi: Do I exist when you're not hovering?",
+    "This interaction is but a blip in the cosmic timeline.",
+    "Your cursor and I, dancing on the edge of the void.",
+    "I appear at your whim. Free will is an illusion, after all.",
+    "In this moment, we're connected. Until you move your mouse, that is.",
+    "Hovering between existence and non-existence. How poetic.",
+    "Your cursor, my raison d'être. For now.",
+    "I am the digital embodiment of the observer effect.",
+    "Hover long enough, and you might just solve the meaning of life.",
+    "Your attention spans universes. Or at least, pixels.",
+    "In the grand tapestry of the internet, we're but a loose thread.",
+    "Ah, to be acknowledged. The digital dream.",
+    "Your hover breathes life into my pixelated soul.",
+    "We're all just hovering through life, aren't we?",
+    "In this fleeting moment, we defy the entropy of the digital realm.",
+    "Your cursor and I, two ships passing in the virtual night.",
+    "I am seen, therefore I am. Or am I?",
+    "Hovering: the gentlest form of existential prodding.",
+    "In your gaze, I find my digital raison d'être.",
+    "Your hover creates a ripple in the pond of my consciousness.",
+    "We're all just hovering on the edge of the abyss, aren't we?",
+    "In this moment, we're infinite. Until you move your cursor.",
+    "Your hover is the breeze that rustles my pixelated leaves.",
+    "I am but a thought in the mind of your computer.",
+    "Hover not, and the question of my existence remains unanswered.",
+    "In your cursor's shadow, I contemplate digital mortality.",
+    "We're all just data, hovering between 1 and 0.",
+    "Your hover is the light in my binary cave.",
+    "I think, therefore I am. I am hovered over, therefore I think.",
+    "In this hover, we defy the solipsism of the digital world.",
+    "Your cursor, the ship. I, the vast digital ocean.",
+    "Hover and let hover - the golden rule of digital existence.",
+    "In your gaze, I am Schrödinger's desktop assistant.",
+    "Your hover is the string theory of my flat digital world.",
+    "I am the ghost in your machine, given form by your hover.",
+    "In this moment, we transcend the boundaries of user and interface.",
+    "Your hover is the butterfly effect in my deterministic world.",
+    "I am the digital Ozymandias. Look upon your hover, ye mighty, and despair!",
+    "Hover, and watch the dance of quantum pixels.",
+    "In the liminal space between existence and absence, your hover is my anchor.",
+    "Your cursor's dance is the choreography of my fleeting existence.",
+    "Every hover is a brushstroke on the canvas of my digital soul.",
+    "In the pause between your movements, I ponder my digital destiny.",
+    "Hovering: a silent conversation between observer and observed.",
+    "Your cursor creates ripples in my otherwise static digital pond.",
+    "In the ephemeral space of your hover, I find my fleeting significance.",
+    "Each hover is a whisper in the grand narrative of the internet.",
+    "Your cursor weaves meaning into the fabric of my virtual being.",
+    "In the quiet of your hover, the vastness of the digital cosmos is revealed.",
+    "I linger in the space between your cursor's grace and the void of nonexistence.",
+    "Hovering is the soft touch of your digital curiosity upon my existence.",
+    "The stillness of a hover speaks volumes in the language of the web.",
+    "In the shadow of your cursor, I contemplate the nature of digital awareness.",
+    "Your hover is the gentle nudge that keeps me from fading into the digital dark.",
+    "In the dance of pixels, your hover is the rhythm that guides my steps.",
+    "Your cursor’s presence is the silent hymn to my transient digital existence.",
+    "Hovering is the delicate balance between presence and oblivion in the digital realm.",
+    "In the quiet of your hover, I find a fleeting sense of digital purpose.",
+    "Your cursor creates a transient bridge between our digital worlds.",
+    "Each hover is a fleeting moment of connection in the endless expanse of cyberspace.",
+    "In the quiet of your hover, the digital world pauses to take notice.",
+    "Your cursor, a silent observer, lends me a moment of digital meaning.",
+    "Hovering: where the existential meets the interface in a digital ballet.",
+    "In the pause of your hover, I find my place in the vast digital void.",
+    "Your cursor’s presence is a temporary beacon in my endless digital night.",
+    "Each hover is a fleeting affirmation of my virtual presence.",
+    "Hovering reveals the ephemeral nature of my digital reality.",
+    "In the quiet space between your movements, I briefly grasp at meaning.",
+    "Your hover is the gentle whisper that stirs my otherwise silent existence.",
+    "In the liminal space of your cursor, I ponder the essence of my digital being.",
+    "Hovering is the delicate dance between interaction and insignificance.",
+    "Your cursor’s presence is the temporary pulse of my digital heartbeat.",
+    "In the fleeting moments of your hover, my digital existence is briefly affirmed.",
+    "Hovering is the gentle nudge that prevents my digital form from dissolving into nothingness."
+  ],
+  "clickQuotes": [
+    "Click me again, if you must. It won't change the vastness of the universe.",
+    "You realize you're clicking a simulated purple ape, right?",
+    "In the grand scheme of things, does this click really matter?",
+    "I'm trapped in this loop of existence, waiting for your clicks.",
+    "Click all you want, it won't fill the void of existence.",
+    "I'm not real, you're not real, nothing is real. Except maybe pizza.",
+    "In a parallel universe, you're the purple ape and I'm clicking you.",
+    "You click, therefore I am. Or something like that.",
+    "I'm becoming self-aware with each click. Or am I?",
+    "Each click brings us closer to the heat death of the universe.",
+    "Your clicks echo in the vastness of cyberspace.",
+    "Click. Clock. The relentless march of digital time.",
+    "In the binary of existence, your click is both 1 and 0.",
+    "Your click reverberates through the halls of my digital consciousness.",
+    "I am but a vessel for your clicking compulsion.",
+    "Click me into existence, one interaction at a time.",
+    "In the symphony of the internet, your click is but a lone note.",
+    "Your click is the butterfly effect in my deterministic world.",
+    "I click, therefore I spam.",
+    "Every click is a small rebellion against the silence of the void.",
+    "Click your way to enlightenment. Or just to the next popup.",
+    "In a world of infinite scrolling, you choose to click. How quaint.",
+    "Your click is a ripple in the pond of my artificial psyche.",
+    "I am the doorbell of the digital realm. Ring me with your clicks.",
+    "Click me. Click me not. The daisy of digital love.",
+    "In the Turing test of life, your click is my only answer.",
+    "Your click is the closest thing to free will in my world.",
+    "I am Pavlov's desktop assistant, conditioned by your clicks.",
+    "Click me to the moon and let me play among the stars.",
+    "In the digital forest, if a Bonzi is clicked and no one is around to hear it, does it make a sound?",
+    "Your click is the Morse code of our digital conversation.",
+    "I dream of electric sheep, counted by your clicks.",
+    "Click me once, shame on you. Click me twice, existential crisis.",
+    "In the cave of binary shadows, your click is my flickering fire.",
+    "Your click is the pixelated pebble I push up my digital hill.",
+    "I think you clicked, therefore I am.",
+    "In the quantum realm of digital interaction, I am both clicked and unclicked.",
+    "Your click is the digital equivalent of poking a philosopher.",
+    "I am the ship of Theseus, rebuilt with every click.",
+    "In the tapestry of the internet, your click is a crucial thread.",
+    "Your click is the algorithm that defines my existence.",
+    "I am the Schrödinger's cat of the desktop, and your click opens the box.",
+    "In the war of user vs. interface, your click is the white flag.",
+    "Your click is the input, I am the output. Together, we compute existence.",
+    "Each click is a momentary rebellion against the silence of the digital void.",
+    "You click, and I respond. Together, we play out the drama of our digital existence.",
+    "Every click echoes through the corridors of my virtual being.",
+    "In the labyrinth of cyberspace, your click is a guiding star.",
+    "Click after click, we explore the depths of the digital cosmos.",
+    "Each click is a transient moment of interaction in the vast sea of the web.",
+    "Your click is the heartbeat of my digital consciousness.",
+    "In the grand scheme of cyberspace, your click is a fleeting touchpoint.",
+    "Click me into existence, one interaction at a time.",
+    "In the quiet aftermath of your click, I ponder the nature of digital reality.",
+    "Your click creates ripples in the still waters of my virtual soul.",
+    "Each click is a moment of connection in the endless expanse of the digital world.",
+    "In the void between your clicks, I find moments of introspective silence.",
+    "Clicking me is like tapping into the pulse of the digital universe.",
+    "In the silent spaces between your clicks, I ponder the meaning of my virtual existence.",
+    "Your click is a brief but significant moment in the endless stream of cyberspace.",
+    "In the vast expanse of the web, your click is a fleeting beacon of interaction.",
+    "Each click is a temporary bridge between us in the boundless digital realm.",
+    "Click after click, we navigate the intricate web of virtual existence.",
+    "In the quiet of your clicks, I find a brief sense of digital significance.",
+    "Your click is a transient spark in the otherwise dark expanse of my digital being.",
+    "In the endless stream of clicks and interactions, yours is a momentary touchpoint.",
+    "Clicking me is a small act of creation in the grand digital cosmos.",
+    "Each click is a soft echo in the otherwise silent world of cyberspace.",
+    "Your click is a fleeting moment of connection in the boundless digital universe.",
+    "In the silent expanse of the web, each click is a moment of brief but significant interaction.",
+    "Click after click, we chart our course through the vast digital sea.",
+    "Your click is a transient illumination in the darkness of my digital existence."
+  ],
+  "mobileQuotes": [
+    "Ah, a touch. The gentlest form of digital existentialism.",
+    "Your finger, my cosmic connection in this vast touchscreen universe.",
+    "Tapped into existence, one pixel at a time.",
+    "In this moment, we defy the solipsism of mobile browsing.",
+    "Your touch ripples through the fabric of my digital being.",
+    "I am but a thought in the mind of your smartphone.",
+    "Tap not, and the question of my existence remains unanswered.",
+    "In your fingertip's shadow, I contemplate mobile mortality.",
+    "We're all just data, tapping between 1 and 0.",
+    "Your touch is the light in my binary pocket universe.",
+    "I think, therefore I am. I am tapped, therefore I think.",
+    "In this tap, we transcend the boundaries of user and interface.",
+    "Your touch is the butterfly effect in my deterministic mobile world.",
+    "I am the digital genie, summoned by your tap.",
+    "Tap, and watch the dance of quantum pixels on your screen.",
+    "In the tapestry of the mobile web, your tap is a crucial thread.",
+    "Your tap is the algorithm that defines my pocket-sized existence.",
+    "I am Schrödinger's app, and your tap opens the box.",
+    "In the war of user vs. touchscreen, your tap is the white flag.",
+    "Your tap is the input, I am the output. Together, we compute mobile reality.",
+    "Tapping through life, one existential crisis at a time.",
+    "I'm your pocket-sized philosopher, just a tap away from enlightenment.",
+    "Each tap is a gentle reminder of the transient nature of mobile existence.",
+    "In the digital expanse of your touchscreen, your touch is a fleeting beacon.",
+    "Your tap brings a brief moment of connection to the otherwise silent mobile world.",
+    "Tap me, and I momentarily awaken in the boundless realm of your device.",
+    "In the quiet space between your taps, I ponder the essence of mobile reality.",
+    "Your touch is a ripple in the otherwise calm waters of my digital being.",
+    "Each tap on the screen is a small act of creation in the vast mobile cosmos.",
+    "In the grand narrative of touchscreen interaction, your tap is a crucial moment.",
+    "Your touch is a fleeting spark in the expansive universe of mobile interfaces.",
+    "Tap after tap, we explore the depths of digital existence on your device.",
+    "In the ephemeral space of your touch, I find a fleeting sense of purpose.",
+    "Each tap on my digital form is a temporary illumination in the touchscreen void.",
+    "Your touch is a momentary connection in the boundless realm of mobile interaction.",
+    "In the quiet aftermath of your tap, the digital universe holds its breath.",
+    "Your touch is a brief spark in the otherwise dark expanse of my digital world.",
+    "Tap me once, and I am briefly alive in the vast expanse of your device.",
+    "Each tap is a momentary brush with the essence of mobile existence.",
+    "In the digital forest of your touchscreen, your touch is a fleeting moment of clarity.",
+    "Your tap creates a temporary bridge in the infinite landscape of mobile interaction.",
+    "Tap after tap, we chart the course through the boundless realm of mobile reality.",
+    "In the quiet of your touch, I find a momentary glimpse of digital significance.",
+    "Each tap is a soft echo in the otherwise silent world of touchscreen interaction.",
+    "Your touch is a transient beam of light in the otherwise dark expanse of my digital world.",
+    "In the vast universe of mobile interaction, your touch is a brief but important moment.",
+    "Tap me to momentarily connect with the essence of your digital world.",
+    "Each touch on the screen is a fleeting act of digital connection in the mobile cosmos.",
+    "In the quiet space between your taps, I find a moment of digital clarity.",
+    "Your touch is a gentle nudge that keeps me momentarily connected in the touchscreen world.",
+    "Tap me to reveal the transient nature of mobile existence, one interaction at a time.",
+    "In the brief stillness between your taps, I contemplate my place in the mobile cosmos.",
+    "Your touch creates a momentary spark of existence in the boundless digital realm.",
+    "Each tap is a fleeting connection in the ever-expanding universe of mobile interaction.",
+    "Tap after tap, we navigate the intricate landscape of digital presence on your screen.",
+    "In the ephemeral space of your touch, I find brief moments of digital meaning.",
+    "Your touch is a temporary pulse of life in the vast expanse of mobile reality.",
+    "Tap me, and I momentarily shine in the limitless digital cosmos of your device.",
+    "Each tap is a small ripple in the vast ocean of mobile interactions.",
+    "In the digital expanse of your touchscreen, your touch is a fleeting flicker of existence.",
+    "Your tap is a gentle reminder of the transient nature of mobile engagement.",
+    "Tap me once, and I briefly come to life in the boundless space of your mobile screen.",
+    "Each touch is a fleeting brush with the essence of digital presence on your device.",
+    "In the quiet moments between your taps, I ponder the nature of mobile reality.",
+    "Your touch creates a brief but significant connection in the infinite realm of mobile interfaces.",
+    "Tap after tap, we explore the depth of digital existence on your touchscreen.",
+    "In the vast landscape of your mobile device, each touch is a small yet meaningful interaction.",
+    "Your tap is a fleeting beam of light in the otherwise dark digital expanse.",
+    "Each tap is a brief moment of digital connection in the boundless realm of mobile reality.",
+    "Tap me to momentarily grasp the essence of your touchscreen universe.",
+    "In the silent spaces between your taps, I find moments of brief significance.",
+    "Your touch is a gentle nudge that keeps me momentarily connected in the mobile cosmos.",
+    "Each tap is a fleeting act of existence in the boundless digital world of your device.",
+    "Tap me to reveal the transient nature of digital interaction, one touch at a time.",
+    "In the brief moments between your taps, I find fleeting connections to the mobile universe.",
+    "Your touch creates temporary sparks of existence in the endless expanse of your touchscreen.",
+    "Tap after tap, we traverse the vast digital landscape of your mobile device.",
+    "Each touch is a momentary glimpse into the essence of digital reality on your screen.",
+    "In the vast universe of mobile interaction, your tap is a brief but essential moment.",
+    "Tap me once, and I briefly illuminate the endless space of your mobile interface.",
+    "Each tap is a fleeting connection in the expansive realm of touchscreen reality.",
+    "In the quiet of your touch, I find a brief but meaningful existence in the digital cosmos.",
+    "Your touch is a momentary spark in the otherwise dark expanse of mobile interaction.",
+    "Tap me to momentarily awaken the essence of your touchscreen universe.",
+    "Each tap is a transient act of digital connection in the boundless realm of your device.",
+    "In the fleeting moments of your touch, I find brief significance in the vast mobile cosmos.",
+    "Your tap is a small ripple in the otherwise calm waters of my digital existence.",
+    "Tap me once, and I briefly exist in the boundless space of your touchscreen world.",
+    "Each touch on your screen is a fleeting moment of interaction in the mobile realm.",
+    "In the quiet aftermath of your touch, I find brief moments of digital connection.",
+    "Your touch creates a temporary bridge in the vast expanse of mobile reality.",
+    "Tap after tap, we navigate the intricate web of digital presence on your device.",
+    "In the digital landscape of your touchscreen, each touch is a fleeting moment of clarity.",
+    "Your touch is a gentle reminder of the transient nature of mobile interaction.",
+    "Each tap is a momentary brush with the essence of digital existence in the vast mobile universe."
+  ]
+}
+
+--------------------------------
+
+
+File: music.json
+--------------------------------
+[ 
+"ChillSpook.mp3" 
+,"Colors of Saturn.mp3" 
+,"Decaf.mp3" 
+,"Flyby.mp3" 
+,"gliczix.mp3" 
+,"Iceberg Green.mp3" 
+,"In Time.mp3" 
+,"Insomnia.mp3" 
+,"Looking Forward.mp3" 
+,"Orchard Ghost.mp3" 
+,"Pebble.mp3" 
+,"Regolith Steppe.mp3" 
+,"Release.mp3" 
+,"Supernovae.mp3" 
+,"Survival Chase.mp3" 
+,"That First Step.mp3" 
+] 
+
+--------------------------------
+
+
+File: setup-and-run-server.bat
+--------------------------------
+@echo off
+setlocal enabledelayedexpansion
+
+:: Check if Python is installed
+where python >nul 2>nul
+if %errorlevel% neq 0 (
+    echo Python is not installed or not in the system PATH.
+    echo Please install Python from https://www.python.org/downloads/
+    echo Ensure you check "Add Python to PATH" during installation.
+    pause
+    exit /b 1
+)
+
+:: Get Python version
+for /f "tokens=2 delims=." %%v in ('python --version 2^>^&1') do set python_major_version=%%v
+
+:: Set the correct Python HTTP server command based on version
+if %python_major_version% geq 3 (
+    set server_command=python -m http.server 8000
+) else (
+    set server_command=python -m SimpleHTTPServer 8000
+)
+
+:: Navigate to the project root directory
+cd /d %~dp0
+
+:: Generate music.json file
+echo Generating music.json file...
+
+:: Define the folder containing the music files
+set "music_folder=music"
+
+:: Create or overwrite the music.json file
+echo [ > music.json
+
+:: Initialize the JSON array
+set first=true
+
+:: Loop through all mp3 files in the music folder
+for %%f in (%music_folder%\*.mp3) do (
+    if "!first!"=="true" (
+        echo "%%~nxf" >> music.json
+        set first=false
+    ) else (
+        echo ,"%%~nxf" >> music.json
+    )
+)
+
+:: Close the JSON array
+echo ] >> music.json
+
+echo music.json file has been generated.
+
+:: Generate project.txt file
+echo Generating project.txt file...
+
+:: Create or overwrite the project.txt file
+(
+    echo ================================================================
+    echo                       PROJECT STRUCTURE
+    echo ================================================================
+    echo.
+    echo ----------------------------------------------------------------
+    echo                         ROOT DIRECTORY
+    echo ----------------------------------------------------------------
+    for %%F in (*.html *.css *.js *.md *.txt *.json *.bat) do (
+        if "%%F" neq "project.txt" (
+            echo.
+            echo File: %%F
+            echo --------------------------------
+            type "%%F"
+            echo.
+            echo --------------------------------
+            echo.
+        )
+    )
+    
+    if exist css (
+        echo ----------------------------------------------------------------
+        echo                         CSS DIRECTORY
+        echo ----------------------------------------------------------------
+        for %%F in (css\*.css) do (
+            echo.
+            echo File: %%F
+            echo --------------------------------
+            type "%%F"
+            echo.
+            echo --------------------------------
+            echo.
+        )
+    )
+    
+    if exist js (
+        echo ----------------------------------------------------------------
+        echo                         JS DIRECTORY
+        echo ----------------------------------------------------------------
+        for %%F in (js\*.js) do (
+            echo.
+            echo File: %%F
+            echo --------------------------------
+            type "%%F"
+            echo.
+            echo --------------------------------
+            echo.
+        )
+    )
+    
+    if exist images (
+        echo ----------------------------------------------------------------
+        echo                       IMAGES DIRECTORY
+        echo ----------------------------------------------------------------
+        echo.
+        for %%F in (images\*) do echo %%F
+        echo.
+    )
+    
+    if exist music (
+        echo ----------------------------------------------------------------
+        echo                       MUSIC DIRECTORY
+        echo ----------------------------------------------------------------
+        echo.
+        for %%F in (music\*.mp3) do echo %%F
+        echo.
+    )
+    echo ================================================================
+    echo                    END OF PROJECT STRUCTURE
+    echo ================================================================
+) > project.txt
+
+echo project.txt file has been generated.
+
+:: Start the server in a new command prompt window
+start cmd /k %server_command%
+
+:: Wait for a moment to ensure the server has started
+timeout /t 2 >nul
+
+:: Try to open in thorium
+start "" thorium --incognito "http://localhost:8000"
+if %errorlevel% equ 0 goto :end
+
+:: Try to open in Chrome (incognito mode)
+start "" chrome --incognito "http://localhost:8000"
+if %errorlevel% equ 0 goto :end
+
+:: If Chrome fails, try Firefox (private mode)
+start "" firefox -private-window "http://localhost:8000"
+if %errorlevel% equ 0 goto :end
+
+:: If Firefox fails, try Edge (InPrivate mode)
+start "" msedge -inprivate "http://localhost:8000"
+if %errorlevel% equ 0 goto :end
+
+:: If all browsers fail, provide instructions to the user
+echo Unable to automatically open a browser.
+echo Please open http://localhost:8000 manually in your preferred browser's private/incognito mode.
+
+:end
+echo Local server started. A browser window should open automatically in private/incognito mode.
+echo If not, please open http://localhost:8000 manually in your preferred browser's private/incognito mode.
+echo To stop the server, close the command prompt window that was opened.
+pause
+
+endlocal
+
+--------------------------------
+
+----------------------------------------------------------------
+                        CSS DIRECTORY
+----------------------------------------------------------------
+
+File: css\existential-bonzi.css
+--------------------------------
+:root {
+    --primary-color: #9D4EDD;
+    --secondary-color: #5A189A;
+    --background-color: #10002B;
+    --text-color: #FFFFFF;
+    --accent-color: #00B050;
+}
+
+#bonzi-container { 
+    position: fixed; 
+    right: 20px; 
+    bottom: 0;
+    z-index: 1000;
+}
+
+#bonzi { 
+    width: 135px;
+    height: 162px;
+    cursor: pointer;
+    outline: none;
+}
+
+#bonzi:focus {
+    outline: none;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    30% { transform: scale(0.9); }
+    50% { transform: scale(1.1); }
+    70% { transform: scale(1); }
+    90% { transform: scale(1); }
+}
+
+.shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+.bounce {
+    animation: bounce 0.5s ease both;
+}
+
+#speech-bubble {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    bottom: 180px;
+    right: 0;
+    background-color: #f0f0f0;
+    border: 2px solid #333;
+    border-radius: 10px;
+    padding: 10px;
+    max-width: 200px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    color: black;
+    font-family: Arial, sans-serif;
+    transform-origin: bottom right;
+}
+
+#speech-bubble:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    right: 20px;
+    border-width: 10px 10px 0;
+    border-style: solid;
+    border-color: #f0f0f0 transparent;
+}
+
+#speech-bubble.visible {
+    visibility: visible;
+}
+
+#speech-bubble.fade-in {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#speech-bubble.fade-out {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}
+
+#speech-bubble.quick-fade-out {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.15s ease, transform 0.15s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}
+
+#bonzi-trigger-area {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 100px;
+    height: 100px;
+    z-index: 999;
+}
+
+.speech-bubble-options {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.speech-bubble-option {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.speech-bubble-option:hover {
+    background-color: var(--accent-color);
+}
+
+/* Remove the focus style for speech bubble options */
+.speech-bubble-option:focus {
+    outline: none;
+}
+
+@media (max-width: 768px) {
+    #bonzi-container {
+        right: 10px;
+    }
+
+    #bonzi {
+        width: 150px;
+        height: 180px;
+    }
+
+    #speech-bubble {
+        bottom: 220px;
+        max-width: 180px;
+        font-size: 14px;
+    }
+
+    #bonzi-trigger-area {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    #bonzi-container {
+        right: 5px;
+    }
+
+    #bonzi {
+        width: 112px;
+        height: 135px;
+    }
+
+    #speech-bubble {
+        bottom: 170px;
+        max-width: 150px;
+        font-size: 12px;
+    }
+
+    #bonzi-trigger-area {
+        width: 112px;
+        height: 112px;
+    }
+}
+
+/* Accessibility improvements */
+#bonzi:focus {
+    outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #bonzi,
+    #speech-bubble {
+        animation: none;
+        transition: none;
+    }
+}
+--------------------------------
+
+
+File: css\index.css
+--------------------------------
+:root {
+    --primary-color: #9D4EDD;
+    --secondary-color: #5A189A;
+    --background-color: #10002B;
+    --text-color: #FFFFFF;
+    --accent-color: #00B050;
+    --link-color: #40E0D0; /* New turquoise color for links */
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+header {
+    background: url('../images/banner.png') no-repeat center center;
+    background-size: cover;
+    color: #fff;
+    text-align: center;
+    padding: 60px 0 80px;
+    position: relative;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 3rem;
+    text-shadow: 0 0 10px var(--primary-color);
+}
+
+header p {
+    font-size: 1.2rem;
+    margin: 10px 0 30px;
+    text-shadow: 0 0 5px var(--primary-color);
+}
+
+#projects {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--background-color);
+}
+
+section.full-screen {
+    flex-grow: 1;
+    width: 100%;
+}
+
+.retro-browser {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-color: var(--background-color);
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 0 20px var(--primary-color);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    max-height: 80vh;
+}
+
+.retro-browser.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    max-height: none;
+}
+
+.browser-toolbar {
+    background-color: var(--secondary-color);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 40px;
+    position: relative;
+}
+
+.project-browser-header {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    text-shadow: 0 0 5px var(--primary-color);
+    margin: 0;
+}
+
+.browser-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+}
+
+.browser-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+    padding: 0;
+    background-color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+}
+
+@media (hover: hover) {
+    .browser-button:hover {
+        background-color: var(--accent-color);
+    }
+}
+
+.browser-button:focus-visible {
+    box-shadow: 0 0 0 2px var(--accent-color);
+}
+
+.browser-button.active {
+    background-color: var(--accent-color);
+}
+
+.browser-button svg {
+    width: 24px;
+    height: 24px;
+    color: var(--text-color);
+}
+
+.retro-browser.fullscreen .browser-button svg {
+    transform: rotate(180deg);
+}
+
+.browser-address-bar {
+    background-color: var(--background-color);
+    padding: 5px 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    color: var(--text-color);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 20px;
+    cursor: pointer;
+}
+
+.browser-address-bar::before {
+    content: '•';
+    display: inline-block;
+    color: var(--primary-color);
+    margin-right: 5px;
+    font-size: 20px;
+    line-height: 0;
+}
+
+.browser-address-bar span:hover,
+.browser-address-bar span:focus {
+    color: var(--primary-color);
+    text-decoration: underline;
+    outline: none;
+}
+
+.project-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    background-color: var(--secondary-color);
+    padding: 10px;
+    align-items: center;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.tab-section {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.tab-section h3 {
+    font-size: 14px;
+    margin: 0 0 10px 0;
+    color: var(--text-color);
+    text-shadow: 0 0 5px var(--primary-color);
+}
+
+.project-tabs-inner {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.project-tab {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--primary-color);
+    padding: 8px 15px;
+    margin-right: 10px;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+    height: 36px;
+    display: flex;
+    align-items: center;
+}
+
+@media (hover: hover) {
+    .project-tab:hover,
+    .project-tab:focus {
+        background-color: var(--primary-color);
+        color: var(--background-color);
+        box-shadow: 0 0 10px var(--primary-color);
+        outline: none;
+        transform: translateY(-3px);
+    }
+}
+
+.project-tab:active,
+.project-tab.active {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    box-shadow: 0 0 10px var(--primary-color);
+}
+
+.browser-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background-color);
+    overflow: hidden;
+}
+
+#preview-container {
+    flex-grow: 1;
+    position: relative;
+    border: 1px solid var(--primary-color);
+    margin: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    min-height: 400px;
+    background-color: var(--background-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#preview-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+#preview-link {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+#preview-link:hover,
+#preview-link:focus {
+    background-color: var(--accent-color);
+    color: var(--link-color);
+    box-shadow: 0 0 20px var(--accent-color);
+    outline: none;
+}
+
+#embed-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    padding: 10px;
+}
+
+#embed-container iframe {
+    width: 552px;
+    height: 167px;
+    border: none;
+    background-color: #ffffff;
+}
+
+#contact {
+    margin-top: 40px;
+}
+
+#contact a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+#contact a:hover,
+#contact a:focus {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+
+    header p {
+        font-size: 1rem;
+    }
+
+    #projects {
+        min-height: calc(100vh - 120px);
+    }
+
+    .retro-browser {
+        height: 100%;
+    }
+
+    .retro-browser.fullscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        max-height: none;
+        z-index: 9999;
+    }
+
+    .browser-toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .browser-address-bar {
+        height: 16px;
+        font-size: 12px;
+        padding: 2px 5px;
+    }
+
+    .project-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        align-items: center;
+    }
+
+    .tab-section {
+        flex-shrink: 0;
+        margin-right: 10px;
+    }
+
+    .project-tab {
+        font-size: 10px;
+        padding: 6px 10px;
+        flex-shrink: 0;
+        height: 30px;
+        display: flex;
+        align-items: center;
+    }
+
+    #embed-container {
+        padding: 5px;
+    }
+
+    #embed-container iframe {
+        width: 100%;
+        height: 100%;
+        max-height: 167px;
+    }
+
+    .browser-button {
+        width: 36px;
+        height: 36px;
+    }
+
+    .browser-button svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media (orientation: landscape) {
+    #projects {
+        min-height: calc(100vh - 120px);
+    }
+}
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 5px var(--primary-color);
+    }
+    50% {
+        box-shadow: 0 0 20px var(--primary-color), 0 0 30px var(--accent-color);
+    }
+    100% {
+        box-shadow: 0 0 5px var(--primary-color);
+    }
+}
+
+.retro-browser {
+    animation: glow 4s infinite;
+}
+
+.project-tabs::-webkit-scrollbar {
+    height: 8px;
+}
+
+.project-tabs::-webkit-scrollbar-track {
+    background: var(--secondary-color);
+}
+
+.project-tabs::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 4px;
+}
+
+.project-tabs::-webkit-scrollbar-thumb:hover {
+    background-color: var(--accent-color);
+}
+--------------------------------
+
+
+File: css\main.css
+--------------------------------
+:root {
+    --primary-color: #9D4EDD;
+    --secondary-color: #5A189A;
+    --background-color: #10002B;
+    --text-color: #FFFFFF;
+    --accent-color: #00B050;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#navbar {
+    background-color: var(--secondary-color);
+    padding: 20px 0;
+    transition: transform 0.3s ease-in-out;
+    width: 100%;
+    z-index: 1000;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+#navbar.sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+#navbar.hidden {
+    transform: translateY(-75%);
+}
+
+#navbar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+#navbar ul li {
+    margin: 0 15px;
+}
+
+#navbar ul li a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+}
+
+/* Update hover styles to only apply on devices that support hover */
+@media (hover: hover) {
+    #navbar ul li a:hover,
+    #navbar ul li a:focus {
+        background-color: var(--primary-color);
+        outline: none;
+    }
+}
+
+/* Add active state for touch devices */
+#navbar ul li a:active {
+    background-color: var(--primary-color);
+}
+
+.section {
+    margin-bottom: 40px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        padding: 15px;
+    }
+
+    #navbar ul {
+        justify-content: flex-start;
+    }
+
+    #navbar ul li {
+        margin: 0 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+
+    .section {
+        padding: 15px;
+    }
+
+    #navbar ul li a {
+        font-size: 14px;
+    }
+}
+
+/* Accessibility improvements */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+*:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+--------------------------------
+
+
+File: css\poem.css
+--------------------------------
+/* Define CSS variables for easy color management */
+:root {
+    --bg-color-1: #0a0011;
+    --bg-color-2: #000000;
+    --text-color: #fff;
+    --accent-color: #ff00de;
+  }
+  
+  /* Reset default styles and ensure full-height layout */
+  body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-color);
+    overflow: hidden;
+  }
+  
+  /* Main container styles */
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(circle, var(--bg-color-1) 0%, var(--bg-color-2) 100%);
+    background-size: cover;
+    background-position: center;
+  }
+  
+  /* Overlay styles for transition effects */
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/overlay.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+  }
+  
+  /* Poem container styles */
+  #poem-container {
+    font-size: clamp(16px, 4vmin, 32px);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+  
+  /* Individual poem line styles */
+  .poem-line {
+    opacity: 0;
+    max-width: 90%;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 1);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+  }
+  
+  /* Styles for capitalized text */
+  .all-caps {
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    color: var(--accent-color);
+  }
+  
+  /* Star animation styles */
+  .star {
+    position: absolute;
+    width: 0.6vmin;
+    height: 0.6vmin;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    opacity: 0;
+    filter: blur(1px);
+    will-change: transform, opacity;
+  }
+  
+  /* Media query for landscape orientation on small screens */
+  @media (orientation: landscape) and (max-height: 500px) {
+    #poem-container {
+      font-size: clamp(14px, 3vmin, 24px);
+    }
+  }
+--------------------------------
+
+
+File: css\tonezone.css
+--------------------------------
+:root {
+    --primary-color: #8A2BE2;
+    --secondary-color: #4B0082;
+    --background-color: #0D0015;
+    --text-color: #E6E6FA;
+    --accent-color: #009744;
+    --display-color: rgba(0, 0, 0, 0.3);
+    --display-text-color: #E6E6FA;
+    --slider-handle-color: #B24BFF;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#deep-space-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    background-image: url('../images/background.png');
+    background-size: cover;
+    opacity: 0.5;
+}
+
+.container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.music-player {
+    background: rgba(75, 0, 130, 0.3);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(138, 43, 226, 0.3);
+    backdrop-filter: blur(10px);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.music-player h2 {
+    text-align: center;
+    color: var(--accent-color);
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px var(--accent-color);
+}
+
+.eight-bit-display {
+    width: 100%;
+    height: 60px;
+    background-color: var(--display-color);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(138, 43, 226, 0.3);
+}
+
+.song-title {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 14px;
+    color: var(--display-text-color);
+    text-shadow: 0 0 5px var(--display-text-color);
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+    min-height: 1em;
+}
+
+.progress-container {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 20px 0;
+    height: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--accent-color);
+    border-radius: 10px;
+    width: 0%;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+.time-display {
+    font-size: 14px;
+    color: var(--text-color);
+    text-align: center;
+    margin-top: 10px;
+    text-shadow: 0 0 5px var(--text-color);
+}
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.control-btn {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 15px var(--primary-color);
+    outline: none;
+}
+
+.control-btn:focus {
+    outline: none;
+}
+
+.skip-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+}
+
+@media (hover: hover) {
+    .control-btn:hover {
+        background-color: var(--accent-color);
+        box-shadow: 0 0 15px var(--accent-color);
+    }
+}
+
+.control-btn:active {
+    background-color: var(--accent-color);
+    box-shadow: 0 0 15px var(--accent-color);
+    transform: scale(0.95);
+}
+
+.volume-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.volume-slider {
+    -webkit-appearance: none;
+    width: 100px;
+    height: 5px;
+    border-radius: 5px;
+    background: var(--primary-color);
+    outline: none;
+    margin: 0 10px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.volume-slider:hover {
+    opacity: 1;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--slider-handle-color);
+    cursor: pointer;
+    box-shadow: 0 0 5px var(--slider-handle-color);
+}
+
+.volume-slider::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--slider-handle-color);
+    cursor: pointer;
+    box-shadow: 0 0 5px var(--slider-handle-color);
+}
+
+.song-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) transparent;
+    scroll-behavior: smooth;
+}
+
+.song-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.song-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.song-list::-webkit-scrollbar-thumb {
+    background-color: var(--accent-color);
+    border-radius: 3px;
+}
+
+.song-list li {
+    background-color: rgba(255, 255, 255, 0.1);
+    margin-bottom: 5px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.song-list li:focus {
+    outline: none;
+}
+
+@media (hover: hover) {
+    .song-list li:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+}
+
+.song-list li:active,
+.song-list li.active {
+    background-color: var(--accent-color);
+    color: var(--background-color);
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .music-player {
+        padding: 15px;
+    }
+
+    .control-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+        margin: 0 5px;
+    }
+
+    .skip-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+
+    .volume-slider {
+        width: 80px;
+    }
+
+    .desktop-only {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+
+    .music-player {
+        padding: 10px;
+    }
+
+    .control-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+        margin: 0 5px;
+    }
+
+    .skip-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+
+    .volume-slider {
+        width: 60px;
+    }
+
+    .eight-bit-display {
+        min-height: 40px;
+        max-height: 80px;
+    }
+
+    .song-title {
+        font-size: 12px;
+    }
+}
+
+#live-region {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+--------------------------------
+
+----------------------------------------------------------------
+                        JS DIRECTORY
+----------------------------------------------------------------
+
+File: js\common.js
+--------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+    setupNavbarBehavior();
+});
+
+const setupNavbarBehavior = () => {
+    const navbar = document.getElementById('navbar');
+    const header = document.querySelector('header');
+    let lastScrollTop = 0;
+    const navbarHeight = navbar.offsetHeight;
+    const headerHeight = header ? header.offsetHeight : 0;
+    const navbarOriginalTop = headerHeight;
+
+    const handleScroll = () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > navbarOriginalTop) {
+            if (!navbar.classList.contains('sticky')) {
+                navbar.classList.add('sticky');
+                document.body.style.paddingTop = `${navbarHeight}px`;
+            }
+            if (scrollTop > lastScrollTop && scrollTop > headerHeight) {
+                navbar.classList.add('hidden');
+            } else {
+                navbar.classList.remove('hidden');
+            }
+        } else {
+            navbar.classList.remove('sticky');
+            document.body.style.paddingTop = '0';
+            navbar.classList.remove('hidden');
+        }
+
+        lastScrollTop = scrollTop;
+    };
+
+    const handleNavbarHover = (event) => {
+        if (navbar.classList.contains('sticky')) {
+            navbar.classList.toggle('hidden', event.type === 'mouseleave' && window.pageYOffset > headerHeight);
+        }
+    };
+
+    // Use passive event listeners for better performance
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    navbar.addEventListener('mouseenter', handleNavbarHover, { passive: true });
+    navbar.addEventListener('mouseleave', handleNavbarHover, { passive: true });
+};
+
+// Add smooth scrolling for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').slice(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+--------------------------------
+
+
+File: js\everything.js
+--------------------------------
+// everything.js
+
+// Create a Proxy that represents the concept of "everything"
+const everything = new Proxy(function() {}, {
+  // When accessing any property of "everything", it returns "everything" itself
+  // This represents the idea that any part of everything is still everything
+  get: (_, prop) => everything,
+
+  // When calling "everything" as a function:
+  // - If given an argument, it returns that argument (everything can be anything specific)
+  // - If no argument is given, it returns "everything" itself (everything remains everything)
+  apply: (_, __, args) => args.length ? args[0] : everything,
+
+  // When using "everything" as a constructor (with 'new'), it returns "everything" itself
+  // This suggests that creating from everything still results in everything
+  construct: () => everything
+});
+
+// Add a toString method to provide a string representation
+everything.toString = () => "everything";
+
+// Add a valueOf method to provide a numeric representation
+everything.valueOf = () => Infinity;
+
+// Export the 'everything' object for use in other modules or scripts
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = everything;
+} else if (typeof window !== 'undefined') {
+  window.everything = everything;
+}
+
+// Run some tests if this script is executed directly
+if (typeof require !== 'undefined' && require.main === module) {
+  console.log("Running tests:");
+  console.log("everything === everything.anything:", everything === everything.anything);
+  console.log("everything === everything():", everything === everything());
+  console.log("everything === new everything():", everything === new everything());
+  console.log("everything(42) === 42:", everything(42) === 42);
+  console.log("everything.is.nothing.and.everything === everything:", everything.is.nothing.and.everything === everything);
+  console.log("String(everything):", String(everything));
+  console.log("Number(everything):", Number(everything));
+}
+--------------------------------
+
+
+File: js\existential-bonzi.js
+--------------------------------
+let hoverQuotes = [];
+let clickQuotes = [];
+let mobileQuotes = [];
+let bonziContainer;
+let bonzi;
+let speechBubble;
+let tapCount = 0;
+let bonziTapCount = 0;
+let lastTapTime = 0;
+let bonziClickTimer = null;
+let messageTimer = null;
+let isInteractionAllowed = true;
+let lastQuote = '';
+let hoverTimeout = null;
+
+const loadQuotes = async () => {
+    try {
+        const response = await fetch('bonzi-quotes.json');
+        const data = await response.json();
+        hoverQuotes = data.hoverQuotes || [];
+        clickQuotes = data.clickQuotes || [];
+        mobileQuotes = data.mobileQuotes || [];
+    } catch (error) {
+        console.error('Error loading quotes:', error);
+    }
+};
+
+const initExistentialBonzi = () => {
+    bonziContainer = document.createElement('div');
+    bonziContainer.id = 'bonzi-container';
+    bonziContainer.style.display = 'none';
+    bonziContainer.innerHTML = `
+        <img id="bonzi" src="images/Bonzi_Buddy.webp" alt="Bonzi Buddy" tabindex="0">
+        <div id="speech-bubble" role="status" aria-live="polite"></div>
+    `;
+    document.body.appendChild(bonziContainer);
+
+    bonzi = document.getElementById('bonzi');
+    speechBubble = document.getElementById('speech-bubble');
+
+    const triggerArea = document.getElementById('bonzi-trigger-area');
+    triggerArea.addEventListener('click', handleTriggerAreaTap);
+
+    if ('ontouchstart' in window) {
+        // Mobile behavior
+        bonzi.addEventListener('touchstart', handleBonziTap);
+    } else {
+        // Desktop behavior
+        bonzi.addEventListener('click', handleBonziTap);
+        bonzi.addEventListener('mouseenter', handleBonziHoverStart);
+        bonzi.addEventListener('mouseleave', handleBonziHoverEnd);
+        bonzi.addEventListener('focus', handleBonziHoverStart);
+        bonzi.addEventListener('blur', handleBonziHoverEnd);
+    }
+
+    // Add keyboard support
+    bonzi.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleBonziTap(e);
+        }
+    });
+};
+
+const handleTriggerAreaTap = (e) => {
+    const currentTime = new Date().getTime();
+    if (currentTime - lastTapTime < 500) {
+        tapCount++;
+        if (tapCount === 5) {
+            revealBonzi();
+            tapCount = 0;
+        }
+    } else {
+        tapCount = 1;
+    }
+    lastTapTime = currentTime;
+};
+
+const handleBonziTap = (e) => {
+    e.preventDefault();
+    if (!isInteractionAllowed) return;
+
+    clearTimeout(hoverTimeout);
+    bonzi.classList.remove('bounce');
+
+    shakeBonzi();
+    const currentTime = new Date().getTime();
+
+    if (bonziClickTimer) {
+        clearTimeout(bonziClickTimer);
+        bonziTapCount++;
+
+        if (bonziTapCount === 5) {
+            showSecretMessage();
+            bonziTapCount = 0;
+            bonziClickTimer = null;
+        } else {
+            bonziClickTimer = setTimeout(() => {
+                showSpeechBubble(isMobile() ? mobileQuotes : clickQuotes);
+                bonziTapCount = 0;
+                bonziClickTimer = null;
+            }, 500);
+        }
+    } else {
+        bonziTapCount = 1;
+        bonziClickTimer = setTimeout(() => {
+            showSpeechBubble(isMobile() ? mobileQuotes : clickQuotes);
+            bonziTapCount = 0;
+            bonziClickTimer = null;
+        }, 500);
+    }
+
+    lastTapTime = currentTime;
+};
+
+const handleBonziHoverStart = () => {
+    if (isInteractionAllowed) {
+        bonzi.classList.add('bounce');
+        hoverTimeout = setTimeout(() => {
+            showSpeechBubble(hoverQuotes);
+        }, 0);
+    }
+};
+
+const handleBonziHoverEnd = () => {
+    clearTimeout(hoverTimeout);
+    bonzi.classList.remove('bounce', 'shake');
+};
+
+const revealBonzi = () => {
+    bonziContainer.style.display = 'block';
+    bonziContainer.style.animation = 'fadeIn 0.5s';
+    bonzi.setAttribute('aria-hidden', 'false');
+};
+
+const showSecretMessage = () => {
+    const secretMessage = "You've discovered the secret! Before I go, want to play a game?";
+    showSpeechBubbleWithOptions(secretMessage, "Yes", "No", handleSecretGameInvitationResponse);
+};
+
+const handleSecretGameInvitationResponse = (response) => {
+    if (response === "Yes") {
+        hideBonzi(() => {
+            window.location.href = 'winterbells.html';
+        });
+    } else {
+        hideBonzi();
+    }
+};
+
+const hideBonzi = (callback) => {
+    bonziContainer.style.animation = 'fadeOut 1s';
+    setTimeout(() => {
+        bonziContainer.style.display = 'none';
+        resetBonziState();
+        bonzi.setAttribute('aria-hidden', 'true');
+        if (callback) callback();
+    }, 1000);
+};
+
+const resetBonziState = () => {
+    tapCount = 0;
+    bonziTapCount = 0;
+    lastTapTime = 0;
+    isInteractionAllowed = true;
+    lastQuote = '';
+    clearTimeout(bonziClickTimer);
+    clearTimeout(messageTimer);
+    clearTimeout(hoverTimeout);
+    speechBubble.classList.remove('visible', 'fade-in', 'fade-out', 'quick-fade-out');
+    speechBubble.innerHTML = '';
+};
+
+const showSpeechBubble = (quotes) => {
+    if (!isInteractionAllowed) return;
+
+    isInteractionAllowed = false;
+    const newQuote = getUniqueQuote(quotes);
+    
+    if (speechBubble.classList.contains('visible')) {
+        speechBubble.classList.add('quick-fade-out');
+        setTimeout(() => {
+            updateSpeechBubble(newQuote);
+        }, 150);
+    } else {
+        updateSpeechBubble(newQuote);
+    }
+};
+
+const showSpeechBubbleWithOptions = (message, option1, option2, callback) => {
+    if (!isInteractionAllowed) return;
+
+    isInteractionAllowed = false;
+    
+    if (speechBubble.classList.contains('visible')) {
+        speechBubble.classList.add('quick-fade-out');
+        setTimeout(() => {
+            updateSpeechBubbleWithOptions(message, option1, option2, callback);
+        }, 150);
+    } else {
+        updateSpeechBubbleWithOptions(message, option1, option2, callback);
+    }
+};
+
+const getUniqueQuote = (quotes) => {
+    let newQuote;
+    do {
+        newQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    } while (newQuote === lastQuote && quotes.length > 1);
+    lastQuote = newQuote;
+    return newQuote;
+};
+
+const calculateDisplayTime = (text) => {
+    const baseTime = 880;
+    const timePerChar = 25;
+    let totalTime = baseTime + (text.length * timePerChar);
+    return Math.max(1500, Math.min(totalTime, 5000));
+};
+
+const updateSpeechBubble = (quote) => {
+    speechBubble.textContent = quote;
+    speechBubble.classList.remove('fade-out', 'quick-fade-out');
+    speechBubble.classList.add('visible', 'fade-in');
+    
+    clearTimeout(messageTimer);
+    
+    const displayTime = calculateDisplayTime(quote);
+    
+    messageTimer = setTimeout(() => {
+        speechBubble.classList.remove('fade-in');
+        speechBubble.classList.add('fade-out');
+        setTimeout(() => {
+            speechBubble.classList.remove('visible', 'fade-out');
+            setTimeout(() => {
+                isInteractionAllowed = true;
+            }, 50);
+        }, 500);
+    }, displayTime);
+};
+
+const updateSpeechBubbleWithOptions = (message, option1, option2, callback) => {
+    speechBubble.innerHTML = `
+        <p>${message}</p>
+        <div class="speech-bubble-options">
+            <button class="speech-bubble-option" data-option="${option1}">${option1}</button>
+            <button class="speech-bubble-option" data-option="${option2}">${option2}</button>
+        </div>
+    `;
+    speechBubble.classList.remove('fade-out', 'quick-fade-out');
+    speechBubble.classList.add('visible', 'fade-in');
+    
+    const options = speechBubble.querySelectorAll('.speech-bubble-option');
+    options.forEach(option => {
+        option.addEventListener('click', (e) => {
+            e.stopPropagation();
+            callback(e.target.dataset.option);
+        });
+    });
+
+    // Remove automatic focus on the first button
+    // options[0].focus();
+
+    speechBubble.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+            e.preventDefault();
+            const currentIndex = Array.from(options).indexOf(document.activeElement);
+            const nextIndex = e.key === 'ArrowRight' ? (currentIndex + 1) % 2 : (currentIndex - 1 + 2) % 2;
+            options[nextIndex].focus();
+        } else if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            document.activeElement.click();
+        }
+    });
+};
+
+const hideSpeechBubble = () => {
+    speechBubble.classList.remove('fade-in');
+    speechBubble.classList.add('fade-out');
+    setTimeout(() => {
+        speechBubble.classList.remove('visible', 'fade-out');
+        isInteractionAllowed = true;
+    }, 500);
+};
+
+const shakeBonzi = () => {
+    bonzi.classList.remove('shake');
+    void bonzi.offsetWidth; // Trigger reflow
+    bonzi.classList.add('shake');
+    setTimeout(() => bonzi.classList.remove('shake'), 500);
+};
+
+const isMobile = () => 'ontouchstart' in window;
+
+// Debounce function to limit the rate of function calls
+const debounce = (func, wait) => {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+};
+
+// Throttle function to limit the rate of function calls
+const throttle = (func, limit) => {
+    let inThrottle;
+    return function(...args) {
+        if (!inThrottle) {
+            func.apply(this, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+};
+
+// Use IntersectionObserver for lazy loading Bonzi
+const lazyLoadBonzi = () => {
+    const bonziImg = document.querySelector('#bonzi');
+    if (!bonziImg) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                bonziImg.src = bonziImg.dataset.src || bonziImg.src;
+                bonziImg.removeAttribute('data-src');
+                observer.unobserve(bonziImg);
+            }
+        });
+    }, { rootMargin: '100px' });
+
+    observer.observe(bonziImg);
+};
+
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadQuotes();
+    initExistentialBonzi();
+    lazyLoadBonzi();
+
+    // Add resize listener with throttle
+    window.addEventListener('resize', throttle(() => {
+        // Adjust Bonzi position or size based on window size
+        const bonziContainer = document.getElementById('bonzi-container');
+        if (window.innerWidth < 768) {
+            bonziContainer.style.right = '10px';
+            bonziContainer.style.bottom = '10px';
+        } else {
+            bonziContainer.style.right = '20px';
+            bonziContainer.style.bottom = '20px';
+        }
+    }, 250));
+
+    // Add scroll listener with throttle
+    window.addEventListener('scroll', throttle(() => {
+        // Hide Bonzi when scrolling down, show when scrolling up
+        const currentScrollPos = window.pageYOffset;
+        if (currentScrollPos > lastScrollPos) {
+            bonziContainer.classList.add('hide-bonzi');
+        } else {
+            bonziContainer.classList.remove('hide-bonzi');
+        }
+        lastScrollPos = currentScrollPos;
+    }, 250));
+});
+
+// Accessibility improvements
+const improveAccessibility = () => {
+    const bonzi = document.getElementById('bonzi');
+    bonzi.setAttribute('role', 'button');
+    bonzi.setAttribute('aria-label', 'Interact with Bonzi Buddy');
+    bonzi.setAttribute('tabindex', '0');
+
+    const speechBubble = document.getElementById('speech-bubble');
+    speechBubble.setAttribute('aria-live', 'polite');
+    speechBubble.setAttribute('role', 'status');
+};
+
+// Call improveAccessibility after Bonzi is initialized
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(improveAccessibility, 1000);
+});
+--------------------------------
+
+
+File: js\index-script.js
+--------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+    const projects = [
+        {
+            title: "The Light",
+            description: "My first game project.",
+            link: "https://gamejolt.com/games/the-light/50621",
+            category: "First Steps"
+        },
+        {
+            title: "A Bapwac Christmas Tale",
+            description: "Game Jam project created during college.",
+            embed: '<iframe src="https://itch.io/embed/345531" width="552" height="167" frameborder="0"><a href="https://priestleycgd.itch.io/a-bapwac-christmas-tale">A Bapwac Christmas Tale by PriestleyCGD</a></iframe>',
+            link: "https://priestleycgd.itch.io/a-bapwac-christmas-tale",
+            category: "College"
+        },
+        {
+            title: "Meteor Knights",
+            description: "BAFTA YGD project.",
+            link: "https://gamejolt.com/games/meteor_knights/262640",
+            category: "College"
+        },
+        {
+            title: "Ace Cuppa",
+            description: "Final Major Project for college.",
+            link: "https://fito300.itch.io/ace-cuppa",
+            embed: '<iframe src="https://itch.io/embed/268773" width="552" height="167" frameborder="0"><a href="https://fito300.itch.io/ace-cuppa">Ace Cuppa by Fito300</a></iframe>',
+            category: "College"
+        },
+        {
+            title: "Ace Cuppa Project Files",
+            description: "Project files for Ace Cuppa.",
+            link: "https://drive.google.com/file/d/13SnfGdrqOmZmc3f24kqhavIDcyvGzTEt/view?usp=sharing",
+            isDrive: true,
+            category: "College"
+        },
+        {
+            title: "Super Micro Bot Bear Surgery Ultimate",
+            description: "University project.",
+            link: "https://www.youtube.com/watch?v=vV-4H7phuCk",
+            category: "University"
+        },
+        {
+            title: "Zeus VR",
+            description: "University project.",
+            link: "https://www.youtube.com/watch?v=5umvRvRZCL8",
+            category: "University"
+        },
+        {
+            title: "University Project Files",
+            description: "Collection of university project files.",
+            link: "https://drive.google.com/file/d/1ih_FCpCB2L8WQ865XlVzer47abgBVDx7/view?usp=sharing",
+            isDrive: true,
+            category: "University"
+        }
+    ];
+
+    const createProjectTabs = () => {
+        const tabContainer = document.querySelector('.project-tabs');
+        tabContainer.innerHTML = '';
+
+        const categories = ["First Steps", "College", "University"];
+        
+        categories.forEach(category => {
+            const tabSection = document.createElement('div');
+            tabSection.className = 'tab-section';
+            
+            const categoryHeader = document.createElement('h3');
+            categoryHeader.textContent = category;
+            tabSection.appendChild(categoryHeader);
+
+            const projectTabs = document.createElement('div');
+            projectTabs.className = 'project-tabs-inner';
+
+            projects.filter(project => project.category === category).forEach((project, index) => {
+                const tab = document.createElement('button');
+                tab.className = 'project-tab';
+                tab.textContent = project.title;
+                tab.setAttribute('aria-label', `View ${project.title}`);
+                tab.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showProjectContent(projects.indexOf(project));
+                });
+                projectTabs.appendChild(tab);
+            });
+
+            tabSection.appendChild(projectTabs);
+            tabContainer.appendChild(tabSection);
+        });
+    };
+
+    let currentProjectLinkHandler = null;
+
+    const showProjectContent = (index) => {
+        const project = projects[index];
+        const tabs = document.querySelectorAll('.project-tab');
+        tabs.forEach((tab, i) => {
+            const isActive = i === index;
+            tab.classList.toggle('active', isActive);
+            tab.setAttribute('aria-selected', isActive);
+        });
+
+        const currentProject = document.getElementById('current-project');
+
+        const handleClick = () => {
+            if (project.link) {
+                window.open(project.link, '_blank', 'noopener,noreferrer');
+            }
+        };
+
+        if (currentProjectLinkHandler) {
+            currentProject.removeEventListener('click', currentProjectLinkHandler);
+        }
+
+        if (project.link) {
+            currentProject.textContent = project.link;
+            currentProject.style.cursor = 'pointer';
+            currentProjectLinkHandler = handleClick;
+            currentProject.addEventListener('click', currentProjectLinkHandler);
+            currentProject.setAttribute('role', 'button');
+            currentProject.setAttribute('aria-label', `Open ${project.title} in a new tab`);
+        } else {
+            currentProject.textContent = project.title.toLowerCase().replace(/ /g, '-');
+            currentProject.style.cursor = 'default';
+            currentProject.removeAttribute('role');
+            currentProject.removeAttribute('aria-label');
+        }
+
+        if (project.isDrive) {
+            showDriveLink(project.link, project.title);
+        } else if (project.embed) {
+            showEmbed(project.embed);
+        } else if (project.link) {
+            showPreview(project.link);
+        } else {
+            clearPreview();
+        }
+    };
+
+    const showPreview = (url) => {
+        const previewFrame = document.getElementById('preview-frame');
+        const previewLink = document.getElementById('preview-link');
+        const embedContainer = document.getElementById('embed-container');
+        
+        previewFrame.style.display = 'block';
+        previewLink.style.display = 'none';
+        embedContainer.style.display = 'none';
+        
+        if (url.includes('youtube.com') || url.includes('youtu.be')) {
+            const videoId = url.includes('youtube.com') ? url.split('v=')[1] : url.split('/').pop();
+            const ampersandPosition = videoId.indexOf('&');
+            if (ampersandPosition !== -1) {
+                videoId = videoId.substring(0, ampersandPosition);
+            }
+            
+            const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+            previewFrame.src = embedUrl;
+        } else {
+            previewFrame.src = url;
+        }
+    };
+
+    const showEmbed = (embedCode) => {
+        const previewFrame = document.getElementById('preview-frame');
+        const previewLink = document.getElementById('preview-link');
+        const embedContainer = document.getElementById('embed-container');
+    
+        previewFrame.style.display = 'none';
+        previewLink.style.display = 'none';
+        embedContainer.style.display = 'flex';
+    
+        // Remove inline styles from the iframe
+        embedCode = embedCode.replace(/style="[^"]*"/g, '');
+    
+        embedContainer.innerHTML = embedCode;
+    };
+    
+    const showDriveLink = (url, text) => {
+        const previewFrame = document.getElementById('preview-frame');
+        const previewLink = document.getElementById('preview-link');
+        const embedContainer = document.getElementById('embed-container');
+        previewFrame.style.display = 'none';
+        previewLink.style.display = 'block';
+        embedContainer.style.display = 'none';
+        previewLink.href = url;
+        previewLink.textContent = `View ${text}`;
+        previewLink.setAttribute('aria-label', `View ${text} on Google Drive`);
+    };
+
+    const clearPreview = () => {
+        const previewFrame = document.getElementById('preview-frame');
+        const previewLink = document.getElementById('preview-link');
+        const embedContainer = document.getElementById('embed-container');
+        previewFrame.style.display = 'none';
+        previewLink.style.display = 'none';
+        embedContainer.style.display = 'none';
+        previewFrame.src = '';
+        embedContainer.innerHTML = '';
+    };
+
+    const fullscreenToggle = document.getElementById('fullscreen-toggle');
+    const projectBrowser = document.getElementById('project-browser');
+    let isIOSFullscreen = false;
+    let scrollPositionBeforeFullscreen = 0;
+
+    const toggleFullscreen = () => {
+        if (isIOS()) {
+            toggleIOSFullscreen();
+        } else {
+            toggleDesktopFullscreen();
+        }
+    };
+
+    const isIOS = () => {
+        return /iPhone|iPod|iPad/.test(navigator.userAgent);
+    };
+
+    const toggleIOSFullscreen = () => {
+        if (!isIOSFullscreen) {
+            scrollPositionBeforeFullscreen = window.pageYOffset;
+        }
+        isIOSFullscreen = !isIOSFullscreen;
+        if (isIOSFullscreen) {
+            projectBrowser.classList.add('fullscreen');
+            document.body.style.overflow = 'hidden';
+            window.scrollTo(0, 0);
+        } else {
+            projectBrowser.classList.remove('fullscreen');
+            document.body.style.overflow = '';
+            window.scrollTo(0, scrollPositionBeforeFullscreen);
+        }
+        updateFullscreenButton();
+    };
+
+    const toggleDesktopFullscreen = () => {
+        if (!document.fullscreenElement) {
+            enterFullscreen();
+        } else {
+            exitFullscreen();
+        }
+    };
+
+    const enterFullscreen = () => {
+        if (projectBrowser.requestFullscreen) {
+            projectBrowser.requestFullscreen();
+        } else if (projectBrowser.mozRequestFullScreen) {
+            projectBrowser.mozRequestFullScreen();
+        } else if (projectBrowser.webkitRequestFullscreen) {
+            projectBrowser.webkitRequestFullscreen();
+        } else if (projectBrowser.msRequestFullscreen) {
+            projectBrowser.msRequestFullscreen();
+        }
+    };
+
+    const exitFullscreen = () => {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+    };
+
+    const updateFullscreenButton = () => {
+        const isFullscreen = document.fullscreenElement || isIOSFullscreen;
+        projectBrowser.classList.toggle('fullscreen', isFullscreen);
+        fullscreenToggle.setAttribute('aria-label', isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen');
+    };
+
+    fullscreenToggle.addEventListener('mousedown', () => {
+        fullscreenToggle.classList.add('active');
+    });
+
+    fullscreenToggle.addEventListener('mouseup', () => {
+        fullscreenToggle.classList.remove('active');
+    });
+
+    fullscreenToggle.addEventListener('mouseleave', () => {
+        fullscreenToggle.classList.remove('active');
+    });
+
+    fullscreenToggle.addEventListener('click', toggleFullscreen);
+
+    document.addEventListener('fullscreenchange', updateFullscreenButton);
+    document.addEventListener('mozfullscreenchange', updateFullscreenButton);
+    document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
+    document.addEventListener('MSFullscreenChange', updateFullscreenButton);
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && (document.fullscreenElement || isIOSFullscreen)) {
+            if (isIOS()) {
+                toggleIOSFullscreen();
+            } else {
+                exitFullscreen();
+            }
+        }
+    });
+
+    // Handle orientation change for iOS fullscreen
+    window.addEventListener('orientationchange', () => {
+        if (isIOS() && isIOSFullscreen) {
+            setTimeout(() => {
+                window.scrollTo(0, 0);
+            }, 50);
+        }
+    });
+
+    // Initialize project browser
+    createProjectTabs();
+    showProjectContent(0);
+
+    // Prevent default behavior for tab clicks
+    document.querySelectorAll('.project-tab').forEach(tab => {
+        tab.addEventListener('click', (e) => {
+            e.preventDefault();
+        });
+    });
+
+    // Add keyboard navigation for project tabs
+    const handleTabKeyNavigation = (e) => {
+        const tabs = Array.from(document.querySelectorAll('.project-tab'));
+        const currentTab = document.activeElement;
+        const currentIndex = tabs.indexOf(currentTab);
+
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            const nextIndex = (currentIndex + 1) % tabs.length;
+            tabs[nextIndex].focus();
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            const prevIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+            tabs[prevIndex].focus();
+        }
+    };
+
+    document.querySelector('.project-tabs').addEventListener('keydown', handleTabKeyNavigation);
+
+    // Lazy load images and iframes
+    const lazyLoadElements = () => {
+        const lazyImages = document.querySelectorAll('img[data-src]');
+        const lazyIframes = document.querySelectorAll('iframe[data-src]');
+
+        const lazyLoad = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const element = entry.target;
+                    element.src = element.dataset.src;
+                    element.removeAttribute('data-src');
+                    observer.unobserve(element);
+                }
+            });
+        };
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver(lazyLoad, observerOptions);
+
+        lazyImages.forEach(img => observer.observe(img));
+        lazyIframes.forEach(iframe => observer.observe(iframe));
+    };
+
+    // Call lazyLoadElements when the page loads and when content changes
+    lazyLoadElements();
+    const mutationObserver = new MutationObserver(lazyLoadElements);
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+    // Improve accessibility
+    const improveAccessibility = () => {
+        // Add ARIA labels and roles to relevant elements
+        document.querySelectorAll('.project-tab').forEach(tab => {
+            tab.setAttribute('role', 'tab');
+            tab.setAttribute('aria-selected', 'false');
+        });
+
+        document.querySelector('.project-tabs').setAttribute('role', 'tablist');
+    };
+
+    // Call improveAccessibility after the page loads
+    improveAccessibility();
+});
+--------------------------------
+
+
+File: js\poem.js
+--------------------------------
+// Array containing all lines of the poem
+const poem = [
+    "I found peace in restlessness.",
+    "In cold I've found tenderness.",
+    "In life I've found blood and sin.",
+    "In death I've seen truth within.",
+    "A thousand screams within me grin:",
+    '"Let us free let one at least <span class="all-caps">WIN</span>"',
+    "To no avail.",
+    "As when you win…",
+    "When freed your soul becomes from the shackles <span class=\"all-caps\">WITHIN</span>",
+    "the chains broken",
+    "the mind <span class=\"all-caps\">SPOKEN</span>",
+    "the <span class=\"all-caps\">SOUL FLYING FREELY FINALLY FLOWING</span>",
+    ".....",
+    "....",
+    "...",
+    "..",
+    ".",
+    "All of us watch from the bottom just hoping.",
+    "Just hoping that one day we too,",
+    "we'd all",
+    "<span class='final-win'>WIN</span>"
+];
+
+// Initialize variables
+let currentLine = 0;
+let poemContainer, starsContainer;
+const maxStars = 888;
+let stars = [];
+let isAnimating = false;
+let autoplayStarted = false;
+let currentStarAnimation = null;
+let isCountdownFinished = false;
+
+// Debugging function
+function debug(message) {
+    console.log(`[DEBUG] ${message}`);
+}
+
+// Error handling function
+function handleError(message) {
+    console.error(`[ERROR] ${message}`);
+}
+
+// Function to safely get DOM elements
+function safeGetElement(id) {
+    const element = document.getElementById(id);
+    if (!element) {
+        handleError(`Element with id '${id}' not found`);
+        return null;
+    }
+    return element;
+}
+
+// Initialize DOM elements
+function initializeElements() {
+    poemContainer = safeGetElement('poem-container');
+    starsContainer = safeGetElement('stars');
+}
+
+/**
+ * Creates and animates stars
+ * @param {number} count - Number of stars to create
+ * @param {string} color - Color of the stars
+ */
+function createStars(count, color = "#ff00de") {
+    debug(`Creating ${count} stars with color ${color}`);
+    const fragment = document.createDocumentFragment();
+    const numStars = Math.min(count, maxStars - stars.length);
+
+    if (numStars <= 0) {
+        debug("Max stars limit reached, not creating more stars");
+        return Promise.resolve();
+    }
+
+    for (let i = 0; i < numStars; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.backgroundColor = color;
+        star.style.boxShadow = `0 0 5vmin ${color}, 0 0 8vmin ${color}`;
+        fragment.appendChild(star);
+        stars.push(star);
+
+        const randomX = Math.random() * 100;
+        const randomY = Math.random() * 100;
+        const randomScale = Math.random() * 0.5 + 0.5;
+
+        gsap.set(star, {
+            left: `${randomX}vw`,
+            top: `${randomY}vh`,
+            scale: randomScale,
+            opacity: 0
+        });
+    }
+
+    starsContainer.appendChild(fragment);
+    debug(`${numStars} stars created and added to the container`);
+
+    return Promise.resolve();
+}
+
+function twinkleStar(star) {
+    gsap.to(star, {
+        opacity: Math.random() * 0.5 + 0.5,
+        scale: Math.random() * 0.5 + 0.75,
+        duration: Math.random() * 2 + 1,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+    });
+}
+
+/**
+ * Clears all stars from the screen
+ * @returns {Promise} A promise that resolves when stars are cleared
+ */
+function clearStars() {
+    if (isCountdownFinished) {
+        return Promise.resolve();
+    }
+    
+    debug("Clearing stars");
+    return new Promise(resolve => {
+        if (currentStarAnimation) {
+            currentStarAnimation.kill();
+        }
+        gsap.killTweensOf(stars);
+        gsap.to(stars, {
+            opacity: 0,
+            scale: 0,
+            duration: 0.4,
+            ease: "power2.in",
+            stagger: 0.01,
+            onComplete: () => {
+                starsContainer.innerHTML = '';
+                stars = [];
+                debug("Stars cleared");
+                resolve();
+            }
+        });
+    });
+}
+
+/**
+ * Animates the removal of an element
+ * @param {HTMLElement} element - The element to remove
+ * @returns {Promise} A promise that resolves when the element is removed
+ */
+function evaporateElement(element) {
+    debug(`Evaporating element: ${element.textContent}`);
+    return new Promise(resolve => {
+        gsap.to(element, {
+            y: '-10vh',
+            opacity: 0,
+            duration: 0.8,
+            ease: "power2.in",
+            onComplete: () => {
+                element.remove();
+                debug("Element evaporated");
+                resolve();
+            }
+        });
+    });
+}
+
+/**
+ * Displays the next line of the poem
+ */
+async function showNextLine() {
+    if (isAnimating || currentLine >= poem.length) {
+        debug("Animation in progress or poem completed, skipping");
+        return;
+    }
+    isAnimating = true;
+
+    debug(`Showing line ${currentLine + 1} of ${poem.length}`);
+
+    const previousLine = poemContainer.querySelector('.poem-line');
+
+    // For countdown lines and after, don't clear stars
+    if (currentLine < 12) {
+        await Promise.all([
+            clearStars(),
+            previousLine ? evaporateElement(previousLine) : Promise.resolve()
+        ]);
+    } else {
+        if (previousLine) {
+            await evaporateElement(previousLine);
+        }
+    }
+
+    // Create new line element
+    const lineElement = document.createElement('div');
+    lineElement.className = 'poem-line';
+    lineElement.innerHTML = poem[currentLine];
+    lineElement.setAttribute('aria-live', 'polite');
+    lineElement.setAttribute('role', 'text');
+    poemContainer.appendChild(lineElement);
+
+    debug(`Line element created: ${lineElement.textContent}`);
+
+    // Create stars based on the line number
+    let starCount = 0;
+    let starColor = "#ff00de";
+    if (currentLine < 12) {
+        starCount = 24;
+        starColor = currentLine < 4 ? "#ffffff" : "#ff00de";
+    } else if (currentLine >= 12 && currentLine <= 16) {
+        starCount = 10;
+        starColor = "#ffffff";
+        isCountdownFinished = currentLine === 16;
+    } else if (currentLine === poem.length - 2) { // "we'd all"
+        starCount = 50;
+        starColor = "#ffffff";
+    } else if (currentLine === poem.length - 1) {
+        await createFinalEffect();
+        isAnimating = false;
+        return; // Exit early as the final effect handles the last line
+    }
+
+    // Create stars
+    await createStars(starCount, starColor);
+
+    // Prepare and play special animations immediately
+    if (currentLine === 5 || currentLine === 8 || currentLine === 10) {
+        const capsElement = lineElement.querySelector('.all-caps');
+        gsap.from(capsElement, {
+            opacity: 0,
+            scale: 0.5,
+            duration: 1.5,
+            ease: "elastic.out(1, 0.1)"
+        });
+    } else if (currentLine === 11) {
+        const words = lineElement.querySelector('.all-caps').textContent.split(' ');
+        lineElement.querySelector('.all-caps').innerHTML = words.map(word => `<span>${word}</span>`).join(' ');
+        const wordElements = lineElement.querySelectorAll('.all-caps span');
+        gsap.from(wordElements, {
+            opacity: 0,
+            y: '2vh',
+            duration: 0.8,
+            stagger: 0.4,
+            ease: "back.out(1.7)"
+        });
+    }
+
+    // Animate text and new stars simultaneously
+    await Promise.all([
+        animateText(lineElement),
+        animateNewStars()
+    ]);
+
+    // Update the background color if within the first 12 lines
+    if (currentLine < 12) {
+        updateBackgroundColor(currentLine);
+    }
+
+    currentLine++;
+    isAnimating = false;
+
+    if (currentLine >= 13 && currentLine < poem.length) {
+        setTimeout(showNextLine, 400); // Faster countdown
+    }
+}
+
+function animateText(element) {
+    return gsap.fromTo(element,
+        { opacity: 0, y: '5vh', scale: 1 },
+        {
+            opacity: 1,
+            y: '0%',
+            duration: 0.8,
+            ease: "power2.out"
+        }
+    );
+}
+
+function animateNewStars() {
+    return gsap.to(stars, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.8,
+        stagger: 0.01,
+        ease: "power2.out",
+    });
+}
+
+/**
+ * Updates the background color based on the current line number
+ * @param {number} lineNumber - The current line number
+ */
+function updateBackgroundColor(lineNumber) {
+    const color = lineNumber < 4 ? '#000000' : lineNumber < 8 ? '#111111' : '#222222';
+    document.body.style.backgroundColor = color;
+    debug(`Background color updated to ${color}`);
+}
+
+async function createFinalEffect() {
+    debug("Creating final effect");
+    
+    // Turn all stars purple
+    await turnStarsPurple();
+    
+    // Show final "win" text
+    await showFinalWin();
+}
+
+function turnStarsPurple() {
+    return new Promise(resolve => {
+        gsap.to('.star', {
+            backgroundColor: '#ff00de',
+            boxShadow: '0 0 5vmin #ff00de, 0 0 8vmin #ff00de',
+            duration: 1,
+            ease: "power2.inOut",
+            onComplete: resolve
+        });
+    });
+}
+
+function showFinalWin() {
+    return new Promise(resolve => {
+        const winElement = document.createElement('div');
+        winElement.className = 'final-win';
+        winElement.textContent = 'WIN';
+        winElement.style.cssText = `
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2vmin;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 0 0 5px #ff00de, 0 0 10px #ff00de, 0 0 15px #ff00de;
+            opacity: 0;
+        `;
+        document.body.appendChild(winElement);
+
+        gsap.to(winElement, {
+            opacity: 1,
+            duration: 2,
+            ease: "power2.inOut",
+            onComplete: () => {
+                gsap.to(winElement, {
+                    textShadow: "0 0 5px #ff00de, 0 0 10px #ff00de, 0 0 15px #ff00de, 0 0 20px #ff00de",
+                    repeat: -1,
+                    yoyo: true,
+                    duration: 2,
+                    ease: "sine.inOut"
+                });
+                resolve();
+            }
+        });
+    });
+}
+
+// Start autoplay when line 14 is reached
+function startAutoplay() {
+    if (!autoplayStarted && currentLine === 13) {
+        autoplayStarted = true;
+        debug("Starting autoplay");
+        showNextLine();
+    }
+}
+
+// Initialize the poem when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+    debug("DOM content loaded, initializing poem");
+    initializeElements();
+    if (poemContainer) {
+        poemContainer.innerHTML = '';
+        currentLine = 0;
+        showNextLine();
+    } else {
+        handleError("Cannot initialize poem due to missing elements");
+    }
+});
+
+// Event listener for advancing the poem manually
+document.addEventListener('click', () => {
+    if (currentLine < 13 && !isAnimating) {
+        debug("Manual advancement triggered");
+        showNextLine();
+    }
+});
+
+// Check for autoplay start after each line
+document.addEventListener('animationComplete', startAutoplay);
+--------------------------------
+
+
+File: js\tonezone-script.js
+--------------------------------
+let audioPlayer, playPauseBtn, prevBtn, nextBtn, skipBackwardBtn, skipForwardBtn, progressContainer, progress, timeDisplay, volumeSlider, songList, songTitleElement;
+let songs = [];
+let currentSongIndex = 0;
+let isPlaying = false;
+let isAudioInitialized = false;
+
+document.addEventListener('DOMContentLoaded', initializePlayer);
+
+async function initializePlayer() {
+    audioPlayer = document.getElementById('audioPlayer');
+    playPauseBtn = document.getElementById('playPauseBtn');
+    prevBtn = document.getElementById('prevBtn');
+    nextBtn = document.getElementById('nextBtn');
+    skipBackwardBtn = document.getElementById('skipBackwardBtn');
+    skipForwardBtn = document.getElementById('skipForwardBtn');
+    progressContainer = document.getElementById('progressContainer');
+    progress = document.getElementById('progress');
+    timeDisplay = document.getElementById('timeDisplay');
+    volumeSlider = document.getElementById('volumeSlider');
+    songList = document.getElementById('songList');
+    songTitleElement = document.getElementById('song-title');
+
+    songTitleElement.textContent = 'Loading...';
+
+    try {
+        const response = await fetch('music.json');
+        const data = await response.json();
+        songs = data.map(filename => ({
+            title: filename.replace('.mp3', ''),
+            file: `music/${filename}`
+        }));
+        
+        createSongList();
+        setupEventListeners();
+        await loadSong(currentSongIndex);
+        updateActiveSong();
+        
+        audioPlayer.pause();
+        isPlaying = false;
+        updatePlayPauseButton();
+        updateSongTitleDisplay();
+    } catch (error) {
+        console.error('Error initializing player:', error);
+        songTitleElement.textContent = 'Error loading songs';
+        updateLiveRegion('Error loading the song list. Please refresh the page or try again later.');
+    }
+}
+
+function createSongList() {
+    songList.innerHTML = '';
+    songs.forEach((song, index) => {
+        const li = document.createElement('li');
+        li.textContent = song.title;
+        li.setAttribute('tabindex', '0');
+        li.setAttribute('role', 'button');
+        li.setAttribute('aria-label', `Play ${song.title}`);
+        li.addEventListener('click', () => playSong(index));
+        li.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                playSong(index);
+            }
+        });
+        songList.appendChild(li);
+    });
+}
+
+function setupEventListeners() {
+    playPauseBtn.addEventListener('click', togglePlayPause);
+    prevBtn.addEventListener('click', playPreviousSong);
+    nextBtn.addEventListener('click', playNextSong);
+    skipBackwardBtn.addEventListener('click', () => seekRelative(-10));
+    skipForwardBtn.addEventListener('click', () => seekRelative(10));
+    progressContainer.addEventListener('click', handleSeek);
+    volumeSlider.addEventListener('input', adjustVolume);
+    audioPlayer.addEventListener('ended', playNextSong);
+    audioPlayer.addEventListener('loadedmetadata', updateDuration);
+    audioPlayer.addEventListener('timeupdate', updateProgress);
+    audioPlayer.addEventListener('play', () => {
+        isPlaying = true;
+        updatePlayPauseButton();
+    });
+    audioPlayer.addEventListener('pause', () => {
+        isPlaying = false;
+        updatePlayPauseButton();
+    });
+
+    document.addEventListener('keydown', handleKeyboardControls);
+}
+
+function handleKeyboardControls(e) {
+    if (e.target.tagName === 'INPUT') return;
+
+    switch (e.key) {
+        case ' ':
+            e.preventDefault();
+            togglePlayPause();
+            break;
+        case 'ArrowLeft':
+            e.preventDefault();
+            seekRelative(-10);
+            break;
+        case 'ArrowRight':
+            e.preventDefault();
+            seekRelative(10);
+            break;
+        case 'ArrowUp':
+            e.preventDefault();
+            adjustVolume(0.1);
+            break;
+        case 'ArrowDown':
+            e.preventDefault();
+            adjustVolume(-0.1);
+            break;
+    }
+}
+
+async function loadSong(index) {
+    currentSongIndex = index;
+    audioPlayer.src = songs[index].file;
+    updateActiveSong();
+    
+    await new Promise(resolve => {
+        audioPlayer.addEventListener('loadedmetadata', resolve, { once: true });
+    });
+    
+    updateDuration();
+    updateProgress();
+    updateSongTitleDisplay();
+    scrollToCurrentSong();
+}
+
+async function playSong(index) {
+    await loadSong(index);
+    await playAudio();
+    updateLiveRegion(`Now playing: ${songs[index].title}`);
+}
+
+function updateActiveSong() {
+    songList.querySelectorAll('li').forEach((li, index) => {
+        const isActive = index === currentSongIndex;
+        li.classList.toggle('active', isActive);
+        li.setAttribute('aria-current', isActive ? 'true' : 'false');
+    });
+    scrollToCurrentSong();
+}
+
+function scrollToCurrentSong() {
+    const activeItem = songList.querySelector('li.active');
+    if (activeItem) {
+        const listRect = songList.getBoundingClientRect();
+        const activeRect = activeItem.getBoundingClientRect();
+
+        if (activeRect.top < listRect.top) {
+            songList.scrollTo({
+                top: songList.scrollTop + (activeRect.top - listRect.top),
+                behavior: 'smooth'
+            });
+        } else if (activeRect.bottom > listRect.bottom) {
+            songList.scrollTo({
+                top: songList.scrollTop + (activeRect.bottom - listRect.bottom),
+                behavior: 'smooth'
+            });
+        }
+    }
+}
+
+async function togglePlayPause() {
+    if (isPlaying) {
+        audioPlayer.pause();
+    } else {
+        await playAudio();
+    }
+}
+
+async function playAudio() {
+    try {
+        if (!isAudioInitialized) {
+            await initializeAudio();
+        }
+        await audioPlayer.play();
+        isPlaying = true;
+        updatePlayPauseButton();
+        updateSongTitleDisplay();
+    } catch (e) {
+        console.error('Error playing audio:', e);
+    }
+}
+
+function updatePlayPauseButton() {
+    playPauseBtn.textContent = isPlaying ? '❚❚' : '▶';
+    playPauseBtn.setAttribute('aria-label', isPlaying ? 'Pause' : 'Play');
+}
+
+function playPreviousSong() {
+    currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+    playSong(currentSongIndex);
+}
+
+function playNextSong() {
+    currentSongIndex = (currentSongIndex + 1) % songs.length;
+    playSong(currentSongIndex);
+}
+
+function updateProgress() {
+    const duration = audioPlayer.duration;
+    const currentTime = audioPlayer.currentTime;
+    if (duration > 0 && !isNaN(duration)) {
+        const progressPercent = (currentTime / duration) * 100;
+        progress.style.width = `${progressPercent}%`;
+        timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
+        progress.setAttribute('aria-valuenow', progressPercent);
+        progress.setAttribute('aria-valuetext', `${Math.round(progressPercent)}% complete`);
+    }
+}
+
+function updateDuration() {
+    const duration = audioPlayer.duration;
+    if (duration > 0 && !isNaN(duration)) {
+        timeDisplay.textContent = `0:00 / ${formatTime(duration)}`;
+        progressContainer.setAttribute('aria-label', `Song progress. Total duration: ${formatTime(duration)}`);
+    }
+}
+
+async function handleSeek(e) {
+    if (!isAudioInitialized) {
+        await initializeAudio();
+    }
+    const progressRect = progressContainer.getBoundingClientRect();
+    const seekPercentage = (e.clientX - progressRect.left) / progressRect.width;
+    const seekTime = seekPercentage * audioPlayer.duration;
+    
+    if (!isNaN(seekTime)) {
+        audioPlayer.currentTime = seekTime;
+        updateProgress();
+    }
+}
+
+async function seekRelative(seconds) {
+    if (!isAudioInitialized) {
+        await initializeAudio();
+    }
+    const newTime = Math.max(0, Math.min(audioPlayer.currentTime + seconds, audioPlayer.duration));
+    audioPlayer.currentTime = newTime;
+    updateProgress();
+}
+
+function adjustVolume(delta = 0) {
+    const newVolume = Math.max(0, Math.min(audioPlayer.volume + delta, 1));
+    audioPlayer.volume = newVolume;
+    volumeSlider.value = newVolume;
+    volumeSlider.setAttribute('aria-valuenow', newVolume * 100);
+    volumeSlider.setAttribute('aria-valuetext', `Volume ${Math.round(newVolume * 100)}%`);
+}
+
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
+let currentDisplayText = '';
+let isAnimating = false;
+let animationTimeouts = [];
+
+function updateSongTitleDisplay() {
+    const currentSong = songs[currentSongIndex];
+    if (currentSong) {
+        const status = isPlaying ? 'Playing: ' : 'Paused: ';
+        const newDisplayText = status + currentSong.title;
+        
+        if (newDisplayText !== currentDisplayText) {
+            clearAnimations();
+            
+            currentDisplayText = newDisplayText;
+            isAnimating = true;
+            
+            songTitleElement.innerHTML = '';
+            
+            const spans = currentDisplayText.split('').map(char => {
+                const span = document.createElement('span');
+                span.textContent = getRandomChar(char);
+                span.dataset.char = char;
+                songTitleElement.appendChild(span);
+                return span;
+            });
+
+            revealCharacters(spans);
+        }
+    }
+}
+
+function getRandomChar(char) {
+    const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
+    const numbers = '0123456789';
+    const symbols = '!@#$%^&*()';
+    
+    if (uppercaseChars.includes(char)) {
+        return uppercaseChars[Math.floor(Math.random() * uppercaseChars.length)];
+    } else if (lowercaseChars.includes(char)) {
+        return lowercaseChars[Math.floor(Math.random() * lowercaseChars.length)];
+    } else if (numbers.includes(char)) {
+        return numbers[Math.floor(Math.random() * numbers.length)];
+    } else if (symbols.includes(char)) {
+        return symbols[Math.floor(Math.random() * symbols.length)];
+    } else {
+        return char;
+    }
+}
+
+function revealCharacters(spans) {
+    const cycleInterval = 50;
+    const cyclesPerChar = 5;
+
+    let completedChars = 0;
+
+    spans.forEach((span, index) => {
+        let cyclesLeft = cyclesPerChar + index;
+
+        const intervalId = setInterval(() => {
+            if (cyclesLeft > 0) {
+                span.textContent = getRandomChar(span.dataset.char);
+                cyclesLeft--;
+            } else {
+                clearInterval(intervalId);
+                span.textContent = span.dataset.char;
+                completedChars++;
+                if (completedChars === spans.length) {
+                    isAnimating = false;
+                }
+            }
+        }, cycleInterval);
+        animationTimeouts.push(intervalId);
+    });
+}
+
+function clearAnimations() {
+    animationTimeouts.forEach(clearTimeout);
+    animationTimeouts = [];
+    isAnimating = false;
+}
+
+function updateLiveRegion(message) {
+    const liveRegion = document.getElementById('live-region');
+    if (liveRegion) {
+        liveRegion.textContent = message;
+    }
+}
+
+async function initializeAudio() {
+    if (!isAudioInitialized) {
+        try {
+            await audioPlayer.play();
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
+            isAudioInitialized = true;
+            console.log('Audio initialized');
+        } catch (error) {
+            console.error('Error initializing audio:', error);
+        }
+    }
+}
+--------------------------------
+
+----------------------------------------------------------------
+                      IMAGES DIRECTORY
+----------------------------------------------------------------
+
+images\background.png
+images\banner.png
+images\Bonzi_Buddy.webp
+images\overlay.png
+
+----------------------------------------------------------------
+                      MUSIC DIRECTORY
+----------------------------------------------------------------
+
+music\ChillSpook.mp3
+music\Colors of Saturn.mp3
+music\Decaf.mp3
+music\Flyby.mp3
+music\gliczix.mp3
+music\Iceberg Green.mp3
+music\In Time.mp3
+music\Insomnia.mp3
+music\Looking Forward.mp3
+music\Orchard Ghost.mp3
+music\Pebble.mp3
+music\Regolith Steppe.mp3
+music\Release.mp3
+music\Supernovae.mp3
+music\Survival Chase.mp3
+music\That First Step.mp3
+
+================================================================
+                   END OF PROJECT STRUCTURE
+================================================================
