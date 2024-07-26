@@ -25,13 +25,7 @@ async function initializePlayer() {
     songTitleElement.textContent = 'Loading...';
 
     try {
-        const response = await fetch('music.json');
-        const data = await response.json();
-        songs = data.map(filename => ({
-            title: filename.replace('.mp3', ''),
-            file: `music/${filename}`
-        }));
-        
+        await loadSongs();
         createSongList();
         setupEventListeners();
         await loadSong(currentSongIndex);
@@ -42,11 +36,6 @@ async function initializePlayer() {
         updatePlayPauseButton();
         updateSongTitleDisplay();
         
-        // Remove these event listeners from the document
-        // document.addEventListener('click', initializeAudioOnFirstInteraction, { once: true });
-        // document.addEventListener('touchstart', initializeAudioOnFirstInteraction, { once: true });
-        
-        // Instead, add them to specific interactive elements
         playPauseBtn.addEventListener('click', initializeAudioOnFirstInteraction);
         skipBackwardBtn.addEventListener('click', initializeAudioOnFirstInteraction);
         skipForwardBtn.addEventListener('click', initializeAudioOnFirstInteraction);
@@ -59,6 +48,20 @@ async function initializePlayer() {
     }
 }
 
+async function loadSongs() {
+    const musicJsonUrl = new URL('music.json', window.location.href).href;
+    const response = await fetch(musicJsonUrl);
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    songs = data.map(filename => ({
+        title: filename.replace('.mp3', ''),
+        file: new URL(`music/${filename}`, window.location.href).href
+    }));
+    console.log('Songs loaded:', songs);
+}
+
 async function initializeAudioOnFirstInteraction(event) {
     if (!isAudioInitialized && !isInitializing) {
         isInitializing = true;
@@ -68,13 +71,11 @@ async function initializeAudioOnFirstInteraction(event) {
             isAudioInitialized = true;
             console.log('Audio initialized on first interaction');
             
-            // Remove the initialization listeners after successful initialization
             playPauseBtn.removeEventListener('click', initializeAudioOnFirstInteraction);
             skipBackwardBtn.removeEventListener('click', initializeAudioOnFirstInteraction);
             skipForwardBtn.removeEventListener('click', initializeAudioOnFirstInteraction);
             progressContainer.removeEventListener('click', initializeAudioOnFirstInteraction);
             
-            // Now handle the original click event
             if (event.currentTarget === playPauseBtn) {
                 togglePlayPause();
             } else if (event.currentTarget === skipBackwardBtn) {
@@ -231,7 +232,7 @@ async function loadSong(index) {
     updateActiveSong();
     
     if (!isAudioInitialized) {
-        await initializeAudioOnFirstInteraction();
+        await initializeAudioOnFirstInteraction({ currentTarget: playPauseBtn });
     }
     
     await new Promise(resolve => {
