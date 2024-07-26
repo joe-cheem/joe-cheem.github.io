@@ -3557,6 +3557,8 @@ async function initializePlayer() {
     songList = document.getElementById('songList');
     songTitleElement = document.getElementById('song-title');
 
+    songTitleElement.textContent = 'Loading...';
+
     try {
         const response = await fetch('music.json');
         const data = await response.json();
@@ -3573,11 +3575,18 @@ async function initializePlayer() {
         audioPlayer.pause();
         isPlaying = false;
         updatePlayPauseButton();
+        updateSongTitleDisplay();
         
-        updateInitialSongTitleDisplay();
+        // Remove these event listeners from the document
+        // document.addEventListener('click', initializeAudioOnFirstInteraction, { once: true });
+        // document.addEventListener('touchstart', initializeAudioOnFirstInteraction, { once: true });
         
-        document.addEventListener('click', initializeAudioOnFirstInteraction, { once: true });
-        document.addEventListener('touchstart', initializeAudioOnFirstInteraction, { once: true });
+        // Instead, add them to specific interactive elements
+        playPauseBtn.addEventListener('click', initializeAudioOnFirstInteraction);
+        skipBackwardBtn.addEventListener('click', initializeAudioOnFirstInteraction);
+        skipForwardBtn.addEventListener('click', initializeAudioOnFirstInteraction);
+        progressContainer.addEventListener('click', initializeAudioOnFirstInteraction);
+        
     } catch (error) {
         console.error('Error initializing player:', error);
         songTitleElement.textContent = 'Error loading songs';
@@ -3585,7 +3594,7 @@ async function initializePlayer() {
     }
 }
 
-async function initializeAudioOnFirstInteraction() {
+async function initializeAudioOnFirstInteraction(event) {
     if (!isAudioInitialized && !isInitializing) {
         isInitializing = true;
         try {
@@ -3593,6 +3602,23 @@ async function initializeAudioOnFirstInteraction() {
             audioPlayer.pause();
             isAudioInitialized = true;
             console.log('Audio initialized on first interaction');
+            
+            // Remove the initialization listeners after successful initialization
+            playPauseBtn.removeEventListener('click', initializeAudioOnFirstInteraction);
+            skipBackwardBtn.removeEventListener('click', initializeAudioOnFirstInteraction);
+            skipForwardBtn.removeEventListener('click', initializeAudioOnFirstInteraction);
+            progressContainer.removeEventListener('click', initializeAudioOnFirstInteraction);
+            
+            // Now handle the original click event
+            if (event.currentTarget === playPauseBtn) {
+                togglePlayPause();
+            } else if (event.currentTarget === skipBackwardBtn) {
+                skipBackward();
+            } else if (event.currentTarget === skipForwardBtn) {
+                skipForward();
+            } else if (event.currentTarget === progressContainer) {
+                handleSeek(event);
+            }
         } catch (error) {
             console.error('Error initializing audio:', error);
         } finally {
@@ -3603,14 +3629,10 @@ async function initializeAudioOnFirstInteraction() {
 
 async function ensureAudioInitialized() {
     if (!isAudioInitialized) {
-        await initializeAudioOnFirstInteraction();
+        await initializeAudioOnFirstInteraction({ currentTarget: playPauseBtn });
     }
     if (!hasUserInteracted) {
         hasUserInteracted = true;
-        // On first interaction, ensure the audio is paused
-        audioPlayer.pause();
-        isPlaying = false;
-        updatePlayPauseButton();
     }
 }
 
@@ -3849,14 +3871,6 @@ let currentDisplayText = '';
 let isAnimating = false;
 let animationTimeouts = [];
 
-function updateInitialSongTitleDisplay() {
-    const currentSong = songs[currentSongIndex];
-    if (currentSong) {
-        const displayText = 'Paused: ' + currentSong.title;
-        animateText(displayText);
-    }
-}
-
 function updateSongTitleDisplay() {
     const currentSong = songs[currentSongIndex];
     if (currentSong) {
@@ -3864,28 +3878,24 @@ function updateSongTitleDisplay() {
         const newDisplayText = status + currentSong.title;
         
         if (newDisplayText !== currentDisplayText) {
-            animateText(newDisplayText);
+            clearAnimations();
+            
+            currentDisplayText = newDisplayText;
+            isAnimating = true;
+            
+            songTitleElement.innerHTML = '';
+            
+            const spans = currentDisplayText.split('').map(char => {
+                const span = document.createElement('span');
+                span.textContent = getRandomChar(char);
+                span.dataset.char = char;
+                songTitleElement.appendChild(span);
+                return span;
+            });
+
+            revealCharacters(spans);
         }
     }
-}
-
-function animateText(newDisplayText) {
-    clearAnimations();
-    
-    currentDisplayText = newDisplayText;
-    isAnimating = true;
-    
-    songTitleElement.innerHTML = '';
-    
-    const spans = newDisplayText.split('').map(char => {
-        const span = document.createElement('span');
-        span.textContent = getRandomChar(char);
-        span.dataset.char = char;
-        songTitleElement.appendChild(span);
-        return span;
-    });
-
-    revealCharacters(spans);
 }
 
 function getRandomChar(char) {
