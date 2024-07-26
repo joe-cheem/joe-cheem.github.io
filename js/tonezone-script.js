@@ -4,6 +4,7 @@ let currentSongIndex = 0;
 let isPlaying = false;
 let isAudioInitialized = false;
 let isInitializing = false;
+let hasUserInteracted = false;
 
 document.addEventListener('DOMContentLoaded', initializePlayer);
 
@@ -64,6 +65,64 @@ async function initializeAudioOnFirstInteraction() {
             isInitializing = false;
         }
     }
+}
+
+async function ensureAudioInitialized() {
+    if (!isAudioInitialized) {
+        await initializeAudioOnFirstInteraction();
+    }
+    if (!hasUserInteracted) {
+        hasUserInteracted = true;
+        // On first interaction, ensure the audio is paused
+        audioPlayer.pause();
+        isPlaying = false;
+        updatePlayPauseButton();
+    }
+}
+
+async function seekToTime(time) {
+    if (!isNaN(time)) {
+        await ensureAudioInitialized();
+        const wasPlaying = !audioPlayer.paused;
+        audioPlayer.currentTime = time;
+        updateProgress();
+        if (wasPlaying && hasUserInteracted) {
+            audioPlayer.play().catch(e => console.error('Error resuming playback after seek:', e));
+        }
+    }
+}
+
+async function skipBackward() {
+    await seekToTime(Math.max(audioPlayer.currentTime - 10, 0));
+}
+
+async function skipForward() {
+    await seekToTime(Math.min(audioPlayer.currentTime + 10, audioPlayer.duration || 0));
+}
+
+async function togglePlayPause() {
+    if (isInitializing) return;
+
+    await ensureAudioInitialized();
+
+    if (isPlaying) {
+        audioPlayer.pause();
+    } else {
+        audioPlayer.play().catch(e => console.error('Error playing audio:', e));
+    }
+    isPlaying = !isPlaying;
+    updatePlayPauseButton();
+    updateSongTitleDisplay();
+}
+
+async function playSong(index) {
+    await loadSong(index);
+    await ensureAudioInitialized();
+    audioPlayer.play().catch(e => console.error('Error playing audio:', e));
+    isPlaying = true;
+    updatePlayPauseButton();
+    updateSongTitleDisplay();
+    updateLiveRegion(`Now playing: ${songs[index].title}`);
 }
 
 function createSongList() {
@@ -135,14 +194,6 @@ function handleKeyboardControls(e) {
     }
 }
 
-function skipBackward() {
-    seekToTime(Math.max(audioPlayer.currentTime - 10, 0));
-}
-
-function skipForward() {
-    seekToTime(Math.min(audioPlayer.currentTime + 10, audioPlayer.duration || 0));
-}
-
 function increaseVolume() {
     audioPlayer.volume = Math.min(audioPlayer.volume + 0.1, 1);
     volumeSlider.value = audioPlayer.volume;
@@ -158,6 +209,10 @@ async function loadSong(index) {
     audioPlayer.src = songs[index].file;
     updateActiveSong();
     
+    if (!isAudioInitialized) {
+        await initializeAudioOnFirstInteraction();
+    }
+    
     await new Promise(resolve => {
         audioPlayer.addEventListener('loadedmetadata', resolve, { once: true });
     });
@@ -166,15 +221,6 @@ async function loadSong(index) {
     updateProgress();
     updateSongTitleDisplay();
     scrollToCurrentSong();
-}
-
-async function playSong(index) {
-    await loadSong(index);
-    audioPlayer.play().catch(e => console.error('Error playing audio:', e));
-    isPlaying = true;
-    updatePlayPauseButton();
-    updateSongTitleDisplay();
-    updateLiveRegion(`Now playing: ${songs[index].title}`);
 }
 
 function updateActiveSong() {
@@ -204,19 +250,6 @@ function scrollToCurrentSong() {
             });
         }
     }
-}
-
-function togglePlayPause() {
-    if (isInitializing) return;
-
-    if (isPlaying) {
-        audioPlayer.pause();
-    } else {
-        audioPlayer.play().catch(e => console.error('Error playing audio:', e));
-    }
-    isPlaying = !isPlaying;
-    updatePlayPauseButton();
-    updateSongTitleDisplay();
 }
 
 function updatePlayPauseButton() {
@@ -263,19 +296,6 @@ function handleSeek(e) {
     
     if (!isNaN(seekTime)) {
         seekToTime(seekTime);
-    }
-}
-
-function seekToTime(time) {
-    if (!isNaN(time)) {
-        const wasPlaying = !audioPlayer.paused;
-        audioPlayer.currentTime = time;
-        updateProgress();
-        if (!wasPlaying && isAudioInitialized) {
-            audioPlayer.play().then(() => {
-                audioPlayer.pause();
-            }).catch(e => console.error('Error during seek:', e));
-        }
     }
 }
 
