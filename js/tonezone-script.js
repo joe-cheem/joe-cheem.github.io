@@ -5,6 +5,7 @@ let isPlaying = false;
 let isAudioInitialized = false;
 let isInitializing = false;
 let hasUserInteracted = false;
+let currentDisplayText = '';
 
 document.addEventListener('DOMContentLoaded', initializePlayer);
 
@@ -34,9 +35,9 @@ async function initializePlayer() {
         audioPlayer.pause();
         isPlaying = false;
         updatePlayPauseButton();
-        updateSongTitleDisplay();
+        updateSongTitleDisplay(); // Initial display update
         
-        playPauseBtn.addEventListener('click', initializeAudioOnFirstInteraction);
+        playPauseBtn.addEventListener('click', handlePlayPauseClick);
         skipBackwardBtn.addEventListener('click', initializeAudioOnFirstInteraction);
         skipForwardBtn.addEventListener('click', initializeAudioOnFirstInteraction);
         progressContainer.addEventListener('click', initializeAudioOnFirstInteraction);
@@ -71,14 +72,11 @@ async function initializeAudioOnFirstInteraction(event) {
             isAudioInitialized = true;
             console.log('Audio initialized on first interaction');
             
-            playPauseBtn.removeEventListener('click', initializeAudioOnFirstInteraction);
             skipBackwardBtn.removeEventListener('click', initializeAudioOnFirstInteraction);
             skipForwardBtn.removeEventListener('click', initializeAudioOnFirstInteraction);
             progressContainer.removeEventListener('click', initializeAudioOnFirstInteraction);
             
-            if (event.currentTarget === playPauseBtn) {
-                togglePlayPause();
-            } else if (event.currentTarget === skipBackwardBtn) {
+            if (event.currentTarget === skipBackwardBtn) {
                 skipBackward();
             } else if (event.currentTarget === skipForwardBtn) {
                 skipForward();
@@ -93,39 +91,16 @@ async function initializeAudioOnFirstInteraction(event) {
     }
 }
 
-async function ensureAudioInitialized() {
+function handlePlayPauseClick() {
     if (!isAudioInitialized) {
-        await initializeAudioOnFirstInteraction({ currentTarget: playPauseBtn });
+        isAudioInitialized = true;
     }
-    if (!hasUserInteracted) {
-        hasUserInteracted = true;
-    }
-}
-
-async function seekToTime(time) {
-    if (!isNaN(time)) {
-        await ensureAudioInitialized();
-        const wasPlaying = !audioPlayer.paused;
-        audioPlayer.currentTime = time;
-        updateProgress();
-        if (wasPlaying && hasUserInteracted) {
-            audioPlayer.play().catch(e => console.error('Error resuming playback after seek:', e));
-        }
-    }
-}
-
-async function skipBackward() {
-    await seekToTime(Math.max(audioPlayer.currentTime - 10, 0));
-}
-
-async function skipForward() {
-    await seekToTime(Math.min(audioPlayer.currentTime + 10, audioPlayer.duration || 0));
+    togglePlayPause();
+    updateSongTitleDisplay(); // Update display when play/pause is clicked
 }
 
 async function togglePlayPause() {
     if (isInitializing) return;
-
-    await ensureAudioInitialized();
 
     if (isPlaying) {
         audioPlayer.pause();
@@ -134,7 +109,6 @@ async function togglePlayPause() {
     }
     isPlaying = !isPlaying;
     updatePlayPauseButton();
-    updateSongTitleDisplay();
 }
 
 async function playSong(index) {
@@ -143,7 +117,7 @@ async function playSong(index) {
     audioPlayer.play().catch(e => console.error('Error playing audio:', e));
     isPlaying = true;
     updatePlayPauseButton();
-    updateSongTitleDisplay();
+    updateSongTitleDisplay(); // Update display when switching songs
     updateLiveRegion(`Now playing: ${songs[index].title}`);
 }
 
@@ -167,7 +141,7 @@ function createSongList() {
 }
 
 function setupEventListeners() {
-    playPauseBtn.addEventListener('click', togglePlayPause);
+    playPauseBtn.addEventListener('click', handlePlayPauseClick);
     prevBtn.addEventListener('click', playPreviousSong);
     nextBtn.addEventListener('click', playNextSong);
     skipBackwardBtn.addEventListener('click', skipBackward);
@@ -195,7 +169,7 @@ function handleKeyboardControls(e) {
     switch (e.key) {
         case ' ':
             e.preventDefault();
-            togglePlayPause();
+            handlePlayPauseClick();
             break;
         case 'ArrowLeft':
             e.preventDefault();
@@ -231,17 +205,13 @@ async function loadSong(index) {
     audioPlayer.src = songs[index].file;
     updateActiveSong();
     
-    if (!isAudioInitialized) {
-        await initializeAudioOnFirstInteraction({ currentTarget: playPauseBtn });
-    }
-    
     await new Promise(resolve => {
         audioPlayer.addEventListener('loadedmetadata', resolve, { once: true });
     });
     
     updateDuration();
     updateProgress();
-    updateSongTitleDisplay();
+    updateSongTitleDisplay(); // Update display when loading a new song
     scrollToCurrentSong();
 }
 
@@ -291,6 +261,18 @@ function playNextSong() {
     playSong(currentSongIndex);
 }
 
+async function skipBackward() {
+    await ensureAudioInitialized();
+    audioPlayer.currentTime = Math.max(audioPlayer.currentTime - 10, 0);
+    updateProgress();
+}
+
+async function skipForward() {
+    await ensureAudioInitialized();
+    audioPlayer.currentTime = Math.min(audioPlayer.currentTime + 10, audioPlayer.duration || 0);
+    updateProgress();
+}
+
 function updateProgress() {
     const duration = audioPlayer.duration;
     const currentTime = audioPlayer.currentTime;
@@ -311,13 +293,15 @@ function updateDuration() {
     }
 }
 
-function handleSeek(e) {
+async function handleSeek(e) {
+    await ensureAudioInitialized();
     const progressRect = progressContainer.getBoundingClientRect();
     const seekPercentage = (e.clientX - progressRect.left) / progressRect.width;
     const seekTime = seekPercentage * audioPlayer.duration;
     
     if (!isNaN(seekTime)) {
-        seekToTime(seekTime);
+        audioPlayer.currentTime = seekTime;
+        updateProgress();
     }
 }
 
@@ -333,7 +317,15 @@ function formatTime(seconds) {
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 }
 
-let currentDisplayText = '';
+async function ensureAudioInitialized() {
+    if (!isAudioInitialized) {
+        await initializeAudioOnFirstInteraction({ currentTarget: playPauseBtn });
+    }
+    if (!hasUserInteracted) {
+        hasUserInteracted = true;
+    }
+}
+
 let isAnimating = false;
 let animationTimeouts = [];
 
@@ -410,7 +402,7 @@ function revealCharacters(spans) {
 }
 
 function clearAnimations() {
-    animationTimeouts.forEach(clearTimeout);
+    animationTimeouts.forEach(clearInterval);
     animationTimeouts = [];
     isAnimating = false;
 }
