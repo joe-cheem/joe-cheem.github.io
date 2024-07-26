@@ -95,10 +95,6 @@ body, html {
         padding: 15px;
     }
 
-    #navbar ul {
-        justify-content: flex-start;
-    }
-
     #navbar ul li {
         margin: 0 10px;
     }

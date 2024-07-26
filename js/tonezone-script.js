@@ -22,8 +22,6 @@ async function initializePlayer() {
     songList = document.getElementById('songList');
     songTitleElement = document.getElementById('song-title');
 
-    songTitleElement.textContent = 'Loading...';
-
     try {
         const response = await fetch('music.json');
         const data = await response.json();
@@ -40,7 +38,8 @@ async function initializePlayer() {
         audioPlayer.pause();
         isPlaying = false;
         updatePlayPauseButton();
-        updateSongTitleDisplay();
+        
+        updateInitialSongTitleDisplay();
         
         document.addEventListener('click', initializeAudioOnFirstInteraction, { once: true });
         document.addEventListener('touchstart', initializeAudioOnFirstInteraction, { once: true });
@@ -315,6 +314,14 @@ let currentDisplayText = '';
 let isAnimating = false;
 let animationTimeouts = [];
 
+function updateInitialSongTitleDisplay() {
+    const currentSong = songs[currentSongIndex];
+    if (currentSong) {
+        const displayText = 'Paused: ' + currentSong.title;
+        animateText(displayText);
+    }
+}
+
 function updateSongTitleDisplay() {
     const currentSong = songs[currentSongIndex];
     if (currentSong) {
@@ -322,24 +329,28 @@ function updateSongTitleDisplay() {
         const newDisplayText = status + currentSong.title;
         
         if (newDisplayText !== currentDisplayText) {
-            clearAnimations();
-            
-            currentDisplayText = newDisplayText;
-            isAnimating = true;
-            
-            songTitleElement.innerHTML = '';
-            
-            const spans = currentDisplayText.split('').map(char => {
-                const span = document.createElement('span');
-                span.textContent = getRandomChar(char);
-                span.dataset.char = char;
-                songTitleElement.appendChild(span);
-                return span;
-            });
-
-            revealCharacters(spans);
+            animateText(newDisplayText);
         }
     }
+}
+
+function animateText(newDisplayText) {
+    clearAnimations();
+    
+    currentDisplayText = newDisplayText;
+    isAnimating = true;
+    
+    songTitleElement.innerHTML = '';
+    
+    const spans = newDisplayText.split('').map(char => {
+        const span = document.createElement('span');
+        span.textContent = getRandomChar(char);
+        span.dataset.char = char;
+        songTitleElement.appendChild(span);
+        return span;
+    });
+
+    revealCharacters(spans);
 }
 
 function getRandomChar(char) {
