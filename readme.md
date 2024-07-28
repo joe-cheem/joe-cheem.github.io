@@ -57,7 +57,7 @@ project-root/
 │   └── (various image files)
 │
 └── extras/
-    └── Winterbells.swf
+    └── (various other files)
 ```
 
 ## Setup and Installation

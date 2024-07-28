@@ -479,7 +479,7 @@ project-root/
 │   └── (various image files)
 │
 └── extras/
-    └── Winterbells.swf
+    └── (various other files)
 ```
 
 ## Setup and Installation
@@ -1455,6 +1455,10 @@ section.full-screen {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+#preview-container video {
+    background-color: black;
 }
 
 #preview-frame, #video-player {

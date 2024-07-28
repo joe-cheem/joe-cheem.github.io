@@ -266,6 +266,10 @@ section.full-screen {
     justify-content: center;
 }
 
+#preview-container video {
+    background-color: black;
+}
+
 #preview-frame, #video-player {
     position: absolute;
     top: 0;
