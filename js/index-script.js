@@ -51,6 +51,12 @@ document.addEventListener('DOMContentLoaded', () => {
             link: "https://drive.google.com/file/d/1ih_FCpCB2L8WQ865XlVzer47abgBVDx7/view?usp=sharing",
             isDrive: true,
             category: "University"
+        },
+        {
+            title: "Lion's Mane NGP",
+            description: "Lion's Mane NGP video showcase.",
+            video: "extras/new_video.mp4",
+            category: "Extras"
         }
     ];
 
@@ -58,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tabContainer = document.querySelector('.project-tabs');
         tabContainer.innerHTML = '';
 
-        const categories = ["First Steps", "College", "University"];
+        const categories = ["First Steps", "College", "University", "Extras"];
         
         categories.forEach(category => {
             const tabSection = document.createElement('div');
@@ -131,6 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
             showEmbed(project.embed);
         } else if (project.link) {
             showPreview(project.link);
+        } else if (project.video) {
+            showVideo(project.video);
         } else {
             clearPreview();
         }
@@ -140,10 +148,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const previewFrame = document.getElementById('preview-frame');
         const previewLink = document.getElementById('preview-link');
         const embedContainer = document.getElementById('embed-container');
+        const videoPlayer = document.getElementById('video-player');
+        const videoLoading = document.getElementById('video-loading');
         
         previewFrame.style.display = 'block';
         previewLink.style.display = 'none';
         embedContainer.style.display = 'none';
+        videoPlayer.style.display = 'none';
+        videoLoading.style.display = 'none';
         
         if (url.includes('youtube.com') || url.includes('youtu.be')) {
             const videoId = url.includes('youtube.com') ? url.split('v=')[1] : url.split('/').pop();
@@ -163,10 +175,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const previewFrame = document.getElementById('preview-frame');
         const previewLink = document.getElementById('preview-link');
         const embedContainer = document.getElementById('embed-container');
+        const videoPlayer = document.getElementById('video-player');
+        const videoLoading = document.getElementById('video-loading');
     
         previewFrame.style.display = 'none';
         previewLink.style.display = 'none';
         embedContainer.style.display = 'flex';
+        videoPlayer.style.display = 'none';
+        videoLoading.style.display = 'none';
     
         // Remove inline styles from the iframe
         embedCode = embedCode.replace(/style="[^"]*"/g, '');
@@ -178,23 +194,79 @@ document.addEventListener('DOMContentLoaded', () => {
         const previewFrame = document.getElementById('preview-frame');
         const previewLink = document.getElementById('preview-link');
         const embedContainer = document.getElementById('embed-container');
+        const videoPlayer = document.getElementById('video-player');
+        const videoLoading = document.getElementById('video-loading');
+
         previewFrame.style.display = 'none';
         previewLink.style.display = 'block';
         embedContainer.style.display = 'none';
+        videoPlayer.style.display = 'none';
+        videoLoading.style.display = 'none';
+
         previewLink.href = url;
         previewLink.textContent = `View ${text}`;
         previewLink.setAttribute('aria-label', `View ${text} on Google Drive`);
+    };
+
+    const showVideo = (videoUrl) => {
+        const previewFrame = document.getElementById('preview-frame');
+        const previewLink = document.getElementById('preview-link');
+        const embedContainer = document.getElementById('embed-container');
+        const videoPlayer = document.getElementById('video-player');
+        const videoLoading = document.getElementById('video-loading');
+
+        previewFrame.style.display = 'none';
+        previewLink.style.display = 'none';
+        embedContainer.style.display = 'none';
+        videoPlayer.style.display = 'block';
+        videoLoading.style.display = 'flex';
+
+        videoPlayer.src = videoUrl;
+        videoPlayer.load();
+
+        let loadingProgress = 0;
+        const loadingBar = videoLoading.querySelector('.loading-bar');
+
+        const updateLoadingProgress = () => {
+            loadingProgress += 10;
+            if (loadingProgress > 100) loadingProgress = 100;
+            loadingBar.style.width = `${loadingProgress}%`;
+        };
+
+        const loadingInterval = setInterval(updateLoadingProgress, 500);
+
+        videoPlayer.addEventListener('canplay', () => {
+            clearInterval(loadingInterval);
+            videoLoading.style.display = 'none';
+            videoPlayer.play().catch(e => console.error('Error playing video:', e));
+        });
+
+        videoPlayer.addEventListener('error', (e) => {
+            clearInterval(loadingInterval);
+            videoLoading.style.display = 'none';
+            console.error('Error loading video:', e);
+            // You might want to display an error message to the user here
+        });
+
+        videoPlayer.loop = true;
+        videoPlayer.muted = true;
     };
 
     const clearPreview = () => {
         const previewFrame = document.getElementById('preview-frame');
         const previewLink = document.getElementById('preview-link');
         const embedContainer = document.getElementById('embed-container');
+        const videoPlayer = document.getElementById('video-player');
+        const videoLoading = document.getElementById('video-loading');
+
         previewFrame.style.display = 'none';
         previewLink.style.display = 'none';
         embedContainer.style.display = 'none';
+        videoPlayer.style.display = 'none';
+        videoLoading.style.display = 'none';
         previewFrame.src = '';
         embedContainer.innerHTML = '';
+        videoPlayer.src = '';
     };
 
     const fullscreenToggle = document.getElementById('fullscreen-toggle');

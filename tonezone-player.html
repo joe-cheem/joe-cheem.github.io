@@ -58,7 +58,7 @@
     <audio id="audioPlayer"></audio>
 
     <!-- Text with background color -->
-    <div id="scrollToTopText" style="text-align: center; padding: 20px; color: #0D0015; cursor: pointer;">
+    <div id="secretText" style="text-align: center; padding: 20px; color: #0D0015; cursor: pointer;">
         <p>In the quiet nook where shadows convene,<br>
         A gentle touch reveals what's unseen.<br>
         Once a player's tune now veiled from the scene,<br>
@@ -72,13 +72,6 @@
 
     <script src="js/common.js"></script>
     <script src="js/tonezone-script.js"></script>
-    <script>
-        document.getElementById('scrollToTopText').addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-    </script>
+    <script src="js/secret-functionality.js"></script>
 </body>
 </html>
