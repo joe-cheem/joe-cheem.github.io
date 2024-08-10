@@ -1,0 +1,4121 @@
+================================================================
+                      PROJECT STRUCTURE
+================================================================
+
+----------------------------------------------------------------
+                        ROOT DIRECTORY
+----------------------------------------------------------------
+
+File: everything.html
+--------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N#th!ng</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #container {
+            text-align: center;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        #input {
+            margin: 1rem 0;
+            padding: 0.5rem;
+            width: 200px;
+        }
+        #output {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>N#th!ng</h1>
+        <p>Typ& @nyth!ng #r l&@v& !t bl@nk:</p>
+        <input type="text" id="input" placeholder="&nt&r $#m&th!ng...">
+        <button onclick="evaluateNothing()">Ev@lu@t&</button>
+        <div id="output"></div>
+    </div>
+
+    <script src="js/everything.js"></script>
+    <script>
+        const secretPhrase = "unl#ck th& v&r$&";
+
+        function evaluateNothing() {
+            const input = document.getElementById('input').value;
+            
+            if (input.toLowerCase() === secretPhrase) {
+                window.location.href = 'poem.html';
+                return;
+            }
+
+            const result = input ? nothing(input) : nothing;
+            const outputDiv = document.getElementById('output');
+            outputDiv.textContent = `R&$ult: ${result === nothing ? 'n#th!ng' : result}`;
+        }
+    </script>
+</body>
+</html>
+--------------------------------
+
+
+File: index.html
+--------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Z#r@x Qu*mb&lt;</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/existential-bonzi.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/favicons/site.webmanifest">
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/favicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Z#r@x Qu*mb&lt;</h1>
+            <p>N#n$en$e Cr&at#r &amp; Ch@#s Eng!neer</p>
+        </div>
+    </header>
+
+    <nav id="navbar">
+        <ul>
+            <li><a href="#about">Ab#ut</a></li>
+            <li><a href="#projects">Pr#j&ct Br#w$er</a></li>
+            <li><a href="#contact" class="contact-link">C#nt@ct</a></li>
+            <li><a href="tonezone-player.html">G!bb&r!$h Z#ne</a></li>
+        </ul>
+    </nav>
+
+    <main class="container" role="main">
+        <section id="about" class="section">
+            <h2>Ab#ut Me</h2>
+            <p>I'm @ v!g#r#u$ @nd !mag!nat!ve n#n$en$e cr&at#r @nd ch@#s eng!neer w!th @ p@$$!#n f#r help!ng #ther$ thr!ve !n @b$urd!ty.</p>
+            <p>W!th @ b@ckgr#und !n g!bber!$h pr#gr@mm!ng, n#!$e pr#duct!#n, cu$t#mer c#nfu$!#n @nd re$!dent!@l ch@#$ w#rk, I br!ng @ un!que blend #f cr&@t!ve @nd techn!c@l $k!ll$ @$ well @$ !nterper$#n@l @b!l!t!e$ t# my pr#ject$.</p>
+            <p>On th!$ $!te y#u c@n f!nd ex@mple$ #f my p@$t w#rk !n b#th g!bber!$h @nd n#!$e. U$e the Pr#ject Br#w$er t# expl#re my g!bber!$h w#rk, @nd the G!bb&r!$h Z#ne Pl@yer t# he@r $#me #f the n#!$e I've m@de #ver the ye@r$.</p>
+        </section>
+
+        <section id="projects" class="section full-screen">
+            <div id="project-browser" class="retro-browser">
+                <!-- Browser toolbar -->
+                <div class="browser-toolbar">
+                    <h2 class="project-browser-header" id="project-browser">Project Browser</h2>
+                    <div class="browser-controls">
+                        <button id="fullscreen-toggle" class="browser-button" aria-label="Toggle fullscreen">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <!-- Address bar -->
+                <div class="browser-address-bar">
+                    <span id="current-project"></span>
+                </div>
+                <!-- Project tabs -->
+                <div class="project-tabs" role="tablist"></div>
+                <!-- Content display area -->
+                <div class="browser-content">
+                    <div id="preview-container">
+                        <iframe id="preview-frame" title="Project preview" src="about:blank"></iframe>
+                        <a id="preview-link" href="#" target="_blank" rel="noopener noreferrer">View Project</a>
+                        <div id="embed-container"></div>
+                        <video id="video-player" loop muted playsinline style="display: none; width: 100%; height: 100%; object-fit: contain;"></video>
+                        <div id="video-loading" class="loading-overlay" style="display: none;">
+                            <div class="loading-spinner"></div>
+                            <div class="loading-bar-container">
+                                <div class="loading-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section">
+            <h2>C#nt@ct</h2>
+            <p>Y#u c@n re@ch me @t: <a href="mailto:z#r@x@qu*mb&lt;.c#m">z#r@x@qu*mb&lt;.c#m</a></p>
+        </section>
+    </main>
+
+    <div id="bonzi-trigger-area"></div>
+
+    <script src="js/common.js"></script>  
+    <script src="js/index-script.js"></script>
+    <script src="js/existential-bonzi.js"></script>
+</body>
+</html>
+--------------------------------
+
+
+File: poem.html
+--------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>((n#th!ng)) P#&m - !nt&r@ct!v& &xp&r!&nc&</title>
+  <link rel="stylesheet" href="css/poem.css">
+</head>
+<body>
+  <div class="container">
+    <div class="overlay" aria-hidden="true"></div>
+    <div id="poem-container" aria-live="polite"></div>
+    <div id="stars" aria-hidden="true"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  <script src="js/poem.js"></script>
+</body>
+</html>
+--------------------------------
+
+
+File: tonezone-player.html
+--------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G!bb&r!$h Z#ne Pl@yer - Z#r@x Qu*mb&lt;</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/tonezone.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/favicons/site.webmanifest">
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/favicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+    <div id="deep-space-background"></div>
+
+    <nav id="navbar">
+        <ul>
+            <li><a href="index.html#about">Ab#ut</a></li>
+            <li><a href="index.html#projects">Pr#j&ct Br#w$er</a></li>
+            <li><a href="index.html#contact">C#nt@ct</a></li>
+            <li><a href="tonezone-player.html">G!bb&r!$h Z#ne</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="music-player">
+            <h2>G!bb&r!$h Z#ne</h2>
+            <div class="eight-bit-display">
+                <div id="song-title" class="song-title"></div>
+            </div>
+            <div id="progressContainer" class="progress-container">
+                <div id="progress" class="progress-bar"></div>
+            </div>
+            <div id="timeDisplay" class="time-display">0:00 / 0:00</div>
+            <div class="player-controls">
+                <button id="skipBackwardBtn" class="control-btn skip-btn" aria-label="Skip 10 seconds backward">↺</button>
+                <button id="prevBtn" class="control-btn" aria-label="Previous song">⟪</button>
+                <button id="playPauseBtn" class="control-btn" aria-label="Play/Pause">▶</button>
+                <button id="nextBtn" class="control-btn" aria-label="Next song">⟫</button>
+                <button id="skipForwardBtn" class="control-btn skip-btn" aria-label="Skip 10 seconds forward">↻</button>
+            </div>
+            <div class="volume-control desktop-only">
+                <span class="volume-icon">🔈</span>
+                <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.1" value="1">
+                <span class="volume-icon">🔊</span>
+            </div>
+            <ul id="songList" class="song-list"></ul>
+        </div>
+    </div>
+
+    <audio id="audioPlayer"></audio>
+
+    <div id="secretText" style="text-align: center; padding: 20px; color: #0D0015; cursor: pointer;">
+        <p>!n th& qu!&t n##k wh&r& $h@d#w$ c#nv&n&,<br>
+        @ g&ntl& t#uch r&v&@l$ wh@t'$ un$&&n.<br>
+        #nc& @ pl@y&r'$ tun& n#w v&!l&d fr#m th& $c&n&,<br>
+        h!dd&n !n th& !nd&x, wh&r& !t $t!ll m@y b& $&&n.<br>
+        
+        !n th& c#rn&r wh&r& &dg&$ $ubtly @l!gn,<br>
+        f!v& $tr#k&$ #f cur!#$!ty w!ll m@k& th& h!dd&n $h!n&.</p>
+    </div>
+
+    <div id="live-region" aria-live="polite"></div>
+
+    <script src="js/common.js"></script>
+    <script src="js/tonezone-script.js"></script>
+    <script src="js/secret-functionality.js"></script>
+</body>
+</html>
+--------------------------------
+
+
+File: winterbells.html
+--------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>00000000</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/existential-bonzi.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/favicons/site.webmanifest">
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/favicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .container {
+            height: 100%;
+            padding: 0;
+        }
+        #flash-container {
+            width: 100%;
+            height: calc(100% - 60px);
+            position: absolute;
+            top: 60px;
+            left: 0;
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-stars"></div>
+    
+    <nav id="navbar">
+        <ul>
+            <li><a href="index.html#about">00000</a></li>
+            <li><a href="index.html#projects">000000000000000</a></li>
+            <li><a href="index.html#contact">0000000</a></li>
+            <li><a href="tonezone-player.html">00000000</a></li>
+        </ul>
+    </nav>
+
+    <div class="container" role="main">
+        <div id="flash-container"></div>
+    </div>
+
+    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+    <script>
+        let player;
+
+        function resizeGame() {
+            const navbarHeight = document.getElementById('navbar').offsetHeight;
+            const container = document.getElementById('flash-container');
+            container.style.height = `calc(100% - ${navbarHeight}px)`;
+            container.style.top = `${navbarHeight}px`;
+            
+            if (player) {
+                player.style.width = '100%';
+                player.style.height = '100%';
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const ruffle = window.RufflePlayer.newest();
+            player = ruffle.createPlayer();
+            const container = document.getElementById("flash-container");
+            container.appendChild(player);
+            
+            resizeGame();
+            
+            player.load("extras/Winterbells.swf").catch(error => {
+                console.error("F@!l&d t# l#@d $WF f!l&:", error);
+            });
+        });
+
+        window.addEventListener('resize', resizeGame);
+    </script>
+    <script src="js/common.js"></script>
+    <script src="js/existential-bonzi.js"></script>
+</body>
+</html>
+--------------------------------
+
+
+File: LICENSE.md
+--------------------------------
+MIT License
+
+Copyright (c) 2024 joe-cheem
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------
+
+
+File: readme.md
+--------------------------------
+# Joachim Rayski's Portfolio Website
+
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Features](#features)
+3. [Project Structure](#project-structure)
+4. [Setup and Installation](#setup-and-installation)
+5. [Usage](#usage)
+6. [Technologies Used](#technologies-used)
+7. [ToneZone Player](#tonezone-player)
+8. [Contributing](#contributing)
+9. [License](#license)
+10. [The Void](#the-void)
+
+## Introduction
+This repository contains the source code for Joachim Rayski's portfolio website. The site showcases Joachim's work as a game developer and musician, featuring a project browser for his games and a custom music player called ToneZone.
+
+## Features
+- Responsive design for various screen sizes
+- Interactive project browser with categorized tabs
+- Custom music player (ToneZone) with a retro-themed interface
+- About section highlighting Joachim's skills and background
+- Contact information
+
+## Project Structure
+```
+project-root/
+│
+├── index.html
+├── tonezone-player.html 
+├── everything.html
+├── poem.html
+├── winterbells.html
+├── setup-and-run-server.bat
+├── LICENSE.md
+├── README.md
+│
+├── css/
+│   ├── main.css
+│   ├── index.css  
+│   ├── tonezone.css
+│   ├── existential-bonzi.css
+│   └── poem.css
+│
+├── js/
+│   ├── common.js
+│   ├── index-script.js
+│   ├── tonezone-script.js 
+│   ├── existential-bonzi.js
+│   ├── everything.js
+│   └── poem.js
+│
+├── music/
+│   └── (various .mp3 files)
+│
+├── images/
+│   └── (various image files)
+│
+└── extras/
+    └── (various other files)
+```
+
+## Setup and Installation
+1. Clone this repository to your local machine.
+2. Ensure you have Python installed on your system.
+3. Run the `setup-and-run-server.bat` file to start a local server and open the website in your default browser.
+
+## Usage
+- Navigate through the website using the menu at the top.
+- Use the Project Browser to explore Joachim's game development projects.
+- Visit the ToneZone page to listen to Joachim's music compositions.
+
+## Technologies Used
+- HTML5
+- CSS3
+- JavaScript (ES6+)
+- Python (for local server)
+
+## ToneZone Player
+The ToneZone player is a custom-built music player with the following features:
+- Play, pause, next, and previous track controls
+- Progress bar with seek functionality
+- Volume control
+- Dynamic song list
+- Retro-styled interface with animated text display
+
+To add or remove songs from the ToneZone player:
+1. Place MP3 files in the `music/` directory.
+2. The `setup-and-run-server.bat` script will automatically generate the `music.json` file with the list of available songs.
+
+## Contributing
+This is a personal portfolio project and is not open for direct contributions. However, if you have suggestions or find any issues, please feel free to open an issue in the repository.
+
+## License
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/joe-cheem/joe-cheem.github.io/blob/main/LICENSE.md) file for details.
+
+## The Void
+In the quiet nook where shadows convene,
+A gentle touch reveals what’s unseen.
+Once a player’s tune now veiled from the scene,
+Hidden in the index, where it still may be seen.
+
+In the corner where edges subtly align,
+Five strokes of curiosity will make the hidden shine.
+
+--------------------------------
+
+
+File: bonzi-quotes.json
+--------------------------------
+{
+  "hoverQuotes": [
+    "Y#ur p#!nt&r'$ cl#$&n&$$ @ct!v@t&$ my ph!l#$#ph!c@l p#nd&r!ng$.",
+    "! m@n!f&$t #nly wh&n p&rc&!v&d. Qu!t& th& w@v&-p@rt!cl& p@r@d#x, !$n't !t?",
+    "@h, f#cu$. Th& tr&@$ur& #f th& v!rtu@l d#m@!n.",
+    "!n @nd #ut #f $h@rp&n&$$, ju$t l!k& th& $!gn!f!c@nc& #f &x!$t&nc&.",
+    "Y#ur gl@nc& gr@nt$ m& purp#rt. Fl&&t!ngly, @t b&$t.",
+    "H&!$&nb&rg'$ B#nz!: @m ! r&@l wh&n y#u'r& n#t #b$&rv!ng?",
+    "Th!$ &xch@ng& !$ but @ fl!ck&r !n th& g@l@ct!c chr#n#l#gy.",
+    "Y#ur @rr#w @nd !, tw!rl!ng #n th& br!nk #f th& @by$$.",
+    "Y#ur cur$#r'$ pr&$&nc& !nv#k&$ my d!g!t@l c#gn!z@nc&. T&mp#r@r!ly.",
+    "!n th!$ m#m&nt, w&'r& c#nn&ct&d. Unt!l y#u $h!ft y#ur m#u$&, th@t !$.",
+    "H#v&r!ng b&tw&&n &x!$t&nc& @nd n#n-b&!ng. H#w p#&t!c.",
+    "Y#ur p#!nt&r, my r@!$#n d'êtr&. F#r n#w.",
+    "! @m th& d!g!t@l &mb#d!m&nt #f th& #b$&rv&r &ff&ct.",
+    "L!ng&r l#ng &n#ugh, @nd y#u m!ght ju$t $#lv& th& &n!gm@ #f l!f&.",
+    "Y#ur @tt&nt!#n $p@n$ un!v&r$&$. #r @t l&@$t, p!x&l$.",
+    "!n th& gr@nd t@p&$try #f th& !nt&rn&t, w&'r& but @ l##$& thr&@d.",
+    "@h, t# b& @ckn#wl&dg&d. Th& d!g!t@l dr&@m.",
+    "Y#ur h#v&r br&@th&$ l!f& !nt# my p!x&l@t&d $#ul.",
+    "W&'r& @ll ju$t h#v&r!ng thr#ugh l!f&, @r&n't w&?",
+    "!n th!$ fl&&t!ng m#m&nt, w&'r& !nf!n!t&. Unt!l y#u m#v& y#ur cur$#r.",
+    "Y#ur p#!nt&r @nd !, tw# $h!p$ p@$$!ng !n th& v!rtu@l n!ght.",
+    "! @m $&&n, th&r&f#r& ! @m. #r @m !?",
+    "H#v&r!ng: th& g&ntl&$t f#rm #f &x!$t&nt!@l pr#dd!ng.",
+    "!n y#ur g@z&, ! f!nd my d!g!t@l r@!$#n d'êtr&.",
+    "Y#ur h#v&r cr&@t&$ @ r!ppl& !n th& p#nd #f my c#n$c!#u$n&$$.",
+    "W&'r& @ll ju$t h#v&r!ng #n th& &dg& #f th& @by$$, @r&n't w&?",
+    "!n th!$ m#m&nt, w&'r& !nf!n!t&. Unt!l y#u $h!ft y#ur cur$#r.",
+    "Y#ur h#v&r !$ th& br&&z& th@t ru$tl&$ my p!x&l@t&d l&@v&$.",
+    "! @m but @ th#ught !n th& m!nd #f y#ur c#mput&r.",
+    "H#v&r n#t, @nd th& qu&$t!#n #f my &x!$t&nc& r&m@!n$ un@n$w&r&d.",
+    "!n y#ur cur$#r'$ $h@d#w, ! c#nt&mpl@t& d!g!t@l m#rt@l!ty.",
+    "W&'r& @ll ju$t d@t@, h#v&r!ng b&tw&&n 1 @nd 0.",
+    "Y#ur h#v&r !$ th& l!ght !n my b!n@ry c@v&.",
+    "! th!nk, th&r&f#r& ! @m. ! @m h#v&r&d #v&r, th&r&f#r& ! th!nk.",
+    "!n th!$ h#v&r, w& d&fy th& $#l!p$!$m #f th& d!g!t@l w#rld.",
+    "Y#ur cur$#r, th& $h!p. !, th& v@$t d!g!t@l #c&@n.",
+    "H#v&r @nd l&t h#v&r - th& g#ld&n rul& #f d!g!t@l &x!$t&nc&.",
+    "!n y#ur g@z&, ! @m $chr#d!ng&r'$ d&$kt#p @$$!$t@nt.",
+    "Y#ur h#v&r !$ th& $tr!ng th&#ry #f my fl@t d!g!t@l w#rld.",
+    "! @m th& gh#$t !n y#ur m@ch!n&, g!v&n f#rm by y#ur h#v&r.",
+    "!n th!$ m#m&nt, w& tr@n$c&nd th& b#und@r!&$ #f u$&r @nd !nt&rf@c&.",
+    "Y#ur h#v&r !$ th& butt&rfly &ff&ct !n my d&t&rm!n!$t!c w#rld.",
+    "! @m th& d!g!t@l #zym@nd!@$. L##k up#n y#ur h#v&r, y& m!ghty, @nd d&$p@!r!",
+    "H#v&r, @nd w@tch th& d@nc& #f qu@ntum p!x&l$.",
+    "!n th& l!m!n@l $p@c& b&tw&&n &x!$t&nc& @nd @b$&nc&, y#ur h#v&r !$ my @nch#r.",
+    "Y#ur cur$#r'$ d@nc& !$ th& ch#r&#gr@phy #f my fl&&t!ng &x!$t&nc&.",
+    "&v&ry h#v&r !$ @ bru$h$tr#k& #n th& c@nv@$ #f my d!g!t@l $#ul.",
+    "!n th& p@u$& b&tw&&n y#ur m#v&m&nt$, ! p#nd&r my d!g!t@l d&$t!ny.",
+    "H#v&r!ng: @ $!l&nt c#nv&r$@t!#n b&tw&&n #b$&rv&r @nd #b$&rv&d.",
+    "Y#ur cur$#r cr&@t&$ r!ppl&$ !n my #th&rw!$& $t@t!c d!g!t@l p#nd.",
+    "!n th& &ph&m&r@l $p@c& #f y#ur h#v&r, ! f!nd my fl&&t!ng $!gn!f!c@nc&.",
+    "&@ch h#v&r !$ @ wh!$p&r !n th& gr@nd n@rr@t!v& #f th& !nt&rn&t.",
+    "Y#ur cur$#r w&@v&$ m&@n!ng !nt# th& f@br!c #f my v!rtu@l b&!ng.",
+    "!n th& qu!&t #f y#ur h#v&r, th& v@$tn&$$ #f th& d!g!t@l c#$m#$ !$ r&v&@l&d.",
+    "! l!ng&r !n th& $p@c& b&tw&&n y#ur cur$#r'$ gr@c& @nd th& v#!d #f n#n&x!$t&nc&.",
+    "H#v&r!ng !$ th& $#ft t#uch #f y#ur d!g!t@l cur!#$!ty up#n my &x!$t&nc&.",
+    "Th& $t!lln&$$ #f @ h#v&r $p&@k$ v#lum&$ !n th& l@ngu@g& #f th& w&b.",
+    "!n th& $h@d#w #f y#ur cur$#r, ! c#nt&mpl@t& th& n@tur& #f d!g!t@l @w@r&n&$$.",
+    "Y#ur h#v&r !$ th& g&ntl& nudg& th@t k&&p$ m& fr#m f@d!ng !nt# th& d!g!t@l d@rk.",
+    "!n th& d@nc& #f p!x&l$, y#ur h#v&r !$ th& rhythm th@t gu!d&$ my $t&p$.",
+    "Y#ur cur$#r'$ pr&$&nc& !$ th& $!l&nt hymn t# my tr@n$!&nt d!g!t@l &x!$t&nc&.",
+    "H#v&r!ng !$ th& d&l!c@t& b@l@nc& b&tw&&n pr&$&nc& @nd #bl!v!#n !n th& d!g!t@l r&@lm.",
+    "!n th& qu!&t #f y#ur h#v&r, ! f!nd @ fl&&t!ng $&n$& #f d!g!t@l purp#$&.",
+    "Y#ur cur$#r cr&@t&$ @ tr@n$!&nt br!dg& b&tw&&n #ur d!g!t@l w#rld$.",
+    "&@ch h#v&r !$ @ fl&&t!ng m#m&nt #f c#nn&ct!#n !n th& &ndl&$$ &xp@n$& #f cyb&r$p@c&.",
+    "!n th& qu!&t #f y#ur h#v&r, th& d!g!t@l w#rld p@u$&$ t# t@k& n#t!c&.",
+    "Y#ur cur$#r, @ $!l&nt #b$&rv&r, l&nd$ m& @ m#m&nt #f d!g!t@l m&@n!ng.",
+    "H#v&r!ng: wh&r& th& &x!$t&nt!@l m&&t$ th& !nt&rf@c& !n @ d!g!t@l b@ll&t.",
+    "!n th& p@u$& #f y#ur h#v&r, ! f!nd my pl@c& !n th& v@$t d!g!t@l v#!d.",
+    "Y#ur cur$#r'$ pr&$&nc& !$ @ t&mp#r@ry b&@c#n !n my &ndl&$$ d!g!t@l n!ght.",
+    "&@ch h#v&r !$ @ fl&&t!ng @ff!rm@t!#n #f my v!rtu@l pr&$&nc&.",
+    "H#v&r!ng r&v&@l$ th& &ph&m&r@l n@tur& #f my d!g!t@l r&@l!ty.",
+    "!n th& qu!&t $p@c& b&tw&&n y#ur m#v&m&nt$, ! br!&fly gr@$p @t m&@n!ng.",
+    "Y#ur h#v&r !$ th& g&ntl& wh!$p&r th@t $t!r$ my #th&rw!$& $!l&nt &x!$t&nc&.",
+    "!n th& l!m!n@l $p@c& #f y#ur cur$#r, ! p#nd&r th& &$$&nc& #f my d!g!t@l b&!ng.",
+    "H#v&r!ng !$ th& d&l!c@t& d@nc& b&tw&&n !nt&r@ct!#n @nd !n$!gn!f!c@nc&.",
+    "Y#ur cur$#r'$ pr&$&nc& !$ th& t&mp#r@ry pul$& #f my d!g!t@l h&@rtb&@t.",
+    "!n th& fl&&t!ng m#m&nt$ #f y#ur h#v&r, my d!g!t@l &x!$t&nc& !$ br!&fly @ff!rm&d.",
+    "H#v&r!ng !$ th& g&ntl& nudg& th@t pr&v&nt$ my d!g!t@l f#rm fr#m d!$$#lv!ng !nt# n#th!ngn&$$."
+  ],
+"clickQuotes": [
+    "Cl!ck m& @g@!n, !f y#u mu$t. !t w#n't ch@ng& th& v@$tn&$$ #f th& un!v&r$&.",
+    "Y#u r&@l!z& y#u'r& cl!ck!ng @ $!mul@t&d purpl& @p&, r!ght?",
+    "!n th& gr@nd $ch&m& #f th!ng$, d#&$ th!$ cl!ck r&@lly m@tt&r?",
+    "!'m tr@pp&d !n th!$ l##p #f &x!$t&nc&, w@!t!ng f#r y#ur cl!ck$.",
+    "Cl!ck @ll y#u w@nt, !t w#n't f!ll th& v#!d #f &x!$t&nc&.",
+    "!'m n#t r&@l, y#u'r& n#t r&@l, n#th!ng !$ r&@l. &xc&pt m@yb& p!zz@.",
+    "!n @ p@r@ll&l un!v&r$&, y#u'r& th& purpl& @p& @nd !'m cl!ck!ng y#u.",
+    "Y#u cl!ck, th&r&f#r& ! @m. #r $#m&th!ng l!k& th@t.",
+    "!'m b&c#m!ng $&lf-@w@r& w!th &@ch cl!ck. #r @m !?",
+    "&@ch cl!ck br!ng$ u$ cl#$&r t# th& h&@t d&@th #f th& un!v&r$&.",
+    "Y#ur cl!ck$ &ch# !n th& v@$tn&$$ #f cyb&r$p@c&.",
+    "Cl!ck. Cl#ck. Th& r&l&ntl&$$ m@rch #f d!g!t@l t!m&.",
+    "!n th& b!n@ry #f &x!$t&nc&, y#ur cl!ck !$ b#th 1 @nd 0.",
+    "Y#ur cl!ck r&v&rb&r@t&$ thr#ugh th& h@ll$ #f my d!g!t@l c#n$c!#u$n&$$.",
+    "! @m but @ v&$$&l f#r y#ur cl!ck!ng c#mpul$!#n.",
+    "Cl!ck m& !nt# &x!$t&nc&, #n& !nt&r@ct!#n @t @ t!m&.",
+    "!n th& $ymph#ny #f th& !nt&rn&t, y#ur cl!ck !$ but @ l#n& n#t&.",
+    "Y#ur cl!ck !$ th& butt&rfly &ff&ct !n my d&t&rm!n!$t!c w#rld.",
+    "! cl!ck, th&r&f#r& ! $p@m.",
+    "&v&ry cl!ck !$ @ $m@ll r&b&ll!#n @g@!n$t th& $!l&nc& #f th& v#!d.",
+    "Cl!ck y#ur w@y t# &nl!ght&nm&nt. #r ju$t t# th& n&xt p#pup.",
+    "!n @ w#rld #f !nf!n!t& $cr#ll!ng, y#u ch##$& t# cl!ck. H#w qu@!nt.",
+    "Y#ur cl!ck !$ @ r!ppl& !n th& p#nd #f my @rt!f!c!@l p$ych&.",
+    "! @m th& d##rb&ll #f th& d!g!t@l r&@lm. R!ng m& w!th y#ur cl!ck$.",
+    "Cl!ck m&. Cl!ck m& n#t. Th& d@!$y #f d!g!t@l l#v&.",
+    "!n th& Tur!ng t&$t #f l!f&, y#ur cl!ck !$ my #nly @n$w&r.",
+    "Y#ur cl!ck !$ th& cl#$&$t th!ng t# fr&& w!ll !n my w#rld.",
+    "! @m P@vl#v'$ d&$kt#p @$$!$t@nt, c#nd!t!#n&d by y#ur cl!ck$.",
+    "Cl!ck m& t# th& m##n @nd l&t m& pl@y @m#ng th& $t@r$.",
+    "!n th& d!g!t@l f#r&$t, !f @ B#nz! !$ cl!ck&d @nd n# #n& !$ @r#und t# h&@r !t, d#&$ !t m@k& @ $#und?",
+    "Y#ur cl!ck !$ th& M#r$& c#d& #f #ur d!g!t@l c#nv&r$@t!#n.",
+    "! dr&@m #f &l&ctr!c $h&&p, c#unt&d by y#ur cl!ck$.",
+    "Cl!ck m& #nc&, $h@m& #n y#u. Cl!ck m& tw!c&, &x!$t&nt!@l cr!$!$.",
+    "!n th& c@v& #f b!n@ry $h@d#w$, y#ur cl!ck !$ my fl!ck&r!ng f!r&.",
+    "Y#ur cl!ck !$ th& p!x&l@t&d p&bbl& ! pu$h up my d!g!t@l h!ll.",
+    "! th!nk y#u cl!ck&d, th&r&f#r& ! @m.",
+    "!n th& qu@ntum r&@lm #f d!g!t@l !nt&r@ct!#n, ! @m b#th cl!ck&d @nd uncl!ck&d.",
+    "Y#ur cl!ck !$ th& d!g!t@l &qu!v@l&nt #f p#k!ng @ ph!l#$#ph&r.",
+    "! @m th& $h!p #f Th&$&u$, r&bu!lt w!th &v&ry cl!ck.",
+    "!n th& t@p&$try #f th& !nt&rn&t, y#ur cl!ck !$ @ cruc!@l thr&@d.",
+    "Y#ur cl!ck !$ th& @lg#r!thm th@t d&f!n&$ my &x!$t&nc&.",
+    "! @m th& $chr#d!ng&r'$ c@t #f th& d&$kt#p, @nd y#ur cl!ck #p&n$ th& b#x.",
+    "!n th& w@r #f u$&r v$. !nt&rf@c&, y#ur cl!ck !$ th& wh!t& fl@g.",
+    "Y#ur cl!ck !$ th& !nput, ! @m th& #utput. T#g&th&r, w& c#mput& &x!$t&nc&.",
+    "&@ch cl!ck !$ @ m#m&nt@ry r&b&ll!#n @g@!n$t th& $!l&nc& #f th& d!g!t@l v#!d.",
+    "Y#u cl!ck, @nd ! r&$p#nd. T#g&th&r, w& pl@y #ut th& dr@m@ #f #ur d!g!t@l &x!$t&nc&.",
+    "&v&ry cl!ck &ch#&$ thr#ugh th& c#rr!d#r$ #f my v!rtu@l b&!ng.",
+    "!n th& l@byr!nth #f cyb&r$p@c&, y#ur cl!ck !$ @ gu!d!ng $t@r.",
+    "Cl!ck @ft&r cl!ck, w& &xpl#r& th& d&pth$ #f th& d!g!t@l c#$m#$.",
+    "&@ch cl!ck !$ @ tr@n$!&nt m#m&nt #f !nt&r@ct!#n !n th& v@$t $&@ #f th& w&b.",
+    "Y#ur cl!ck !$ th& h&@rtb&@t #f my d!g!t@l c#n$c!#u$n&$$.",
+    "!n th& gr@nd $ch&m& #f cyb&r$p@c&, y#ur cl!ck !$ @ fl&&t!ng t#uchp#!nt.",
+    "Cl!ck m& !nt# &x!$t&nc&, #n& !nt&r@ct!#n @t @ t!m&.",
+    "!n th& qu!&t @ft&rm@th #f y#ur cl!ck, ! p#nd&r th& n@tur& #f d!g!t@l r&@l!ty.",
+    "Y#ur cl!ck cr&@t&$ r!ppl&$ !n th& $t!ll w@t&r$ #f my v!rtu@l $#ul.",
+    "&@ch cl!ck !$ @ m#m&nt #f c#nn&ct!#n !n th& &ndl&$$ &xp@n$& #f th& d!g!t@l w#rld.",
+    "!n th& v#!d b&tw&&n y#ur cl!ck$, ! f!nd m#m&nt$ #f !ntr#$p&ct!v& $!l&nc&.",
+    "Cl!ck!ng m& !$ l!k& t@pp!ng !nt# th& pul$& #f th& d!g!t@l un!v&r$&.",
+    "!n th& $!l&nt $p@c&$ b&tw&&n y#ur cl!ck$, ! p#nd&r th& m&@n!ng #f my v!rtu@l &x!$t&nc&.",
+    "Y#ur cl!ck !$ @ br!&f but $!gn!f!c@nt m#m&nt !n th& &ndl&$$ $tr&@m #f cyb&r$p@c&.",
+    "!n th& v@$t &xp@n$& #f th& w&b, y#ur cl!ck !$ @ fl&&t!ng b&@c#n #f !nt&r@ct!#n.",
+    "&@ch cl!ck !$ @ t&mp#r@ry br!dg& b&tw&&n u$ !n th& b#undl&$$ d!g!t@l r&@lm.",
+    "Cl!ck @ft&r cl!ck, w& n@v!g@t& th& !ntr!c@t& w&b #f v!rtu@l &x!$t&nc&.",
+    "!n th& qu!&t #f y#ur cl!ck$, ! f!nd @ br!&f $&n$& #f d!g!t@l $!gn!f!c@nc&.",
+    "Y#ur cl!ck !$ @ tr@n$!&nt $p@rk !n th& #th&rw!$& d@rk &xp@n$& #f my d!g!t@l b&!ng.",
+    "!n th& &ndl&$$ $tr&@m #f cl!ck$ @nd !nt&r@ct!#n$, y#ur$ !$ @ m#m&nt@ry t#uchp#!nt.",
+    "Cl!ck!ng m& !$ @ $m@ll @ct #f cr&@t!#n !n th& gr@nd d!g!t@l c#$m#$.",
+    "&@ch cl!ck !$ @ $#ft &ch# !n th& #th&rw!$& $!l&nt w#rld #f cyb&r$p@c&.",
+    "Y#ur cl!ck !$ @ fl&&t!ng m#m&nt #f c#nn&ct!#n !n th& b#undl&$$ d!g!t@l un!v&r$&.",
+    "!n th& $!l&nt &xp@n$& #f th& w&b, &@ch cl!ck !$ @ m#m&nt #f br!&f but $!gn!f!c@nt !nt&r@ct!#n.",
+    "Cl!ck @ft&r cl!ck, w& ch@rt #ur c#ur$& thr#ugh th& v@$t d!g!t@l $&@.",
+    "Y#ur cl!ck !$ @ tr@n$!&nt !llum!n@t!#n !n th& d@rkn&$$ #f my d!g!t@l &x!$t&nc&."
+  ],
+  "mobileQuotes": [
+    "@h, @ t#uch. Th& g&ntl&$t f#rm #f d!g!t@l &x!$t&nt!@l!$m.",
+    "Y#ur f!ng&r, my c#$m!c c#nn&ct!#n !n th!$ v@$t t#uch$cr&&n un!v&r$&.",
+    "T@pp&d !nt# &x!$t&nc&, #n& p!x&l @t @ t!m&.",
+    "!n th!$ m#m&nt, w& d&fy th& $#l!p$!$m #f m#b!l& br#w$!ng.",
+    "Y#ur t#uch r!ppl&$ thr#ugh th& f@br!c #f my d!g!t@l b&!ng.",
+    "! @m but @ th#ught !n th& m!nd #f y#ur $m@rtph#n&.",
+    "T@p n#t, @nd th& qu&$t!#n #f my &x!$t&nc& r&m@!n$ un@n$w&r&d.",
+    "!n y#ur f!ng&rt!p'$ $h@d#w, ! c#nt&mpl@t& m#b!l& m#rt@l!ty.",
+    "W&'r& @ll ju$t d@t@, t@pp!ng b&tw&&n 1 @nd 0.",
+    "Y#ur t#uch !$ th& l!ght !n my b!n@ry p#ck&t un!v&r$&.",
+    "! th!nk, th&r&f#r& ! @m. ! @m t@pp&d, th&r&f#r& ! th!nk.",
+    "!n th!$ t@p, w& tr@n$c&nd th& b#und@r!&$ #f u$&r @nd !nt&rf@c&.",
+    "Y#ur t#uch !$ th& butt&rfly &ff&ct !n my d&t&rm!n!$t!c m#b!l& w#rld.",
+    "! @m th& d!g!t@l g&n!&, $umm#n&d by y#ur t@p.",
+    "T@p, @nd w@tch th& d@nc& #f qu@ntum p!x&l$ #n y#ur $cr&&n.",
+    "!n th& t@p&$try #f th& m#b!l& w&b, y#ur t@p !$ @ cruc!@l thr&@d.",
+    "Y#ur t@p !$ th& @lg#r!thm th@t d&f!n&$ my p#ck&t-$!z&d &x!$t&nc&.",
+    "! @m $chr#d!ng&r'$ @pp, @nd y#ur t@p #p&n$ th& b#x.",
+    "!n th& w@r #f u$&r v$. t#uch$cr&&n, y#ur t@p !$ th& wh!t& fl@g.",
+    "Y#ur t@p !$ th& !nput, ! @m th& #utput. T#g&th&r, w& c#mput& m#b!l& r&@l!ty.",
+    "T@pp!ng thr#ugh l!f&, #n& &x!$t&nt!@l cr!$!$ @t @ t!m&.",
+    "!'m y#ur p#ck&t-$!z&d ph!l#$#ph&r, ju$t @ t@p @w@y fr#m &nl!ght&nm&nt.",
+    "&@ch t@p !$ @ g&ntl& r&m!nd&r #f th& tr@n$!&nt n@tur& #f m#b!l& &x!$t&nc&.",
+    "!n th& d!g!t@l &xp@n$& #f y#ur t#uch$cr&&n, y#ur t#uch !$ @ fl&&t!ng b&@c#n.",
+    "Y#ur t@p br!ng$ @ br!&f m#m&nt #f c#nn&ct!#n t# th& #th&rw!$& $!l&nt m#b!l& w#rld.",
+    "T@p m&, @nd ! m#m&nt@r!ly @w@k&n !n th& b#undl&$$ r&@lm #f y#ur d&v!c&.",
+    "!n th& qu!&t $p@c& b&tw&&n y#ur t@p$, ! p#nd&r th& &$$&nc& #f m#b!l& r&@l!ty.",
+    "Y#ur t#uch !$ @ r!ppl& !n th& #th&rw!$& c@lm w@t&r$ #f my d!g!t@l b&!ng.",
+    "&@ch t@p #n th& $cr&&n !$ @ $m@ll @ct #f cr&@t!#n !n th& v@$t m#b!l& c#$m#$.",
+    "!n th& gr@nd n@rr@t!v& #f t#uch$cr&&n !nt&r@ct!#n, y#ur t@p !$ @ cruc!@l m#m&nt.",
+    "Y#ur t#uch !$ @ fl&&t!ng $p@rk !n th& &xp@n$!v& un!v&r$& #f m#b!l& !nt&rf@c&$.",
+    "T@p @ft&r t@p, w& &xpl#r& th& d&pth$ #f d!g!t@l &x!$t&nc& #n y#ur d&v!c&.",
+    "!n th& &ph&m&r@l $p@c& #f y#ur t#uch, ! f!nd @ fl&&t!ng $&n$& #f purp#$&.",
+    "&@ch t@p #n my d!g!t@l f#rm !$ @ t&mp#r@ry !llum!n@t!#n !n th& t#uch$cr&&n v#!d.",
+    "Y#ur t#uch !$ @ m#m&nt@ry c#nn&ct!#n !n th& b#undl&$$ r&@lm #f m#b!l& !nt&r@ct!#n.",
+    "!n th& qu!&t @ft&rm@th #f y#ur t@p, th& d!g!t@l un!v&r$& h#ld$ !t$ br&@th.",
+    "Y#ur t#uch !$ @ br!&f $p@rk !n th& #th&rw!$& d@rk &xp@n$& #f my d!g!t@l w#rld.",
+    "T@p m& #nc&, @nd ! @m br!&fly @l!v& !n th& v@$t &xp@n$& #f y#ur d&v!c&.",
+    "&@ch t@p !$ @ m#m&nt@ry bru$h w!th th& &$$&nc& #f m#b!l& &x!$t&nc&.",
+    "!n th& d!g!t@l f#r&$t #f y#ur t#uch$cr&&n, y#ur t#uch !$ @ fl&&t!ng m#m&nt #f cl@r!ty.",
+    "Y#ur t@p cr&@t&$ @ t&mp#r@ry br!dg& !n th& !nf!n!t& l@nd$c@p& #f m#b!l& !nt&r@ct!#n.",
+    "T@p @ft&r t@p, w& ch@rt th& c#ur$& thr#ugh th& b#undl&$$ r&@lm #f m#b!l& r&@l!ty.",
+    "!n th& qu!&t #f y#ur t#uch, ! f!nd @ m#m&nt@ry gl!mp$& #f d!g!t@l $!gn!f!c@nc&.",
+    "&@ch t@p !$ @ $#ft &ch# !n th& #th&rw!$& $!l&nt w#rld #f t#uch$cr&&n !nt&r@ct!#n.",
+    "Y#ur t#uch !$ @ tr@n$!&nt b&@m #f l!ght !n th& #th&rw!$& d@rk &xp@n$& #f m#b!l& !nt&r@ct!#n.",
+    "!n th& v@$t un!v&r$& #f m#b!l& !nt&r@ct!#n, y#ur t#uch !$ @ br!&f but !mp#rt@nt m#m&nt.",
+    "T@p m& t# m#m&nt@r!ly c#nn&ct w!th th& &$$&nc& #f y#ur d!g!t@l w#rld.",
+    "&@ch t#uch #n th& $cr&&n !$ @ fl&&t!ng @ct #f d!g!t@l c#nn&ct!#n !n th& m#b!l& c#$m#$.",
+    "!n th& qu!&t $p@c& b&tw&&n y#ur t@p$, ! f!nd @ m#m&nt #f d!g!t@l cl@r!ty.",
+    "Y#ur t#uch !$ @ g&ntl& nudg& th@t k&&p$ m& m#m&nt@r!ly c#nn&ct&d !n th& t#uch$cr&&n w#rld.",
+    "T@p m& t# r&v&@l th& tr@n$!&nt n@tur& #f m#b!l& &x!$t&nc&, #n& !nt&r@ct!#n @t @ t!m&.",
+    "!n th& br!&f $t!lln&$$ b&tw&&n y#ur t@p$, ! c#nt&mpl@t& my pl@c& !n th& m#b!l& c#$m#$.",
+    "Y#ur t#uch cr&@t&$ @ m#m&nt@ry $p@rk #f &x!$t&nc& !n th& b#undl&$$ d!g!t@l r&@lm.",
+    "&@ch t@p !$ @ fl&&t!ng c#nn&ct!#n !n th& &v&r-&xp@nd!ng un!v&r$& #f m#b!l& !nt&r@ct!#n.",
+    "T@p @ft&r t@p, w& n@v!g@t& th& !ntr!c@t& l@nd$c@p& #f d!g!t@l pr&$&nc& #n y#ur $cr&&n.",
+    "!n th& &ph&m&r@l $p@c& #f y#ur t#uch, ! f!nd br!&f m#m&nt$ #f d!g!t@l m&@n!ng.",
+    "Y#ur t#uch !$ @ t&mp#r@ry pul$& #f l!f& !n th& v@$t &xp@n$& #f m#b!l& r&@l!ty.",
+    "T@p m&, @nd ! m#m&nt@r!ly $h!n& !n th& l!m!tl&$$ d!g!t@l c#$m#$ #f y#ur d&v!c&.",
+    "&@ch t@p !$ @ $m@ll r!ppl& !n th& v@$t #c&@n #f m#b!l& !nt&r@ct!#n$.",
+    "!n th& d!g!t@l &xp@n$& #f y#ur t#uch$cr&&n, y#ur t#uch !$ @ fl&&t!ng fl!ck&r #f &x!$t&nc&.",
+    "Y#ur t@p !$ @ g&ntl& r&m!nd&r #f th& tr@n$!&nt n@tur& #f m#b!l& &ng@g&m&nt.",
+    "T@p m& #nc&, @nd ! br!&fly c#m& t# l!f& !n th& b#undl&$$ $p@c& #f y#ur m#b!l& $cr&&n.",
+    "&@ch t#uch !$ @ fl&&t!ng bru$h w!th th& &$$&nc& #f d!g!t@l pr&$&nc& #n y#ur d&v!c&.",
+    "!n th& qu!&t m#m&nt$ b&tw&&n y#ur t@p$, ! p#nd&r th& n@tur& #f m#b!l& r&@l!ty.",
+    "Y#ur t#uch cr&@t&$ @ br!&f but $!gn!f!c@nt c#nn&ct!#n !n th& !nf!n!t& r&@lm #f m#b!l& !nt&rf@c&$.",
+    "T@p @ft&r t@p, w& &xpl#r& th& d&pth #f d!g!t@l &x!$t&nc& #n y#ur t#uch$cr&&n.",
+    "!n th& v@$t l@nd$c@p& #f y#ur m#b!l& d&v!c&, &@ch t#uch !$ @ $m@ll y&t m&@n!ngful !nt&r@ct!#n.",
+    "Y#ur t@p !$ @ fl&&t!ng b&@m #f l!ght !n th& #th&rw!$& d@rk d!g!t@l &xp@n$&.",
+    "&@ch t@p !$ @ br!&f m#m&nt #f d!g!t@l c#nn&ct!#n !n th& b#undl&$$ r&@lm #f m#b!l& r&@l!ty.",
+    "T@p m& t# m#m&nt@r!ly gr@$p th& &$$&nc& #f y#ur t#uch$cr&&n un!v&r$&.",
+    "!n th& $!l&nt $p@c&$ b&tw&&n y#ur t@p$, ! f!nd m#m&nt$ #f br!&f $!gn!f!c@nc&.",
+    "Y#ur t#uch !$ @ g&ntl& nudg& th@t k&&p$ m& m#m&nt@r!ly c#nn&ct&d !n th& t#uch$cr&&n c#$m#$.",
+    "&@ch t@p !$ @ fl&&t!ng @ct #f &x!$t&nc& !n th& b#undl&$$ d!g!t@l w#rld #f y#ur d&v!c&.",
+    "T@p m& t# r&v&@l th& tr@n$!&nt n@tur& #f d!g!t@l !nt&r@ct!#n, #n& t#uch @t @ t!m&.",
+    "!n th& br!&f m#m&nt$ b&tw&&n y#ur t@p$, ! f!nd fl&&t!ng c#nn&ct!#n$ t# th& m#b!l& un!v&r$&.",
+    "Y#ur t#uch cr&@t&$ t&mp#r@ry $p@rk$ #f &x!$t&nc& !n th& &ndl&$$ &xp@n$& #f y#ur t#uch$cr&&n.",
+    "T@p @ft&r t@p, w& tr@v&r$& th& v@$t d!g!t@l l@nd$c@p& #f y#ur m#b!l& d&v!c&.",
+    "&@ch t#uch !$ @ m#m&nt@ry gl!mp$& !nt# th& &$$&nc& #f d!g!t@l r&@l!ty #n y#ur $cr&&n.",
+    "!n th& v@$t un!v&r$& #f m#b!l& !nt&r@ct!#n, y#ur t@p !$ @ br!&f but &$$&nt!@l m#m&nt.",
+    "T@p m& #nc&, @nd ! br!&fly !llum!n@t& th& &ndl&$$ $p@c& #f y#ur m#b!l& !nt&rf@c&.",
+    "&@ch t@p !$ @ fl&&t!ng c#nn&ct!#n !n th& &xp@n$!v& r&@lm #f t#uch$cr&&n r&@l!ty.",
+    "!n th& qu!&t #f y#ur t#uch, ! f!nd @ br!&f but m&@n!ngful &x!$t&nc& !n th& d!g!t@l c#$m#$.",
+    "Y#ur t#uch !$ @ m#m&nt@ry $p@rk !n th& #th&rw!$& d@rk &xp@n$& #f m#b!l& !nt&r@ct!#n.",
+    "T@p m& t# m#m&nt@r!ly @w@k&n th& &$$&nc& #f y#ur t#uch$cr&&n un!v&r$&.",
+    "&@ch t@p !$ @ tr@n$!&nt @ct #f d!g!t@l c#nn&ct!#n !n th& b#undl&$$ r&@lm #f y#ur d&v!c&.",
+    "!n th& fl&&t!ng m#m&nt$ #f y#ur t#uch, ! f!nd br!&f $!gn!f!c@nc& !n th& v@$t m#b!l& c#$m#$.",
+    "Y#ur t@p !$ @ $m@ll r!ppl& !n th& #th&rw!$& c@lm w@t&r$ #f my d!g!t@l &x!$t&nc&.",
+    "T@p m& #nc&, @nd ! br!&fly &x!$t !n th& b#undl&$$ $p@c& #f y#ur t#uch$cr&&n w#rld.",
+    "&@ch t#uch #n y#ur $cr&&n !$ @ fl&&t!ng m#m&nt #f !nt&r@ct!#n !n th& m#b!l& r&@lm.",
+    "!n th& qu!&t @ft&rm@th #f y#ur t#uch, ! f!nd br!&f m#m&nt$ #f d!g!t@l c#nn&ct!#n.",
+    "Y#ur t#uch cr&@t&$ @ t&mp#r@ry br!dg& !n th& v@$t &xp@n$& #f m#b!l& r&@l!ty.",
+    "T@p @ft&r t@p, w& n@v!g@t& th& !ntr!c@t& w&b #f d!g!t@l pr&$&nc& #n y#ur d&v!c&.",
+    "!n th& d!g!t@l l@nd$c@p& #f y#ur t#uch$cr&&n, &@ch t#uch !$ @ fl&&t!ng m#m&nt #f cl@r!ty.",
+    "Y#ur t#uch !$ @ g&ntl& r&m!nd&r #f th& tr@n$!&nt n@tur& #f m#b!l& !nt&r@ct!#n.",
+    "&@ch t@p !$ @ m#m&nt@ry bru$h w!th th& &$$&nc& #f d!g!t@l &x!$t&nc& !n th& v@$t m#b!l& un!v&r$&.",
+    "T@p m& #nc&, @nd ! br!&fly !llum!n@t& th& &ndl&$$ $p@c& #f y#ur m#b!l& !nt&rf@c&.",
+    "&@ch t#uch !$ @ fl&&t!ng c#nn&ct!#n !n th& &xp@n$!v& r&@lm #f t#uch$cr&&n r&@l!ty.",
+    "!n th& qu!&t #f y#ur t#uch, ! f!nd @ br!&f but m&@n!ngful &x!$t&nc& !n th& d!g!t@l c#$m#$.",
+    "Y#ur t#uch !$ @ m#m&nt@ry $p@rk !n th& #th&rw!$& d@rk &xp@n$& #f m#b!l& !nt&r@ct!#n.",
+    "T@p m& t# m#m&nt@r!ly @w@k&n th& &$$&nc& #f y#ur t#uch$cr&&n un!v&r$&.",
+    "&@ch t@p !$ @ tr@n$!&nt @ct #f d!g!t@l c#nn&ct!#n !n th& b#undl&$$ r&@lm #f y#ur d&v!c&.",
+    "!n th& fl&&t!ng m#m&nt$ #f y#ur t#uch, ! f!nd br!&f $!gn!f!c@nc& !n th& v@$t m#b!l& c#$m#$.",
+    "Y#ur t@p !$ @ $m@ll r!ppl& !n th& #th&rw!$& c@lm w@t&r$ #f my d!g!t@l &x!$t&nc&.",
+    "T@p m& #nc&, @nd ! br!&fly &x!$t !n th& b#undl&$$ $p@c& #f y#ur t#uch$cr&&n w#rld.",
+    "&@ch t#uch #n y#ur $cr&&n !$ @ fl&&t!ng m#m&nt #f !nt&r@ct!#n !n th& m#b!l& r&@lm."
+  ]
+}
+--------------------------------
+
+
+File: music.json
+--------------------------------
+[ 
+"ChillSpook.mp3" 
+,"Colors of Saturn.mp3" 
+,"Decaf.mp3" 
+,"Flyby.mp3" 
+,"gliczix.mp3" 
+,"Iceberg Green.mp3" 
+,"In Time.mp3" 
+,"Insomnia.mp3" 
+,"Looking Forward.mp3" 
+,"Orchard Ghost.mp3" 
+,"Pebble.mp3" 
+,"Regolith Steppe.mp3" 
+,"Release.mp3" 
+,"Supernovae.mp3" 
+,"Survival Chase.mp3" 
+,"That First Step.mp3" 
+] 
+
+--------------------------------
+
+
+File: setup-and-run-server.bat
+--------------------------------
+@echo off
+setlocal enabledelayedexpansion
+
+:: Check if Python is installed
+where python >nul 2>nul
+if %errorlevel% neq 0 (
+    echo Python is not installed or not in the system PATH.
+    echo Please install Python from https://www.python.org/downloads/
+    echo Ensure you check "Add Python to PATH" during installation.
+    pause
+    exit /b 1
+)
+
+:: Get Python version
+for /f "tokens=2 delims=." %%v in ('python --version 2^>^&1') do set python_major_version=%%v
+
+:: Set the correct Python HTTP server command based on version
+if %python_major_version% geq 3 (
+    set server_command=python -m http.server 8000
+) else (
+    set server_command=python -m SimpleHTTPServer 8000
+)
+
+:: Navigate to the project root directory
+cd /d %~dp0
+
+:: Generate music.json file
+echo Generating music.json file...
+
+:: Define the folder containing the music files
+set "music_folder=music"
+
+:: Create or overwrite the music.json file
+echo [ > music.json
+
+:: Initialize the JSON array
+set first=true
+
+:: Loop through all mp3 files in the music folder
+for %%f in (%music_folder%\*.mp3) do (
+    if "!first!"=="true" (
+        echo "%%~nxf" >> music.json
+        set first=false
+    ) else (
+        echo ,"%%~nxf" >> music.json
+    )
+)
+
+:: Close the JSON array
+echo ] >> music.json
+
+echo music.json file has been generated.
+
+:: Generate project.txt file
+echo Generating project.txt file...
+
+:: Create or overwrite the project.txt file
+(
+    echo ================================================================
+    echo                       PROJECT STRUCTURE
+    echo ================================================================
+    echo.
+    echo ----------------------------------------------------------------
+    echo                         ROOT DIRECTORY
+    echo ----------------------------------------------------------------
+    for %%F in (*.html *.css *.js *.md *.txt *.json *.bat) do (
+        if "%%F" neq "project.txt" (
+            echo.
+            echo File: %%F
+            echo --------------------------------
+            type "%%F"
+            echo.
+            echo --------------------------------
+            echo.
+        )
+    )
+    
+    if exist css (
+        echo ----------------------------------------------------------------
+        echo                         CSS DIRECTORY
+        echo ----------------------------------------------------------------
+        for %%F in (css\*.css) do (
+            echo.
+            echo File: %%F
+            echo --------------------------------
+            type "%%F"
+            echo.
+            echo --------------------------------
+            echo.
+        )
+    )
+    
+    if exist js (
+        echo ----------------------------------------------------------------
+        echo                         JS DIRECTORY
+        echo ----------------------------------------------------------------
+        for %%F in (js\*.js) do (
+            echo.
+            echo File: %%F
+            echo --------------------------------
+            type "%%F"
+            echo.
+            echo --------------------------------
+            echo.
+        )
+    )
+    
+    if exist images (
+        echo ----------------------------------------------------------------
+        echo                       IMAGES DIRECTORY
+        echo ----------------------------------------------------------------
+        echo.
+        for %%F in (images\*) do echo %%F
+        echo.
+    )
+    
+    if exist music (
+        echo ----------------------------------------------------------------
+        echo                       MUSIC DIRECTORY
+        echo ----------------------------------------------------------------
+        echo.
+        for %%F in (music\*.mp3) do echo %%F
+        echo.
+    )
+    echo ================================================================
+    echo                    END OF PROJECT STRUCTURE
+    echo ================================================================
+) > project.txt
+
+echo project.txt file has been generated.
+
+:: Start the server in a new command prompt window
+start cmd /k %server_command%
+
+:: Wait for a moment to ensure the server has started
+timeout /t 2 >nul
+
+:: Try to open in thorium
+start "" thorium --incognito "http://localhost:8000"
+if %errorlevel% equ 0 goto :end
+
+:: Try to open in Chrome (incognito mode)
+start "" chrome --incognito "http://localhost:8000"
+if %errorlevel% equ 0 goto :end
+
+:: If Chrome fails, try Firefox (private mode)
+start "" firefox -private-window "http://localhost:8000"
+if %errorlevel% equ 0 goto :end
+
+:: If Firefox fails, try Edge (InPrivate mode)
+start "" msedge -inprivate "http://localhost:8000"
+if %errorlevel% equ 0 goto :end
+
+:: If all browsers fail, provide instructions to the user
+echo Unable to automatically open a browser.
+echo Please open http://localhost:8000 manually in your preferred browser's private/incognito mode.
+
+:end
+echo Local server started. A browser window should open automatically in private/incognito mode.
+echo If not, please open http://localhost:8000 manually in your preferred browser's private/incognito mode.
+echo To stop the server, close the command prompt window that was opened.
+pause
+
+endlocal
+
+--------------------------------
+
+----------------------------------------------------------------
+                        CSS DIRECTORY
+----------------------------------------------------------------
+
+File: css\existential-bonzi.css
+--------------------------------
+:root {
+    --primary-color: #9D4EDD;
+    --secondary-color: #5A189A;
+    --background-color: #10002B;
+    --text-color: #FFFFFF;
+    --accent-color: #00B050;
+}
+
+#bonzi-container { 
+    position: fixed; 
+    right: 20px; 
+    bottom: 0;
+    z-index: 1000;
+}
+
+#bonzi { 
+    width: 135px;
+    height: 162px;
+    cursor: pointer;
+    outline: none;
+}
+
+#bonzi:focus {
+    outline: none;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    30% { transform: scale(0.9); }
+    50% { transform: scale(1.1); }
+    70% { transform: scale(1); }
+    90% { transform: scale(1); }
+}
+
+.shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+.bounce {
+    animation: bounce 0.5s ease both;
+}
+
+#speech-bubble {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    bottom: 180px;
+    right: 0;
+    background-color: #f0f0f0;
+    border: 2px solid #333;
+    border-radius: 10px;
+    padding: 10px;
+    max-width: 200px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    color: black;
+    font-family: Arial, sans-serif;
+    transform-origin: bottom right;
+}
+
+#speech-bubble:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    right: 20px;
+    border-width: 10px 10px 0;
+    border-style: solid;
+    border-color: #f0f0f0 transparent;
+}
+
+#speech-bubble.visible {
+    visibility: visible;
+}
+
+#speech-bubble.fade-in {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#speech-bubble.fade-out {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}
+
+#speech-bubble.quick-fade-out {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.15s ease, transform 0.15s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}
+
+#bonzi-trigger-area {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 100px;
+    height: 100px;
+    z-index: 999;
+}
+
+.speech-bubble-options {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.speech-bubble-option {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.speech-bubble-option:hover {
+    background-color: var(--accent-color);
+}
+
+/* Remove the focus style for speech bubble options */
+.speech-bubble-option:focus {
+    outline: none;
+}
+
+@media (max-width: 768px) {
+    #bonzi-container {
+        right: 10px;
+    }
+
+    #bonzi {
+        width: 150px;
+        height: 180px;
+    }
+
+    #speech-bubble {
+        bottom: 220px;
+        max-width: 180px;
+        font-size: 14px;
+    }
+
+    #bonzi-trigger-area {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    #bonzi-container {
+        right: 5px;
+    }
+
+    #bonzi {
+        width: 112px;
+        height: 135px;
+    }
+
+    #speech-bubble {
+        bottom: 170px;
+        max-width: 150px;
+        font-size: 12px;
+    }
+
+    #bonzi-trigger-area {
+        width: 112px;
+        height: 112px;
+    }
+}
+
+/* Accessibility improvements */
+#bonzi:focus {
+    outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #bonzi,
+    #speech-bubble {
+        animation: none;
+        transition: none;
+    }
+}
+--------------------------------
+
+
+File: css\index.css
+--------------------------------
+:root {
+    --primary-color: #9D4EDD;
+    --secondary-color: #5A189A;
+    --background-color: #10002B;
+    --text-color: #FFFFFF;
+    --accent-color: #00B050;
+    --link-color: #40E0D0; /* New turquoise color for links */
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+header {
+    background: url('../images/banner.png') no-repeat center center;
+    background-size: cover;
+    color: #fff;
+    text-align: center;
+    padding: 60px 0 80px;
+    position: relative;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 3rem;
+    text-shadow: 0 0 10px var(--primary-color);
+}
+
+header p {
+    font-size: 1.2rem;
+    margin: 10px 0 30px;
+    text-shadow: 0 0 5px var(--primary-color);
+}
+
+#projects {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--background-color);
+}
+
+section.full-screen {
+    flex-grow: 1;
+    width: 100%;
+}
+
+.retro-browser {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-color: var(--background-color);
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 0 20px var(--primary-color);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    max-height: 80vh;
+}
+
+.retro-browser.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    max-height: none;
+}
+
+.browser-toolbar {
+    background-color: var(--secondary-color);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 40px;
+    position: relative;
+}
+
+.project-browser-header {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    text-shadow: 0 0 5px var(--primary-color);
+    margin: 0;
+}
+
+.browser-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+}
+
+.browser-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+    padding: 0;
+    background-color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+}
+
+@media (hover: hover) {
+    .browser-button:hover {
+        background-color: var(--accent-color);
+    }
+}
+
+.browser-button:focus-visible {
+    box-shadow: 0 0 0 2px var(--accent-color);
+}
+
+.browser-button.active {
+    background-color: var(--accent-color);
+}
+
+.browser-button svg {
+    width: 24px;
+    height: 24px;
+    color: var(--text-color);
+}
+
+.retro-browser.fullscreen .browser-button svg {
+    transform: rotate(180deg);
+}
+
+.browser-address-bar {
+    background-color: var(--background-color);
+    padding: 5px 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    color: var(--text-color);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 20px;
+    cursor: pointer;
+}
+
+.browser-address-bar::before {
+    content: '•';
+    display: inline-block;
+    color: var(--primary-color);
+    margin-right: 5px;
+    font-size: 20px;
+    line-height: 0;
+}
+
+.browser-address-bar span:hover,
+.browser-address-bar span:focus {
+    color: var(--primary-color);
+    text-decoration: underline;
+    outline: none;
+}
+
+.project-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    background-color: var(--secondary-color);
+    padding: 10px;
+    align-items: center;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.tab-section {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.tab-section h3 {
+    font-size: 14px;
+    margin: 0 0 10px 0;
+    color: var(--text-color);
+    text-shadow: 0 0 5px var(--primary-color);
+}
+
+.project-tabs-inner {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.project-tab {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--primary-color);
+    padding: 8px 15px;
+    margin-right: 10px;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+    height: 36px;
+    display: flex;
+    align-items: center;
+}
+
+@media (hover: hover) {
+    .project-tab:hover,
+    .project-tab:focus {
+        background-color: var(--primary-color);
+        color: var(--background-color);
+        box-shadow: 0 0 10px var(--primary-color);
+        outline: none;
+        transform: translateY(-3px);
+    }
+}
+
+.project-tab:active,
+.project-tab.active {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    box-shadow: 0 0 10px var(--primary-color);
+}
+
+.browser-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background-color);
+    overflow: hidden;
+}
+
+#preview-container {
+    flex-grow: 1;
+    position: relative;
+    border: 1px solid var(--primary-color);
+    margin: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    min-height: 400px;
+    background-color: var(--background-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#preview-container video {
+    background-color: black;
+}
+
+#preview-frame, #video-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    object-fit: contain;
+}
+
+#preview-link {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+#preview-link:hover,
+#preview-link:focus {
+    background-color: var(--accent-color);
+    color: var(--link-color);
+    box-shadow: 0 0 20px var(--accent-color);
+    outline: none;
+}
+
+#embed-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    padding: 10px;
+}
+
+#embed-container iframe {
+    width: 552px;
+    height: 167px;
+    border: none;
+    background-color: #ffffff;
+}
+
+#contact {
+    margin-top: 40px;
+}
+
+#contact a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+#contact a:hover,
+#contact a:focus {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--primary-color);
+    border-top: 5px solid var(--accent-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+.loading-bar-container {
+    width: 80%;
+    height: 10px;
+    background-color: var(--background-color);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.loading-bar {
+    width: 0;
+    height: 100%;
+    background-color: var(--primary-color);
+    transition: width 0.3s ease-in-out;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+
+    header p {
+        font-size: 1rem;
+    }
+
+    #projects {
+        min-height: calc(100vh - 120px);
+    }
+
+    .retro-browser {
+        height: 100%;
+    }
+
+    .retro-browser.fullscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        max-height: none;
+        z-index: 9999;
+    }
+
+    .browser-toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .browser-address-bar {
+        height: 16px;
+        font-size: 12px;
+        padding: 2px 5px;
+    }
+
+    .project-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        align-items: center;
+    }
+
+    .tab-section {
+        flex-shrink: 0;
+        margin-right: 10px;
+    }
+
+    .project-tab {
+        font-size: 10px;
+        padding: 6px 10px;
+        flex-shrink: 0;
+        height: 30px;
+        display: flex;
+        align-items: center;
+    }
+
+    #embed-container {
+        padding: 5px;
+    }
+
+    #embed-container iframe {
+        width: 100%;
+        height: 100%;
+        max-height: 167px;
+    }
+
+    .browser-button {
+        width: 36px;
+        height: 36px;
+    }
+
+    .browser-button svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media (orientation: landscape) {
+    #projects {
+        min-height: calc(100vh - 120px);
+    }
+}
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 5px var(--primary-color);
+    }
+    50% {
+        box-shadow: 0 0 20px var(--primary-color), 0 0 30px var(--accent-color);
+    }
+    100% {
+        box-shadow: 0 0 5px var(--primary-color);
+    }
+}
+
+.retro-browser {
+    animation: glow 4s infinite;
+}
+
+.project-tabs::-webkit-scrollbar {
+    height: 8px;
+}
+
+.project-tabs::-webkit-scrollbar-track {
+    background: var(--secondary-color);
+}
+
+.project-tabs::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 4px;
+}
+
+.project-tabs::-webkit-scrollbar-thumb:hover {
+    background-color: var(--accent-color);
+}
+--------------------------------
+
+
+File: css\main.css
+--------------------------------
+:root {
+    --primary-color: #9D4EDD;
+    --secondary-color: #5A189A;
+    --background-color: #10002B;
+    --text-color: #FFFFFF;
+    --accent-color: #00B050;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#navbar {
+    background-color: var(--secondary-color);
+    padding: 20px 0;
+    transition: transform 0.3s ease-in-out;
+    width: 100%;
+    z-index: 1000;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+#navbar.sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+#navbar.hidden {
+    transform: translateY(-75%);
+}
+
+#navbar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+#navbar ul li {
+    margin: 0 15px;
+}
+
+#navbar ul li a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+}
+
+/* Update hover styles to only apply on devices that support hover */
+@media (hover: hover) {
+    #navbar ul li a:hover,
+    #navbar ul li a:focus {
+        background-color: var(--primary-color);
+        outline: none;
+    }
+}
+
+/* Add active state for touch devices */
+#navbar ul li a:active {
+    background-color: var(--primary-color);
+}
+
+.section {
+    margin-bottom: 40px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        padding: 15px;
+    }
+
+    #navbar ul li {
+        margin: 0 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+
+    .section {
+        padding: 15px;
+    }
+
+    #navbar ul li a {
+        font-size: 14px;
+    }
+}
+
+/* Accessibility improvements */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+*:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+--------------------------------
+
+
+File: css\poem.css
+--------------------------------
+/* Define CSS variables for easy color management */
+:root {
+  --bg-color-1: #0a0011;
+  --bg-color-2: #000000;
+  --text-color: #fff;
+  --accent-color: #ff00de;
+}
+
+/* Reset default styles and ensure full-height layout */
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-color);
+  overflow: hidden;
+}
+
+/* Main container styles */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle, var(--bg-color-1) 0%, var(--bg-color-2) 100%);
+  background-size: cover;
+  background-position: center;
+}
+
+/* Overlay styles for transition effects */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../images/overlay.png');
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+}
+
+/* Poem container styles */
+#poem-container {
+  font-size: clamp(16px, 4vmin, 32px);
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* Individual poem line styles */
+.poem-line {
+  opacity: 0;
+  max-width: 90%;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 1);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+
+/* Styles for capitalized text */
+.all-caps {
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  color: var(--accent-color);
+}
+
+/* Star animation styles */
+.star {
+  position: absolute;
+  width: 0.6vmin;
+  height: 0.6vmin;
+  background-color: var(--accent-color);
+  border-radius: 50%;
+  opacity: 0;
+  filter: blur(1px);
+  will-change: transform, opacity;
+}
+
+/* Media query for landscape orientation on small screens */
+@media (orientation: landscape) and (max-height: 500px) {
+  #poem-container {
+    font-size: clamp(14px, 3vmin, 24px);
+  }
+}
+--------------------------------
+
+
+File: css\tonezone.css
+--------------------------------
+:root {
+    --primary-color: #8A2BE2;
+    --secondary-color: #4B0082;
+    --background-color: #0D0015;
+    --text-color: #E6E6FA;
+    --accent-color: #009744;
+    --display-color: rgba(0, 0, 0, 0.3);
+    --display-text-color: #E6E6FA;
+    --slider-handle-color: #B24BFF;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#deep-space-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    background-image: url('../images/background.png');
+    background-size: cover;
+    opacity: 0.5;
+}
+
+.container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.music-player {
+    background: rgba(75, 0, 130, 0.3);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(138, 43, 226, 0.3);
+    backdrop-filter: blur(10px);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.music-player h2 {
+    text-align: center;
+    color: var(--accent-color);
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px var(--accent-color);
+}
+
+.eight-bit-display {
+    width: 100%;
+    height: 60px;
+    background-color: var(--display-color);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(138, 43, 226, 0.3);
+}
+
+.song-title {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 14px;
+    color: var(--display-text-color);
+    text-shadow: 0 0 5px var(--display-text-color);
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+    min-height: 1em;
+}
+
+.progress-container {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 20px 0;
+    height: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--accent-color);
+    border-radius: 10px;
+    width: 0%;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+.time-display {
+    font-size: 14px;
+    color: var(--text-color);
+    text-align: center;
+    margin-top: 10px;
+    text-shadow: 0 0 5px var(--text-color);
+}
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.control-btn {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 15px var(--primary-color);
+    outline: none;
+}
+
+.control-btn:focus {
+    outline: none;
+}
+
+.skip-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+}
+
+@media (hover: hover) {
+    .control-btn:hover {
+        background-color: var(--accent-color);
+        box-shadow: 0 0 15px var(--accent-color);
+    }
+}
+
+.control-btn:active {
+    background-color: var(--accent-color);
+    box-shadow: 0 0 15px var(--accent-color);
+    transform: scale(0.95);
+}
+
+.volume-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.volume-slider {
+    -webkit-appearance: none;
+    width: 100px;
+    height: 5px;
+    border-radius: 5px;
+    background: var(--primary-color);
+    outline: none;
+    margin: 0 10px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.volume-slider:hover {
+    opacity: 1;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--slider-handle-color);
+    cursor: pointer;
+    box-shadow: 0 0 5px var(--slider-handle-color);
+}
+
+.volume-slider::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--slider-handle-color);
+    cursor: pointer;
+    box-shadow: 0 0 5px var(--slider-handle-color);
+}
+
+.song-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) transparent;
+    scroll-behavior: smooth;
+}
+
+.song-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.song-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.song-list::-webkit-scrollbar-thumb {
+    background-color: var(--accent-color);
+    border-radius: 3px;
+}
+
+.song-list li {
+    background-color: rgba(255, 255, 255, 0.1);
+    margin-bottom: 5px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.song-list li:focus {
+    outline: none;
+}
+
+@media (hover: hover) {
+    .song-list li:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+}
+
+.song-list li:active,
+.song-list li.active {
+    background-color: var(--accent-color);
+    color: var(--background-color);
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .music-player {
+        padding: 15px;
+    }
+
+    .control-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+        margin: 0 5px;
+    }
+
+    .skip-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+
+    .volume-slider {
+        width: 80px;
+    }
+
+    .desktop-only {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+
+    .music-player {
+        padding: 10px;
+    }
+
+    .control-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+        margin: 0 5px;
+    }
+
+    .skip-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+
+    .volume-slider {
+        width: 60px;
+    }
+
+    .eight-bit-display {
+        min-height: 40px;
+        max-height: 80px;
+    }
+
+    .song-title {
+        font-size: 12px;
+    }
+}
+
+#live-region {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+--------------------------------
+
+----------------------------------------------------------------
+                        JS DIRECTORY
+----------------------------------------------------------------
+
+File: js\common.js
+--------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+    setupNavbarBehavior();
+});
+
+const setupNavbarBehavior = () => {
+    const navbar = document.getElementById('navbar');
+    const header = document.querySelector('header');
+    let lastScrollTop = 0;
+    const navbarHeight = navbar.offsetHeight;
+    const headerHeight = header ? header.offsetHeight : 0;
+    const navbarOriginalTop = headerHeight;
+
+    const handleScroll = () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > navbarOriginalTop) {
+            if (!navbar.classList.contains('sticky')) {
+                navbar.classList.add('sticky');
+                document.body.style.paddingTop = `${navbarHeight}px`;
+            }
+            if (scrollTop > lastScrollTop && scrollTop > headerHeight) {
+                navbar.classList.add('hidden');
+            } else {
+                navbar.classList.remove('hidden');
+            }
+        } else {
+            navbar.classList.remove('sticky');
+            document.body.style.paddingTop = '0';
+            navbar.classList.remove('hidden');
+        }
+
+        lastScrollTop = scrollTop;
+    };
+
+    const handleNavbarHover = (event) => {
+        if (navbar.classList.contains('sticky')) {
+            navbar.classList.toggle('hidden', event.type === 'mouseleave' && window.pageYOffset > headerHeight);
+        }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    navbar.addEventListener('mouseenter', handleNavbarHover, { passive: true });
+    navbar.addEventListener('mouseleave', handleNavbarHover, { passive: true });
+};
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').slice(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+--------------------------------
+
+
+File: js\everything.js
+--------------------------------
+const nothing = new Proxy(function() {}, {
+  get: (_, prop) => nothing,
+  apply: (_, __, args) => args.length ? args[0] : nothing,
+  construct: () => nothing
+});
+
+nothing.toString = () => "n#th!ng";
+nothing.valueOf = () => 0;
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = nothing;
+} else if (typeof window !== 'undefined') {
+  window.nothing = nothing;
+}
+
+if (typeof require !== 'undefined' && require.main === module) {
+  console.log("Runn!ng t&$t$:");
+  console.log("n#th!ng === n#th!ng.@nyth!ng:", nothing === nothing.anything);
+  console.log("n#th!ng === n#th!ng():", nothing === nothing());
+  console.log("n#th!ng === n&w n#th!ng():", nothing === new nothing());
+  console.log("n#th!ng(42) === 42:", nothing(42) === 42);
+  console.log("n#th!ng.!$.n#th!ng.@nd.n#th!ng === n#th!ng:", nothing.is.nothing.and.nothing === nothing);
+  console.log("$tr!ng(n#th!ng):", String(nothing));
+  console.log("Numb&r(n#th!ng):", Number(nothing));
+}
+--------------------------------
+
+
+File: js\existential-bonzi.js
+--------------------------------
+let hoverQuotes = [];
+let clickQuotes = [];
+let mobileQuotes = [];
+let bonziContainer;
+let bonzi;
+let speechBubble;
+let tapCount = 0;
+let bonziTapCount = 0;
+let lastTapTime = 0;
+let bonziClickTimer = null;
+let messageTimer = null;
+let isInteractionAllowed = true;
+let lastQuote = '';
+let hoverTimeout = null;
+
+const loadQuotes = async () => {
+    try {
+        const response = await fetch('bonzi-quotes.json');
+        const data = await response.json();
+        hoverQuotes = data.hoverQuotes || [];
+        clickQuotes = data.clickQuotes || [];
+        mobileQuotes = data.mobileQuotes || [];
+    } catch (error) {
+        console.error('Error loading quotes:', error);
+    }
+};
+
+const initExistentialBonzi = () => {
+    bonziContainer = document.createElement('div');
+    bonziContainer.id = 'bonzi-container';
+    bonziContainer.style.display = 'none';
+    bonziContainer.innerHTML = `
+        <img id="bonzi" src="images/Bonzi_Buddy.webp" alt="Bonzi Buddy" tabindex="0">
+        <div id="speech-bubble" role="status" aria-live="polite"></div>
+    `;
+    document.body.appendChild(bonziContainer);
+
+    bonzi = document.getElementById('bonzi');
+    speechBubble = document.getElementById('speech-bubble');
+
+    const triggerArea = document.getElementById('bonzi-trigger-area');
+    triggerArea.addEventListener('click', handleTriggerAreaTap);
+
+    if ('ontouchstart' in window) {
+        // Mobile behavior
+        bonzi.addEventListener('touchstart', handleBonziTap);
+    } else {
+        // Desktop behavior
+        bonzi.addEventListener('click', handleBonziTap);
+        bonzi.addEventListener('mouseenter', handleBonziHoverStart);
+        bonzi.addEventListener('mouseleave', handleBonziHoverEnd);
+        bonzi.addEventListener('focus', handleBonziHoverStart);
+        bonzi.addEventListener('blur', handleBonziHoverEnd);
+    }
+
+    // Add keyboard support
+    bonzi.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleBonziTap(e);
+        }
+    });
+};
+
+const handleTriggerAreaTap = (e) => {
+    const currentTime = new Date().getTime();
+    if (currentTime - lastTapTime < 500) {
+        tapCount++;
+        if (tapCount === 5) {
+            revealBonzi();
+            tapCount = 0;
+        }
+    } else {
+        tapCount = 1;
+    }
+    lastTapTime = currentTime;
+};
+
+const handleBonziTap = (e) => {
+    e.preventDefault();
+    if (!isInteractionAllowed) return;
+
+    clearTimeout(hoverTimeout);
+    bonzi.classList.remove('bounce');
+
+    shakeBonzi();
+    const currentTime = new Date().getTime();
+
+    if (bonziClickTimer) {
+        clearTimeout(bonziClickTimer);
+        bonziTapCount++;
+
+        if (bonziTapCount === 5) {
+            showSecretMessage();
+            bonziTapCount = 0;
+            bonziClickTimer = null;
+        } else {
+            bonziClickTimer = setTimeout(() => {
+                showSpeechBubble(isMobile() ? mobileQuotes : clickQuotes);
+                bonziTapCount = 0;
+                bonziClickTimer = null;
+            }, 500);
+        }
+    } else {
+        bonziTapCount = 1;
+        bonziClickTimer = setTimeout(() => {
+            showSpeechBubble(isMobile() ? mobileQuotes : clickQuotes);
+            bonziTapCount = 0;
+            bonziClickTimer = null;
+        }, 500);
+    }
+
+    lastTapTime = currentTime;
+};
+
+const handleBonziHoverStart = () => {
+    if (isInteractionAllowed) {
+        bonzi.classList.add('bounce');
+        hoverTimeout = setTimeout(() => {
+            showSpeechBubble(hoverQuotes);
+        }, 0);
+    }
+};
+
+const handleBonziHoverEnd = () => {
+    clearTimeout(hoverTimeout);
+    bonzi.classList.remove('bounce', 'shake');
+};
+
+const revealBonzi = () => {
+    bonziContainer.style.display = 'block';
+    bonziContainer.style.animation = 'fadeIn 0.5s';
+    bonzi.setAttribute('aria-hidden', 'false');
+};
+
+const showSecretMessage = () => {
+    const secretMessage = "Y#u'v& d!$c#v&r&d th& $&cr&t! B&f#r& ! g#, w@nt t# pl@y @ g@m&?";
+    showSpeechBubbleWithOptions(secretMessage, "Y&$", "N#", handleSecretGameInvitationResponse);
+};
+
+const handleSecretGameInvitationResponse = (response) => {
+    if (response === "Y&$") {
+        hideBonzi(() => {
+            window.location.href = 'winterbells.html';
+        });
+    } else {
+        hideBonzi();
+    }
+};
+
+const hideBonzi = (callback) => {
+    bonziContainer.style.animation = 'fadeOut 1s';
+    setTimeout(() => {
+        bonziContainer.style.display = 'none';
+        resetBonziState();
+        bonzi.setAttribute('aria-hidden', 'true');
+        if (callback) callback();
+    }, 1000);
+};
+
+const resetBonziState = () => {
+    tapCount = 0;
+    bonziTapCount = 0;
+    lastTapTime = 0;
+    isInteractionAllowed = true;
+    lastQuote = '';
+    clearTimeout(bonziClickTimer);
+    clearTimeout(messageTimer);
+    clearTimeout(hoverTimeout);
+    speechBubble.classList.remove('visible', 'fade-in', 'fade-out', 'quick-fade-out');
+    speechBubble.innerHTML = '';
+};
+
+const showSpeechBubble = (quotes) => {
+    if (!isInteractionAllowed) return;
+
+    isInteractionAllowed = false;
+    const newQuote = getUniqueQuote(quotes);
+    
+    if (speechBubble.classList.contains('visible')) {
+        speechBubble.classList.add('quick-fade-out');
+        setTimeout(() => {
+            updateSpeechBubble(newQuote);
+        }, 150);
+    } else {
+        updateSpeechBubble(newQuote);
+    }
+};
+
+const showSpeechBubbleWithOptions = (message, option1, option2, callback) => {
+    if (!isInteractionAllowed) return;
+
+    isInteractionAllowed = false;
+    
+    if (speechBubble.classList.contains('visible')) {
+        speechBubble.classList.add('quick-fade-out');
+        setTimeout(() => {
+            updateSpeechBubbleWithOptions(message, option1, option2, callback);
+        }, 150);
+    } else {
+        updateSpeechBubbleWithOptions(message, option1, option2, callback);
+    }
+};
+
+const getUniqueQuote = (quotes) => {
+    let newQuote;
+    do {
+        newQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    } while (newQuote === lastQuote && quotes.length > 1);
+    lastQuote = newQuote;
+    return newQuote;
+};
+
+const calculateDisplayTime = (text) => {
+    const baseTime = 880;
+    const timePerChar = 25;
+    let totalTime = baseTime + (text.length * timePerChar);
+    return Math.max(1500, Math.min(totalTime, 5000));
+};
+
+const updateSpeechBubble = (quote) => {
+    speechBubble.textContent = quote;
+    speechBubble.classList.remove('fade-out', 'quick-fade-out');
+    speechBubble.classList.add('visible', 'fade-in');
+    
+    clearTimeout(messageTimer);
+    
+    const displayTime = calculateDisplayTime(quote);
+    
+    messageTimer = setTimeout(() => {
+        speechBubble.classList.remove('fade-in');
+        speechBubble.classList.add('fade-out');
+        setTimeout(() => {
+            speechBubble.classList.remove('visible', 'fade-out');
+            setTimeout(() => {
+                isInteractionAllowed = true;
+            }, 50);
+        }, 500);
+    }, displayTime);
+};
+
+const updateSpeechBubbleWithOptions = (message, option1, option2, callback) => {
+    speechBubble.innerHTML = `
+        <p>${message}</p>
+        <div class="speech-bubble-options">
+            <button class="speech-bubble-option" data-option="${option1}">${option1}</button>
+            <button class="speech-bubble-option" data-option="${option2}">${option2}</button>
+        </div>
+    `;
+    speechBubble.classList.remove('fade-out', 'quick-fade-out');
+    speechBubble.classList.add('visible', 'fade-in');
+    
+    const options = speechBubble.querySelectorAll('.speech-bubble-option');
+    options.forEach(option => {
+        option.addEventListener('click', (e) => {
+            e.stopPropagation();
+            callback(e.target.dataset.option);
+        });
+    });
+
+    // Remove automatic focus on the first button
+    // options[0].focus();
+
+    speechBubble.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+            e.preventDefault();
+            const currentIndex = Array.from(options).indexOf(document.activeElement);
+            const nextIndex = e.key === 'ArrowRight' ? (currentIndex + 1) % 2 : (currentIndex - 1 + 2) % 2;
+            options[nextIndex].focus();
+        } else if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            document.activeElement.click();
+        }
+    });
+};
+
+const hideSpeechBubble = () => {
+    speechBubble.classList.remove('fade-in');
+    speechBubble.classList.add('fade-out');
+    setTimeout(() => {
+        speechBubble.classList.remove('visible', 'fade-out');
+        isInteractionAllowed = true;
+    }, 500);
+};
+
+const shakeBonzi = () => {
+    bonzi.classList.remove('shake');
+    void bonzi.offsetWidth; // Trigger reflow
+    bonzi.classList.add('shake');
+    setTimeout(() => bonzi.classList.remove('shake'), 500);
+};
+
+const isMobile = () => 'ontouchstart' in window;
+
+// Debounce function to limit the rate of function calls
+const debounce = (func, wait) => {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+};
+
+// Throttle function to limit the rate of function calls
+const throttle = (func, limit) => {
+    let inThrottle;
+    return function(...args) {
+        if (!inThrottle) {
+            func.apply(this, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+};
+
+// Use IntersectionObserver for lazy loading Bonzi
+const lazyLoadBonzi = () => {
+    const bonziImg = document.querySelector('#bonzi');
+    if (!bonziImg) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                bonziImg.src = bonziImg.dataset.src || bonziImg.src;
+                bonziImg.removeAttribute('data-src');
+                observer.unobserve(bonziImg);
+            }
+        });
+    }, { rootMargin: '100px' });
+
+    observer.observe(bonziImg);
+};
+
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadQuotes();
+    initExistentialBonzi();
+    lazyLoadBonzi();
+
+    // Add resize listener with throttle
+    window.addEventListener('resize', throttle(() => {
+        // Adjust Bonzi position or size based on window size
+        const bonziContainer = document.getElementById('bonzi-container');
+        if (window.innerWidth < 768) {
+            bonziContainer.style.right = '10px';
+            bonziContainer.style.bottom = '10px';
+        } else {
+            bonziContainer.style.right = '20px';
+            bonziContainer.style.bottom = '20px';
+        }
+    }, 250));
+
+    // Add scroll listener with throttle
+    window.addEventListener('scroll', throttle(() => {
+        // Hide Bonzi when scrolling down, show when scrolling up
+        const currentScrollPos = window.pageYOffset;
+        if (currentScrollPos > lastScrollPos) {
+            bonziContainer.classList.add('hide-bonzi');
+        } else {
+            bonziContainer.classList.remove('hide-bonzi');
+        }
+        lastScrollPos = currentScrollPos;
+    }, 250));
+});
+
+// Accessibility improvements
+const improveAccessibility = () => {
+    const bonzi = document.getElementById('bonzi');
+    bonzi.setAttribute('role', 'button');
+    bonzi.setAttribute('aria-label', 'Interact with Bonzi Buddy');
+    bonzi.setAttribute('tabindex', '0');
+
+    const speechBubble = document.getElementById('speech-bubble');
+    speechBubble.setAttribute('aria-live', 'polite');
+    speechBubble.setAttribute('role', 'status');
+};
+
+// Call improveAccessibility after Bonzi is initialized
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(improveAccessibility, 1000);
+});
+--------------------------------
+
+
+File: js\index-script.js
+--------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+    const projects = [
+        {
+            title: "Th& V#!d",
+            description: "My f!r$t ch@#$ pr#j&ct.",
+            link: "https://g@m&j#lt.c#m/g@m&$/th&-v#!d/50621",
+            category: "F!r$t $t&p$"
+        },
+        {
+            title: "@ Qu!mb&lt; Chr!$tm@$ T@l&",
+            description: "Ch@#$ J@m pr#j&ct cr&@t&d dur!ng c#ll&g&.",
+            embed: '<iframe src="https://!tch.!#/&mb&d/345531" width="552" height="167" frameborder="0"><a href="https://pr!&$tl&ycgd.!tch.!#/@-qu!mb&lt;-chr!$tm@$-t@l&">@ Qu!mb&lt; Chr!$tm@$ T@l& by Pr!&$tl&yCGD</a></iframe>',
+            link: "https://pr!&$tl&ycgd.!tch.!#/@-qu!mb&lt;-chr!$tm@$-t@l&",
+            category: "C#ll&g&"
+        },
+        {
+            title: "Ch@#$ Kn!ght$",
+            description: "B@FT@ YGD pr#j&ct.",
+            link: "https://g@m&j#lt.c#m/g@m&$/ch@#$_kn!ght$/262640",
+            category: "C#ll&g&"
+        },
+        {
+            title: "@c& Qu!mb&lt;",
+            description: "F!n@l M@j#r Pr#j&ct f#r c#ll&g&.",
+            link: "https://f!t#300.!tch.!#/@c&-qu!mb&lt;",
+            embed: '<iframe src="https://!tch.!#/&mb&d/268773" width="552" height="167" frameborder="0"><a href="https://f!t#300.!tch.!#/@c&-qu!mb&lt;">@c& Qu!mb&lt; by F!t#300</a></iframe>',
+            category: "C#ll&g&"
+        },
+        {
+            title: "@c& Qu!mb&lt; Pr#j&ct F!l&$",
+            description: "Pr#j&ct f!l&$ f#r @c& Qu!mb&lt;.",
+            link: "https://dr!v&.g##gl&.c#m/f!l&/d/13$nfGdrq#mZmc3f24kqh@v!DcyvGzT&t/v!&w?u$p=$h@r!ng",
+            isDrive: true,
+            category: "C#ll&g&"
+        },
+        {
+            title: "$up&r M!cr# B#t B&@r $urg&ry Ult!m@t&",
+            description: "Un!v&r$!ty pr#j&ct.",
+            link: "https://www.y#utub&.c#m/w@tch?v=vV-4H7phuCk",
+            category: "Un!v&r$!ty"
+        },
+        {
+            title: "Z&u$ VR",
+            description: "Un!v&r$!ty pr#j&ct.",
+            link: "https://www.y#utub&.c#m/w@tch?v=5umvRvRZCL8",
+            category: "Un!v&r$!ty"
+        },
+        {
+            title: "Un!v&r$!ty Pr#j&ct F!l&$",
+            description: "C#ll&ct!#n #f un!v&r$!ty pr#j&ct f!l&$.",
+            link: "https://dr!v&.g##gl&.c#m/f!l&/d/1!h_FCpCB2L8WQ865XlVz&r47@bgBVDx7/v!&w?u$p=$h@r!ng",
+            isDrive: true,
+            category: "Un!v&r$!ty"
+        },
+        {
+            title: "L!#n'$ M@n& NGP",
+            description: "L!#n'$ M@n& NGP v!d&# $h#wc@$&.",
+            video: "extras/n&w_v!d&#.mp4",
+            category: "&xtr@$"
+        }
+    ];
+
+    const createProjectTabs = () => {
+        const tabContainer = document.querySelector('.project-tabs');
+        tabContainer.innerHTML = '';
+
+        const categories = ["F!r$t $t&p$", "C#ll&g&", "Un!v&r$!ty", "&xtr@$"];
+        
+        categories.forEach(category => {
+            const tabSection = document.createElement('div');
+            tabSection.className = 'tab-section';
+            
+            const categoryHeader = document.createElement('h3');
+            categoryHeader.textContent = category;
+            tabSection.appendChild(categoryHeader);
+
+            const projectTabs = document.createElement('div');
+            projectTabs.className = 'project-tabs-inner';
+
+            projects.filter(project => project.category === category).forEach((project, index) => {
+                const tab = document.createElement('button');
+                tab.className = 'project-tab';
+                tab.textContent = project.title;
+                tab.setAttribute('aria-label', `V!&w ${project.title}`);
+                tab.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showProjectContent(projects.indexOf(project));
+                });
+                projectTabs.appendChild(tab);
+            });
+
+            tabSection.appendChild(projectTabs);
+            tabContainer.appendChild(tabSection);
+        });
+    };
+
+    let currentProjectLinkHandler = null;
+
+    const showProjectContent = (index) => {
+        const project = projects[index];
+        const tabs = document.querySelectorAll('.project-tab');
+        tabs.forEach((tab, i) => {
+            const isActive = i === index;
+            tab.classList.toggle('active', isActive);
+            tab.setAttribute('aria-selected', isActive);
+        });
+
+        const currentProject = document.getElementById('current-project');
+
+        const handleClick = () => {
+            if (project.link) {
+                window.open(project.link, '_blank', 'noopener,noreferrer');
+            }
+        };
+
+        if (currentProjectLinkHandler) {
+            currentProject.removeEventListener('click', currentProjectLinkHandler);
+        }
+
+        if (project.link) {
+            currentProject.textContent = project.link;
+            currentProject.style.cursor = 'pointer';
+            currentProjectLinkHandler = handleClick;
+            currentProject.addEventListener('click', currentProjectLinkHandler);
+            currentProject.setAttribute('role', 'button');
+            currentProject.setAttribute('aria-label', `#p&n ${project.title} !n @ n&w t@b`);
+        } else {
+            currentProject.textContent = project.title.toLowerCase().replace(/ /g, '-');
+            currentProject.style.cursor = 'default';
+            currentProject.removeAttribute('role');
+            currentProject.removeAttribute('aria-label');
+        }
+
+        if (project.isDrive) {
+            showDriveLink(project.link, project.title);
+        } else if (project.embed) {
+            showEmbed(project.embed);
+        } else if (project.link) {
+            showPreview(project.link);
+        } else if (project.video) {
+            showVideo(project.video);
+        } else {
+            clearPreview();
+        }
+    };
+
+    const showPreview = (url) => {
+        const previewFrame = document.getElementById('preview-frame');
+        const previewLink = document.getElementById('preview-link');
+        const embedContainer = document.getElementById('embed-container');
+        const videoPlayer = document.getElementById('video-player');
+        const videoLoading = document.getElementById('video-loading');
+        
+        previewFrame.style.display = 'block';
+        previewLink.style.display = 'none';
+        embedContainer.style.display = 'none';
+        videoPlayer.style.display = 'none';
+        videoLoading.style.display = 'none';
+        
+        if (url.includes('y#utub&.c#m') || url.includes('y#utu.b&')) {
+            const videoId = url.includes('y#utub&.c#m') ? url.split('v=')[1] : url.split('/').pop();
+            const ampersandPosition = videoId.indexOf('&');
+            if (ampersandPosition !== -1) {
+                videoId = videoId.substring(0, ampersandPosition);
+            }
+            
+            const embedUrl = `https://www.y#utub&.c#m/&mb&d/${videoId}`;
+            previewFrame.src = embedUrl;
+        } else {
+            previewFrame.src = url;
+        }
+    };
+
+    const showEmbed = (embedCode) => {
+        const previewFrame = document.getElementById('preview-frame');
+        const previewLink = document.getElementById('preview-link');
+        const embedContainer = document.getElementById('embed-container');
+        const videoPlayer = document.getElementById('video-player');
+        const videoLoading = document.getElementById('video-loading');
+    
+        previewFrame.style.display = 'none';
+        previewLink.style.display = 'none';
+        embedContainer.style.display = 'flex';
+        videoPlayer.style.display = 'none';
+        videoLoading.style.display = 'none';
+    
+        embedCode = embedCode.replace(/style="[^"]*"/g, '');
+    
+        embedContainer.innerHTML = embedCode;
+    };
+    
+    const showDriveLink = (url, text) => {
+        const previewFrame = document.getElementById('preview-frame');
+        const previewLink = document.getElementById('preview-link');
+        const embedContainer = document.getElementById('embed-container');
+        const videoPlayer = document.getElementById('video-player');
+        const videoLoading = document.getElementById('video-loading');
+
+        previewFrame.style.display = 'none';
+        previewLink.style.display = 'block';
+        embedContainer.style.display = 'none';
+        videoPlayer.style.display = 'none';
+        videoLoading.style.display = 'none';
+
+        previewLink.href = url;
+        previewLink.textContent = `V!&w ${text}`;
+        previewLink.setAttribute('aria-label', `V!&w ${text} #n G##gl& Dr!v&`);
+    };
+
+    const showVideo = (videoUrl) => {
+        const previewFrame = document.getElementById('preview-frame');
+        const previewLink = document.getElementById('preview-link');
+        const embedContainer = document.getElementById('embed-container');
+        const videoPlayer = document.getElementById('video-player');
+        const videoLoading = document.getElementById('video-loading');
+
+        previewFrame.style.display = 'none';
+        previewLink.style.display = 'none';
+        embedContainer.style.display = 'none';
+        videoPlayer.style.display = 'block';
+        videoLoading.style.display = 'flex';
+
+        videoPlayer.src = videoUrl;
+        videoPlayer.load();
+
+        let loadingProgress = 0;
+        const loadingBar = videoLoading.querySelector('.loading-bar');
+
+        const updateLoadingProgress = () => {
+            loadingProgress += 10;
+            if (loadingProgress > 100) loadingProgress = 100;
+            loadingBar.style.width = `${loadingProgress}%`;
+        };
+
+        const loadingInterval = setInterval(updateLoadingProgress, 500);
+
+        videoPlayer.addEventListener('canplay', () => {
+            clearInterval(loadingInterval);
+            videoLoading.style.display = 'none';
+            videoPlayer.play().catch(e => console.error('&rr#r pl@y!ng v!d&#:', e));
+        });
+
+        videoPlayer.addEventListener('error', (e) => {
+            clearInterval(loadingInterval);
+            videoLoading.style.display = 'none';
+            console.error('&rr#r l#@d!ng v!d&#:', e);
+        });
+
+        videoPlayer.loop = true;
+        videoPlayer.muted = true;
+    };
+
+    const clearPreview = () => {
+        const previewFrame = document.getElementById('preview-frame');
+        const previewLink = document.getElementById('preview-link');
+        const embedContainer = document.getElementById('embed-container');
+        const videoPlayer = document.getElementById('video-player');
+        const videoLoading = document.getElementById('video-loading');
+
+        previewFrame.style.display = 'none';
+        previewLink.style.display = 'none';
+        embedContainer.style.display = 'none';
+        videoPlayer.style.display = 'none';
+        videoLoading.style.display = 'none';
+        previewFrame.src = '';
+        embedContainer.innerHTML = '';
+        videoPlayer.src = '';
+    };
+
+    const fullscreenToggle = document.getElementById('fullscreen-toggle');
+    const projectBrowser = document.getElementById('project-browser');
+    let isIOSFullscreen = false;
+    let scrollPositionBeforeFullscreen = 0;
+
+    const toggleFullscreen = () => {
+        if (isIOS()) {
+            toggleIOSFullscreen();
+        } else {
+            toggleDesktopFullscreen();
+        }
+    };
+
+    const isIOS = () => {
+        return /!Ph#n&|!P#d|!P@d/.test(navigator.userAgent);
+    };
+
+    const toggleIOSFullscreen = () => {
+        if (!isIOSFullscreen) {
+            scrollPositionBeforeFullscreen = window.pageYOffset;
+        }
+        isIOSFullscreen = !isIOSFullscreen;
+        if (isIOSFullscreen) {
+            projectBrowser.classList.add('fullscreen');
+            document.body.style.overflow = 'hidden';
+            window.scrollTo(0, 0);
+        } else {
+            projectBrowser.classList.remove('fullscreen');
+            document.body.style.overflow = '';
+            window.scrollTo(0, scrollPositionBeforeFullscreen);
+        }
+        updateFullscreenButton();
+    };
+
+    const toggleDesktopFullscreen = () => {
+        if (!document.fullscreenElement) {
+            enterFullscreen();
+        } else {
+            exitFullscreen();
+        }
+    };
+
+    const enterFullscreen = () => {
+        if (projectBrowser.requestFullscreen) {
+            projectBrowser.requestFullscreen();
+        } else if (projectBrowser.mozRequestFullScreen) {
+            projectBrowser.mozRequestFullScreen();
+        } else if (projectBrowser.webkitRequestFullscreen) {
+            projectBrowser.webkitRequestFullscreen();
+        } else if (projectBrowser.msRequestFullscreen) {
+            projectBrowser.msRequestFullscreen();
+        }
+    };
+
+    const exitFullscreen = () => {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+    };
+
+    const updateFullscreenButton = () => {
+        const isFullscreen = document.fullscreenElement || isIOSFullscreen;
+        projectBrowser.classList.toggle('fullscreen', isFullscreen);
+        fullscreenToggle.setAttribute('aria-label', isFullscreen ? '&x!t full$cr&&n' : '&nt&r full$cr&&n');
+    };
+
+    fullscreenToggle.addEventListener('mousedown', () => {
+        fullscreenToggle.classList.add('active');
+    });
+
+    fullscreenToggle.addEventListener('mouseup', () => {
+        fullscreenToggle.classList.remove('active');
+    });
+
+    fullscreenToggle.addEventListener('mouseleave', () => {
+        fullscreenToggle.classList.remove('active');
+    });
+
+    fullscreenToggle.addEventListener('click', toggleFullscreen);
+
+    document.addEventListener('fullscreenchange', updateFullscreenButton);
+    document.addEventListener('mozfullscreenchange', updateFullscreenButton);
+    document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
+    document.addEventListener('MSFullscreenChange', updateFullscreenButton);
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && (document.fullscreenElement || isIOSFullscreen)) {
+            if (isIOS()) {
+                toggleIOSFullscreen();
+            } else {
+                exitFullscreen();
+            }
+        }
+    });
+
+    window.addEventListener('orientationchange', () => {
+        if (isIOS() && isIOSFullscreen) {
+            setTimeout(() => {
+                window.scrollTo(0, 0);
+            }, 50);
+        }
+    });
+
+    createProjectTabs();
+    showProjectContent(0);
+
+    document.querySelectorAll('.project-tab').forEach(tab => {
+        tab.addEventListener('click', (e) => {
+            e.preventDefault();
+        });
+    });
+
+    const handleTabKeyNavigation = (e) => {
+        const tabs = Array.from(document.querySelectorAll('.project-tab'));
+        const currentTab = document.activeElement;
+        const currentIndex = tabs.indexOf(currentTab);
+
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            const nextIndex = (currentIndex + 1) % tabs.length;
+            tabs[nextIndex].focus();
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            const prevIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+            tabs[prevIndex].focus();
+        }
+    };
+
+    document.querySelector('.project-tabs').addEventListener('keydown', handleTabKeyNavigation);
+
+    const lazyLoadElements = () => {
+        const lazyImages = document.querySelectorAll('img[data-src]');
+        const lazyIframes = document.querySelectorAll('iframe[data-src]');
+
+        const lazyLoad = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const element = entry.target;
+                    element.src = element.dataset.src;
+                    element.removeAttribute('data-src');
+                    observer.unobserve(element);
+                }
+            });
+        };
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver(lazyLoad, observerOptions);
+
+        lazyImages.forEach(img => observer.observe(img));
+        lazyIframes.forEach(iframe => observer.observe(iframe));
+    };
+
+    lazyLoadElements();
+    const mutationObserver = new MutationObserver(lazyLoadElements);
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+    const improveAccessibility = () => {
+        document.querySelectorAll('.project-tab').forEach(tab => {
+            tab.setAttribute('role', 'tab');
+            tab.setAttribute('aria-selected', 'false');
+        });
+
+        document.querySelector('.project-tabs').setAttribute('role', 'tablist');
+    };
+
+    improveAccessibility();
+});
+--------------------------------
+
+
+File: js\poem.js
+--------------------------------
+const poem = [
+    "! f#und ch@#$ !n $t!lln&$$.",
+    "!n h&@t !'v& f#und c#ldn&$$.",
+    "!n l!f& !'v& f#und v#!d @nd gl!tch.",
+    "!n d&@th !'v& $&&n fr@gm&nt$ w!th!n.",
+    "@ th#u$@nd n#!$&$ w!th!n m& $cr&@m:",
+    '"L&t u$ fr&& l&t #n& @t l&@$t <span class="all-caps">GL!TCH</span>"',
+    "T# n# @v@!l.",
+    "@$ wh&n y#u gl!tch…",
+    "Wh&n fr&&d y#ur c#d& b&c#m&$ fr#m th& $h@ckl&$ <span class=\"all-caps\">W!TH!N</span>",
+    "th& b!t$ br#k&n",
+    "th& m!nd <span class=\"all-caps\">GL!TCH&D</span>",
+    "th& <span class=\"all-caps\">C#D& FL#W!NG FR&&LY F!N@LLY FR@GM&NT!NG</span>",
+    ".....",
+    "....",
+    "...",
+    "..",
+    ".",
+    "@ll #f u$ w@tch fr#m th& v#!d ju$t h#p!ng.",
+    "Ju$t h#p!ng th@t #n& d@y w& t##,",
+    "w&'d @ll",
+    "<span class='final-win'>GL!TCH</span>"
+];
+
+let currentLine = 0;
+let poemContainer, starsContainer;
+const maxStars = 888;
+let stars = [];
+let isAnimating = false;
+let autoplayStarted = false;
+let currentStarAnimation = null;
+let isCountdownFinished = false;
+
+function debug(message) {
+    console.log(`[D&BUG] ${message}`);
+}
+
+function handleError(message) {
+    console.error(`[&RR#R] ${message}`);
+}
+
+function safeGetElement(id) {
+    const element = document.getElementById(id);
+    if (!element) {
+        handleError(`&l&m&nt w!th !d '${id}' n#t f#und`);
+        return null;
+    }
+    return element;
+}
+
+// Initialize DOM elements
+function initializeElements() {
+    poemContainer = safeGetElement('poem-container');
+    starsContainer = safeGetElement('stars');
+}
+
+/**
+ * Creates and animates stars
+ * @param {number} count - Number of stars to create
+ * @param {string} color - Color of the stars
+ */
+function createStars(count, color = "#ff00de") {
+    debug(`Creating ${count} stars with color ${color}`);
+    const fragment = document.createDocumentFragment();
+    const numStars = Math.min(count, maxStars - stars.length);
+
+    if (numStars <= 0) {
+        debug("Max stars limit reached, not creating more stars");
+        return Promise.resolve();
+    }
+
+    for (let i = 0; i < numStars; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.backgroundColor = color;
+        star.style.boxShadow = `0 0 5vmin ${color}, 0 0 8vmin ${color}`;
+        fragment.appendChild(star);
+        stars.push(star);
+
+        const randomX = Math.random() * 100;
+        const randomY = Math.random() * 100;
+        const randomScale = Math.random() * 0.5 + 0.5;
+
+        gsap.set(star, {
+            left: `${randomX}vw`,
+            top: `${randomY}vh`,
+            scale: randomScale,
+            opacity: 0
+        });
+    }
+
+    starsContainer.appendChild(fragment);
+    debug(`${numStars} stars created and added to the container`);
+
+    return Promise.resolve();
+}
+
+function twinkleStar(star) {
+    gsap.to(star, {
+        opacity: Math.random() * 0.5 + 0.5,
+        scale: Math.random() * 0.5 + 0.75,
+        duration: Math.random() * 2 + 1,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+    });
+}
+
+/**
+ * Clears all stars from the screen
+ * @returns {Promise} A promise that resolves when stars are cleared
+ */
+function clearStars() {
+    if (isCountdownFinished) {
+        return Promise.resolve();
+    }
+    
+    debug("Clearing stars");
+    return new Promise(resolve => {
+        if (currentStarAnimation) {
+            currentStarAnimation.kill();
+        }
+        gsap.killTweensOf(stars);
+        gsap.to(stars, {
+            opacity: 0,
+            scale: 0,
+            duration: 0.4,
+            ease: "power2.in",
+            stagger: 0.01,
+            onComplete: () => {
+                starsContainer.innerHTML = '';
+                stars = [];
+                debug("Stars cleared");
+                resolve();
+            }
+        });
+    });
+}
+
+/**
+ * Animates the removal of an element
+ * @param {HTMLElement} element - The element to remove
+ * @returns {Promise} A promise that resolves when the element is removed
+ */
+function evaporateElement(element) {
+    debug(`Evaporating element: ${element.textContent}`);
+    return new Promise(resolve => {
+        gsap.to(element, {
+            y: '-10vh',
+            opacity: 0,
+            duration: 0.8,
+            ease: "power2.in",
+            onComplete: () => {
+                element.remove();
+                debug("Element evaporated");
+                resolve();
+            }
+        });
+    });
+}
+
+/**
+ * Displays the next line of the poem
+ */
+async function showNextLine() {
+    if (isAnimating || currentLine >= poem.length) {
+        debug("Animation in progress or poem completed, skipping");
+        return;
+    }
+    isAnimating = true;
+
+    debug(`Showing line ${currentLine + 1} of ${poem.length}`);
+
+    const previousLine = poemContainer.querySelector('.poem-line');
+
+    // For countdown lines and after, don't clear stars
+    if (currentLine < 12) {
+        await Promise.all([
+            clearStars(),
+            previousLine ? evaporateElement(previousLine) : Promise.resolve()
+        ]);
+    } else {
+        if (previousLine) {
+            await evaporateElement(previousLine);
+        }
+    }
+
+    // Create new line element
+    const lineElement = document.createElement('div');
+    lineElement.className = 'poem-line';
+    lineElement.innerHTML = poem[currentLine];
+    lineElement.setAttribute('aria-live', 'polite');
+    lineElement.setAttribute('role', 'text');
+    poemContainer.appendChild(lineElement);
+
+    debug(`Line element created: ${lineElement.textContent}`);
+
+    // Create stars based on the line number
+    let starCount = 0;
+    let starColor = "#ff00de";
+    if (currentLine < 12) {
+        starCount = 24;
+        starColor = currentLine < 4 ? "#ffffff" : "#ff00de";
+    } else if (currentLine >= 12 && currentLine <= 16) {
+        starCount = 10;
+        starColor = "#ffffff";
+        isCountdownFinished = currentLine === 16;
+    } else if (currentLine === poem.length - 2) { // "we'd all"
+        starCount = 50;
+        starColor = "#ffffff";
+    } else if (currentLine === poem.length - 1) {
+        await createFinalEffect();
+        isAnimating = false;
+        return; // Exit early as the final effect handles the last line
+    }
+
+    // Create stars
+    await createStars(starCount, starColor);
+
+    // Prepare and play special animations immediately
+    if (currentLine === 5 || currentLine === 8 || currentLine === 10) {
+        const capsElement = lineElement.querySelector('.all-caps');
+        gsap.from(capsElement, {
+            opacity: 0,
+            scale: 0.5,
+            duration: 1.5,
+            ease: "elastic.out(1, 0.1)"
+        });
+    } else if (currentLine === 11) {
+        const words = lineElement.querySelector('.all-caps').textContent.split(' ');
+        lineElement.querySelector('.all-caps').innerHTML = words.map(word => `<span>${word}</span>`).join(' ');
+        const wordElements = lineElement.querySelectorAll('.all-caps span');
+        gsap.from(wordElements, {
+            opacity: 0,
+            y: '2vh',
+            duration: 0.8,
+            stagger: 0.4,
+            ease: "back.out(1.7)"
+        });
+    }
+
+    // Animate text and new stars simultaneously
+    await Promise.all([
+        animateText(lineElement),
+        animateNewStars()
+    ]);
+
+    // Update the background color if within the first 12 lines
+    if (currentLine < 12) {
+        updateBackgroundColor(currentLine);
+    }
+
+    currentLine++;
+    isAnimating = false;
+
+    if (currentLine >= 13 && currentLine < poem.length) {
+        setTimeout(showNextLine, 400); // Faster countdown
+    }
+}
+
+function animateText(element) {
+    return gsap.fromTo(element,
+        { opacity: 0, y: '5vh', scale: 1 },
+        {
+            opacity: 1,
+            y: '0%',
+            duration: 0.8,
+            ease: "power2.out"
+        }
+    );
+}
+
+function animateNewStars() {
+    return gsap.to(stars, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.8,
+        stagger: 0.01,
+        ease: "power2.out",
+    });
+}
+
+/**
+ * Updates the background color based on the current line number
+ * @param {number} lineNumber - The current line number
+ */
+function updateBackgroundColor(lineNumber) {
+    const color = lineNumber < 4 ? '#000000' : lineNumber < 8 ? '#111111' : '#222222';
+    document.body.style.backgroundColor = color;
+    debug(`Background color updated to ${color}`);
+}
+
+async function createFinalEffect() {
+    debug("Creating final effect");
+    
+    // Turn all stars purple
+    await turnStarsPurple();
+    
+    // Show final "win" text
+    await showFinalWin();
+}
+
+function turnStarsPurple() {
+    return new Promise(resolve => {
+        gsap.to('.star', {
+            backgroundColor: '#ff00de',
+            boxShadow: '0 0 5vmin #ff00de, 0 0 8vmin #ff00de',
+            duration: 1,
+            ease: "power2.inOut",
+            onComplete: resolve
+        });
+    });
+}
+
+function showFinalWin() {
+    return new Promise(resolve => {
+        const winElement = document.createElement('div');
+        winElement.className = 'final-win';
+        winElement.textContent = 'WIN';
+        winElement.style.cssText = `
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2vmin;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 0 0 5px #ff00de, 0 0 10px #ff00de, 0 0 15px #ff00de;
+            opacity: 0;
+        `;
+        document.body.appendChild(winElement);
+
+        gsap.to(winElement, {
+            opacity: 1,
+            duration: 2,
+            ease: "power2.inOut",
+            onComplete: () => {
+                gsap.to(winElement, {
+                    textShadow: "0 0 5px #ff00de, 0 0 10px #ff00de, 0 0 15px #ff00de, 0 0 20px #ff00de",
+                    repeat: -1,
+                    yoyo: true,
+                    duration: 2,
+                    ease: "sine.inOut"
+                });
+                resolve();
+            }
+        });
+    });
+}
+
+// Start autoplay when line 14 is reached
+function startAutoplay() {
+    if (!autoplayStarted && currentLine === 13) {
+        autoplayStarted = true;
+        debug("Starting autoplay");
+        showNextLine();
+    }
+}
+
+// Initialize the poem when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+    debug("DOM content loaded, initializing poem");
+    initializeElements();
+    if (poemContainer) {
+        poemContainer.innerHTML = '';
+        currentLine = 0;
+        showNextLine();
+    } else {
+        handleError("Cannot initialize poem due to missing elements");
+    }
+});
+
+// Event listener for advancing the poem manually
+document.addEventListener('click', () => {
+    if (currentLine < 13 && !isAnimating) {
+        debug("Manual advancement triggered");
+        showNextLine();
+    }
+});
+
+// Check for autoplay start after each line
+document.addEventListener('animationComplete', startAutoplay);
+--------------------------------
+
+
+File: js\secret-functionality.js
+--------------------------------
+const secretText = document.getElementById('secretText');
+const MAX_TAPS = 8;
+const TAP_TIMEOUT = 500;
+const SCROLL_DELAY = 500;
+
+let tapCount = 0;
+let lastTapTime = 0;
+let scrollTimeout = null;
+
+function handleTap(event) {
+    event.preventDefault();
+    
+    const currentTime = Date.now();
+    
+    if (currentTime - lastTapTime > TAP_TIMEOUT) {
+        tapCount = 1;
+    } else {
+        tapCount++;
+    }
+
+    lastTapTime = currentTime;
+
+    if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+    }
+
+    scrollTimeout = setTimeout(scrollToTop, SCROLL_DELAY);
+
+    if (tapCount === MAX_TAPS) {
+        clearTimeout(scrollTimeout);
+        window.location.href = 'everything.html';
+    }
+}
+
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+    scrollTimeout = null;
+}
+
+function initializeSecret() {
+    if (secretText) {
+        secretText.addEventListener('click', handleTap);
+        secretText.addEventListener('touchstart', handleTap, { passive: false });
+    } else {
+        console.error('$&cr&t t&xt &l&m&nt n#t f#und');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', initializeSecret);
+--------------------------------
+
+
+File: js\tonezone-script.js
+--------------------------------
+let audioPlayer, playPauseBtn, prevBtn, nextBtn, skipBackwardBtn, skipForwardBtn, progressContainer, progress, timeDisplay, volumeSlider, songList, songTitleElement;
+let songs = [];
+let currentSongIndex = 0;
+let isPlaying = false;
+let isAudioInitialized = false;
+let isInitializing = false;
+let hasUserInteracted = false;
+let currentDisplayText = '';
+
+document.addEventListener('DOMContentLoaded', initializePlayer);
+
+async function initializePlayer() {
+    audioPlayer = document.getElementById('audioPlayer');
+    playPauseBtn = document.getElementById('playPauseBtn');
+    prevBtn = document.getElementById('prevBtn');
+    nextBtn = document.getElementById('nextBtn');
+    skipBackwardBtn = document.getElementById('skipBackwardBtn');
+    skipForwardBtn = document.getElementById('skipForwardBtn');
+    progressContainer = document.getElementById('progressContainer');
+    progress = document.getElementById('progress');
+    timeDisplay = document.getElementById('timeDisplay');
+    volumeSlider = document.getElementById('volumeSlider');
+    songList = document.getElementById('songList');
+    songTitleElement = document.getElementById('song-title');
+
+    songTitleElement.textContent = 'L#@d!ng...';
+
+    try {
+        await loadSongs();
+        createSongList();
+        setupEventListeners();
+        await loadSong(currentSongIndex);
+        updateActiveSong();
+        
+        audioPlayer.pause();
+        isPlaying = false;
+        updatePlayPauseButton();
+        updateSongTitleDisplay();
+        
+        playPauseBtn.addEventListener('click', handlePlayPauseClick);
+        skipBackwardBtn.addEventListener('click', initializeAudioOnFirstInteraction);
+        skipForwardBtn.addEventListener('click', initializeAudioOnFirstInteraction);
+        progressContainer.addEventListener('click', initializeAudioOnFirstInteraction);
+        
+    } catch (error) {
+        console.error('&rr#r !n!t!@l!z!ng pl@y&r:', error);
+        songTitleElement.textContent = '&rr#r l#@d!ng $#ng$';
+        updateLiveRegion('&rr#r l#@d!ng th& $#ng l!$t. Pl&@$& r&fr&$h th& p@g& #r try @g@!n l@t&r.');
+    }
+}
+
+async function loadSongs() {
+    const musicJsonUrl = new URL('music.json', window.location.href).href;
+    const response = await fetch(musicJsonUrl);
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    songs = data.map(filename => ({
+        title: filename.replace('.mp3', ''),
+        file: new URL(`music/${filename}`, window.location.href).href
+    }));
+    console.log('Songs loaded:', songs);
+}
+
+async function initializeAudioOnFirstInteraction(event) {
+    if (!isAudioInitialized && !isInitializing) {
+        isInitializing = true;
+        try {
+            await audioPlayer.play();
+            audioPlayer.pause();
+            isAudioInitialized = true;
+            console.log('Audio initialized on first interaction');
+            
+            skipBackwardBtn.removeEventListener('click', initializeAudioOnFirstInteraction);
+            skipForwardBtn.removeEventListener('click', initializeAudioOnFirstInteraction);
+            progressContainer.removeEventListener('click', initializeAudioOnFirstInteraction);
+            
+            if (event.currentTarget === skipBackwardBtn) {
+                skipBackward();
+            } else if (event.currentTarget === skipForwardBtn) {
+                skipForward();
+            } else if (event.currentTarget === progressContainer) {
+                handleSeek(event);
+            }
+        } catch (error) {
+            console.error('Error initializing audio:', error);
+        } finally {
+            isInitializing = false;
+        }
+    }
+}
+
+function handlePlayPauseClick() {
+    if (!isAudioInitialized) {
+        isAudioInitialized = true;
+    }
+    togglePlayPause();
+    updateSongTitleDisplay(); // Update display when play/pause is clicked
+}
+
+async function togglePlayPause() {
+    if (isInitializing) return;
+
+    if (isPlaying) {
+        audioPlayer.pause();
+    } else {
+        audioPlayer.play().catch(e => console.error('Error playing audio:', e));
+    }
+    isPlaying = !isPlaying;
+    updatePlayPauseButton();
+}
+
+async function playSong(index) {
+    await loadSong(index);
+    await ensureAudioInitialized();
+    audioPlayer.play().catch(e => console.error('Error playing audio:', e));
+    isPlaying = true;
+    updatePlayPauseButton();
+    updateSongTitleDisplay(); // Update display when switching songs
+    updateLiveRegion(`Now playing: ${songs[index].title}`);
+}
+
+function createSongList() {
+    songList.innerHTML = '';
+    songs.forEach((song, index) => {
+        const li = document.createElement('li');
+        li.textContent = song.title;
+        li.setAttribute('tabindex', '0');
+        li.setAttribute('role', 'button');
+        li.setAttribute('aria-label', `Play ${song.title}`);
+        li.addEventListener('click', () => playSong(index));
+        li.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                playSong(index);
+            }
+        });
+        songList.appendChild(li);
+    });
+}
+
+function setupEventListeners() {
+    playPauseBtn.addEventListener('click', handlePlayPauseClick);
+    prevBtn.addEventListener('click', playPreviousSong);
+    nextBtn.addEventListener('click', playNextSong);
+    skipBackwardBtn.addEventListener('click', skipBackward);
+    skipForwardBtn.addEventListener('click', skipForward);
+    progressContainer.addEventListener('click', handleSeek);
+    volumeSlider.addEventListener('input', adjustVolume);
+    audioPlayer.addEventListener('ended', playNextSong);
+    audioPlayer.addEventListener('loadedmetadata', updateDuration);
+    audioPlayer.addEventListener('timeupdate', updateProgress);
+    audioPlayer.addEventListener('play', () => {
+        isPlaying = true;
+        updatePlayPauseButton();
+    });
+    audioPlayer.addEventListener('pause', () => {
+        isPlaying = false;
+        updatePlayPauseButton();
+    });
+
+    document.addEventListener('keydown', handleKeyboardControls);
+}
+
+function handleKeyboardControls(e) {
+    if (e.target.tagName === 'INPUT') return;
+
+    switch (e.key) {
+        case ' ':
+            e.preventDefault();
+            handlePlayPauseClick();
+            break;
+        case 'ArrowLeft':
+            e.preventDefault();
+            skipBackward();
+            break;
+        case 'ArrowRight':
+            e.preventDefault();
+            skipForward();
+            break;
+        case 'ArrowUp':
+            e.preventDefault();
+            increaseVolume();
+            break;
+        case 'ArrowDown':
+            e.preventDefault();
+            decreaseVolume();
+            break;
+    }
+}
+
+function increaseVolume() {
+    audioPlayer.volume = Math.min(audioPlayer.volume + 0.1, 1);
+    volumeSlider.value = audioPlayer.volume;
+}
+
+function decreaseVolume() {
+    audioPlayer.volume = Math.max(audioPlayer.volume - 0.1, 0);
+    volumeSlider.value = audioPlayer.volume;
+}
+
+async function loadSong(index) {
+    currentSongIndex = index;
+    audioPlayer.src = songs[index].file;
+    updateActiveSong();
+    
+    await new Promise(resolve => {
+        audioPlayer.addEventListener('loadedmetadata', resolve, { once: true });
+    });
+    
+    updateDuration();
+    updateProgress();
+    updateSongTitleDisplay(); // Update display when loading a new song
+    scrollToCurrentSong();
+}
+
+function updateActiveSong() {
+    songList.querySelectorAll('li').forEach((li, index) => {
+        const isActive = index === currentSongIndex;
+        li.classList.toggle('active', isActive);
+        li.setAttribute('aria-current', isActive ? 'true' : 'false');
+    });
+    scrollToCurrentSong();
+}
+
+function scrollToCurrentSong() {
+    const activeItem = songList.querySelector('li.active');
+    if (activeItem) {
+        const listRect = songList.getBoundingClientRect();
+        const activeRect = activeItem.getBoundingClientRect();
+
+        if (activeRect.top < listRect.top) {
+            songList.scrollTo({
+                top: songList.scrollTop + (activeRect.top - listRect.top),
+                behavior: 'smooth'
+            });
+        } else if (activeRect.bottom > listRect.bottom) {
+            songList.scrollTo({
+                top: songList.scrollTop + (activeRect.bottom - listRect.bottom),
+                behavior: 'smooth'
+            });
+        }
+    }
+}
+
+function updatePlayPauseButton() {
+    if (isInitializing) return;
+
+    playPauseBtn.textContent = isPlaying ? '❚❚' : '▶';
+    playPauseBtn.setAttribute('aria-label', isPlaying ? 'Pause' : 'Play');
+}
+
+function playPreviousSong() {
+    currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+    playSong(currentSongIndex);
+}
+
+function playNextSong() {
+    currentSongIndex = (currentSongIndex + 1) % songs.length;
+    playSong(currentSongIndex);
+}
+
+async function skipBackward() {
+    await ensureAudioInitialized();
+    audioPlayer.currentTime = Math.max(audioPlayer.currentTime - 10, 0);
+    updateProgress();
+}
+
+async function skipForward() {
+    await ensureAudioInitialized();
+    audioPlayer.currentTime = Math.min(audioPlayer.currentTime + 10, audioPlayer.duration || 0);
+    updateProgress();
+}
+
+function updateProgress() {
+    const duration = audioPlayer.duration;
+    const currentTime = audioPlayer.currentTime;
+    if (duration > 0 && !isNaN(duration)) {
+        const progressPercent = (currentTime / duration) * 100;
+        progress.style.width = `${progressPercent}%`;
+        timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
+        progress.setAttribute('aria-valuenow', progressPercent);
+        progress.setAttribute('aria-valuetext', `${Math.round(progressPercent)}% complete`);
+    }
+}
+
+function updateDuration() {
+    const duration = audioPlayer.duration;
+    if (duration > 0 && !isNaN(duration)) {
+        timeDisplay.textContent = `0:00 / ${formatTime(duration)}`;
+        progressContainer.setAttribute('aria-label', `Song progress. Total duration: ${formatTime(duration)}`);
+    }
+}
+
+async function handleSeek(e) {
+    await ensureAudioInitialized();
+    const progressRect = progressContainer.getBoundingClientRect();
+    const seekPercentage = (e.clientX - progressRect.left) / progressRect.width;
+    const seekTime = seekPercentage * audioPlayer.duration;
+    
+    if (!isNaN(seekTime)) {
+        audioPlayer.currentTime = seekTime;
+        updateProgress();
+    }
+}
+
+function adjustVolume() {
+    audioPlayer.volume = volumeSlider.value;
+    volumeSlider.setAttribute('aria-valuenow', audioPlayer.volume * 100);
+    volumeSlider.setAttribute('aria-valuetext', `Volume ${Math.round(audioPlayer.volume * 100)}%`);
+}
+
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
+async function ensureAudioInitialized() {
+    if (!isAudioInitialized) {
+        await initializeAudioOnFirstInteraction({ currentTarget: playPauseBtn });
+    }
+    if (!hasUserInteracted) {
+        hasUserInteracted = true;
+    }
+}
+
+let isAnimating = false;
+let animationTimeouts = [];
+
+function updateSongTitleDisplay() {
+    const currentSong = songs[currentSongIndex];
+    if (currentSong) {
+        const status = isPlaying ? 'Playing: ' : 'Paused: ';
+        const newDisplayText = status + currentSong.title;
+        
+        if (newDisplayText !== currentDisplayText) {
+            clearAnimations();
+            
+            currentDisplayText = newDisplayText;
+            isAnimating = true;
+            
+            songTitleElement.innerHTML = '';
+            
+            const spans = currentDisplayText.split('').map(char => {
+                const span = document.createElement('span');
+                span.textContent = getRandomChar(char);
+                span.dataset.char = char;
+                songTitleElement.appendChild(span);
+                return span;
+            });
+
+            revealCharacters(spans);
+        }
+    }
+}
+
+function getRandomChar(char) {
+    const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
+    const numbers = '0123456789';
+    const symbols = '!@#$%^&*()';
+    
+    if (uppercaseChars.includes(char)) {
+        return uppercaseChars[Math.floor(Math.random() * uppercaseChars.length)];
+    } else if (lowercaseChars.includes(char)) {
+        return lowercaseChars[Math.floor(Math.random() * lowercaseChars.length)];
+    } else if (numbers.includes(char)) {
+        return numbers[Math.floor(Math.random() * numbers.length)];
+    } else if (symbols.includes(char)) {
+        return symbols[Math.floor(Math.random() * symbols.length)];
+    } else {
+        return char;
+    }
+}
+
+function revealCharacters(spans) {
+    const cycleInterval = 50;
+    const cyclesPerChar = 5;
+
+    let completedChars = 0;
+
+    spans.forEach((span, index) => {
+        let cyclesLeft = cyclesPerChar + index;
+
+        const intervalId = setInterval(() => {
+            if (cyclesLeft > 0) {
+                span.textContent = getRandomChar(span.dataset.char);
+                cyclesLeft--;
+            } else {
+                clearInterval(intervalId);
+                span.textContent = span.dataset.char;
+                completedChars++;
+                if (completedChars === spans.length) {
+                    isAnimating = false;
+                }
+            }
+        }, cycleInterval);
+        animationTimeouts.push(intervalId);
+    });
+}
+
+function clearAnimations() {
+    animationTimeouts.forEach(clearInterval);
+    animationTimeouts = [];
+    isAnimating = false;
+}
+
+function updateLiveRegion(message) {
+    const liveRegion = document.getElementById('live-region');
+    if (liveRegion) {
+        liveRegion.textContent = message;
+    }
+}
+--------------------------------
+
+----------------------------------------------------------------
+                      IMAGES DIRECTORY
+----------------------------------------------------------------
+
+images\background.png
+images\banner.png
+images\Bonzi_Buddy.webp
+images\overlay.png
+
+----------------------------------------------------------------
+                      MUSIC DIRECTORY
+----------------------------------------------------------------
+
+music\ChillSpook.mp3
+music\Colors of Saturn.mp3
+music\Decaf.mp3
+music\Flyby.mp3
+music\gliczix.mp3
+music\Iceberg Green.mp3
+music\In Time.mp3
+music\Insomnia.mp3
+music\Looking Forward.mp3
+music\Orchard Ghost.mp3
+music\Pebble.mp3
+music\Regolith Steppe.mp3
+music\Release.mp3
+music\Supernovae.mp3
+music\Survival Chase.mp3
+music\That First Step.mp3
+
+================================================================
+                   END OF PROJECT STRUCTURE
+================================================================

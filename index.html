@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Z#r@x Qu*mb&lt;</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/existential-bonzi.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/favicons/site.webmanifest">
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/favicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Z#r@x Qu*mb&lt;</h1>
+            <p>N#n$en$e Cr&at#r &amp; Ch@#s Eng!neer</p>
+        </div>
+    </header>
+
+    <nav id="navbar">
+        <ul>
+            <li><a href="#about">Ab#ut</a></li>
+            <li><a href="#projects">Pr#j&ct Br#w$er</a></li>
+            <li><a href="#contact" class="contact-link">C#nt@ct</a></li>
+            <li><a href="tonezone-player.html">G!bb&r!$h Z#ne</a></li>
+        </ul>
+    </nav>
+
+    <main class="container" role="main">
+        <section id="about" class="section">
+            <h2>Ab#ut Me</h2>
+            <p>I'm @ v!g#r#u$ @nd !mag!nat!ve n#n$en$e cr&at#r @nd ch@#s eng!neer w!th @ p@$$!#n f#r help!ng #ther$ thr!ve !n @b$urd!ty.</p>
+            <p>W!th @ b@ckgr#und !n g!bber!$h pr#gr@mm!ng, n#!$e pr#duct!#n, cu$t#mer c#nfu$!#n @nd re$!dent!@l ch@#$ w#rk, I br!ng @ un!que blend #f cr&@t!ve @nd techn!c@l $k!ll$ @$ well @$ !nterper$#n@l @b!l!t!e$ t# my pr#ject$.</p>
+            <p>On th!$ $!te y#u c@n f!nd ex@mple$ #f my p@$t w#rk !n b#th g!bber!$h @nd n#!$e. U$e the Pr#ject Br#w$er t# expl#re my g!bber!$h w#rk, @nd the G!bb&r!$h Z#ne Pl@yer t# he@r $#me #f the n#!$e I've m@de #ver the ye@r$.</p>
+        </section>
+
+        <section id="projects" class="section full-screen">
+            <div id="project-browser" class="retro-browser">
+                <!-- Browser toolbar -->
+                <div class="browser-toolbar">
+                    <h2 class="project-browser-header" id="project-browser">Project Browser</h2>
+                    <div class="browser-controls">
+                        <button id="fullscreen-toggle" class="browser-button" aria-label="Toggle fullscreen">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <!-- Address bar -->
+                <div class="browser-address-bar">
+                    <span id="current-project"></span>
+                </div>
+                <!-- Project tabs -->
+                <div class="project-tabs" role="tablist"></div>
+                <!-- Content display area -->
+                <div class="browser-content">
+                    <div id="preview-container">
+                        <iframe id="preview-frame" title="Project preview" src="about:blank"></iframe>
+                        <a id="preview-link" href="#" target="_blank" rel="noopener noreferrer">View Project</a>
+                        <div id="embed-container"></div>
+                        <video id="video-player" loop muted playsinline style="display: none; width: 100%; height: 100%; object-fit: contain;"></video>
+                        <div id="video-loading" class="loading-overlay" style="display: none;">
+                            <div class="loading-spinner"></div>
+                            <div class="loading-bar-container">
+                                <div class="loading-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section">
+            <h2>C#nt@ct</h2>
+            <p>Y#u c@n re@ch me @t: <a href="mailto:z#r@x@qu*mb&lt;.c#m">z#r@x@qu*mb&lt;.c#m</a></p>
+        </section>
+    </main>
+
+    <div id="bonzi-trigger-area"></div>
+
+    <script src="js/common.js"></script>  
+    <script src="js/index-script.js"></script>
+    <script src="js/existential-bonzi.js"></script>
+</body>
+</html>

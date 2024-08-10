@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G!bb&r!$h Z#ne Pl@yer - Z#r@x Qu*mb&lt;</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/tonezone.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/favicons/site.webmanifest">
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/favicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+    <div id="deep-space-background"></div>
+
+    <nav id="navbar">
+        <ul>
+            <li><a href="index.html#about">Ab#ut</a></li>
+            <li><a href="index.html#projects">Pr#j&ct Br#w$er</a></li>
+            <li><a href="index.html#contact">C#nt@ct</a></li>
+            <li><a href="tonezone-player.html">G!bb&r!$h Z#ne</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="music-player">
+            <h2>G!bb&r!$h Z#ne</h2>
+            <div class="eight-bit-display">
+                <div id="song-title" class="song-title"></div>
+            </div>
+            <div id="progressContainer" class="progress-container">
+                <div id="progress" class="progress-bar"></div>
+            </div>
+            <div id="timeDisplay" class="time-display">0:00 / 0:00</div>
+            <div class="player-controls">
+                <button id="skipBackwardBtn" class="control-btn skip-btn" aria-label="Skip 10 seconds backward">↺</button>
+                <button id="prevBtn" class="control-btn" aria-label="Previous song">⟪</button>
+                <button id="playPauseBtn" class="control-btn" aria-label="Play/Pause">▶</button>
+                <button id="nextBtn" class="control-btn" aria-label="Next song">⟫</button>
+                <button id="skipForwardBtn" class="control-btn skip-btn" aria-label="Skip 10 seconds forward">↻</button>
+            </div>
+            <div class="volume-control desktop-only">
+                <span class="volume-icon">🔈</span>
+                <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.1" value="1">
+                <span class="volume-icon">🔊</span>
+            </div>
+            <ul id="songList" class="song-list"></ul>
+        </div>
+    </div>
+
+    <audio id="audioPlayer"></audio>
+
+    <div id="secretText" style="text-align: center; padding: 20px; color: #0D0015; cursor: pointer;">
+        <p>!n th& qu!&t n##k wh&r& $h@d#w$ c#nv&n&,<br>
+        @ g&ntl& t#uch r&v&@l$ wh@t'$ un$&&n.<br>
+        #nc& @ pl@y&r'$ tun& n#w v&!l&d fr#m th& $c&n&,<br>
+        h!dd&n !n th& !nd&x, wh&r& !t $t!ll m@y b& $&&n.<br>
+        
+        !n th& c#rn&r wh&r& &dg&$ $ubtly @l!gn,<br>
+        f!v& $tr#k&$ #f cur!#$!ty w!ll m@k& th& h!dd&n $h!n&.</p>
+    </div>
+
+    <div id="live-region" aria-live="polite"></div>
+
+    <script src="js/common.js"></script>
+    <script src="js/tonezone-script.js"></script>
+    <script src="js/secret-functionality.js"></script>
+</body>
+</html>

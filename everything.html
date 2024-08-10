@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N#th!ng</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #container {
+            text-align: center;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        #input {
+            margin: 1rem 0;
+            padding: 0.5rem;
+            width: 200px;
+        }
+        #output {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>N#th!ng</h1>
+        <p>Typ& @nyth!ng #r l&@v& !t bl@nk:</p>
+        <input type="text" id="input" placeholder="&nt&r $#m&th!ng...">
+        <button onclick="evaluateNothing()">Ev@lu@t&</button>
+        <div id="output"></div>
+    </div>
+
+    <script src="js/everything.js"></script>
+    <script>
+        const secretPhrase = "unl#ck th& v&r$&";
+
+        function evaluateNothing() {
+            const input = document.getElementById('input').value;
+            
+            if (input.toLowerCase() === secretPhrase) {
+                window.location.href = 'poem.html';
+                return;
+            }
+
+            const result = input ? nothing(input) : nothing;
+            const outputDiv = document.getElementById('output');
+            outputDiv.textContent = `R&$ult: ${result === nothing ? 'n#th!ng' : result}`;
+        }
+    </script>
+</body>
+</html>
